@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sayuran Online</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form  #form="ngForm" (ngSubmit)="login(form)" method="post">
+    <ion-item>
+        <ion-label position="stacked">No. Hp.</ion-label>
+        <ion-input ngModel name="username" id="username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input ngModel name="password" id="password"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-button type="submit" expand="block">Login</ion-button>
+        <ion-button expand="block" color="secondary" routerLink="/register" routerDirection="forward">Register</ion-button>
+      </ion-item>
+  </form>
+
+</ion-content>
