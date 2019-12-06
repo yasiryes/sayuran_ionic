@@ -1,0 +1,60 @@
+<ion-header>
+  <!-- <ion-toolbar class="new-background-color">
+    <ion-title class="font-lato" style="text-align: center;color: white;">SAYUR-SAYUR</ion-title>
+  </ion-toolbar> -->
+</ion-header>
+
+<ion-content class="background-image">
+    <form #form="ngForm" (ngSubmit)="login(form)" method="post">
+      <ion-grid>
+        <ion-row color="white" justify-content-center>
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <br><br>
+            <div text-center>
+                <ion-icon class="larger" md="md-rose"></ion-icon>
+                <h4 style="color: white;">SAYUR-SAYUR</h4>
+            </div>
+            <br>
+            <div padding>
+              <ion-item class="radius">
+                <ion-icon md="md-mail"></ion-icon>
+                <ion-input class="new-padding-input" name="username" id="username" type="text" placeholder=" No. Hp." ngModel required></ion-input>
+              </ion-item>
+              <br>
+              <ion-item class="radius">
+                <ion-icon md="md-lock"></ion-icon>
+                <ion-input class="new-padding-input" name="password" id="password" type="password" placeholder=" Password" ngModel required></ion-input>
+              </ion-item>
+            </div>
+            <div padding>
+              <ion-button size="small" type="submit" [disabled]="form.invalid" expand="block">Login</ion-button>
+              <ion-button color="secondary" size="small" type="submit" expand="block">Register</ion-button>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-content>
+  
+
+<style>
+.new-background-color{
+    --background: #a6c71d;
+}
+.new-padding-input{
+  padding-left: 10px !important;
+}
+.background-image{
+    --background: url(../assets/img/background.jpg) 0 0/100% 100% no-repeat;
+}
+.larger {
+    font-size: 50px;
+    color:white;
+}
+.radius{
+  border-radius: 5px;
+}
+.font-lato{
+  font-family: 'Varela Round', sans-serif!important;
+}
+</style>

@@ -14,18 +14,6 @@ import { AlertService } from './services/alert.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  public appPages = [
-    {
-      title: 'Dashborad',
-      url: '/members/dashboard',
-      icon: 'home'
-    },
-    {
-      title: 'Home',
-      url: '/members',
-      icon: 'home'
-    }
-  ]
 
   constructor(
     private platform: Platform,

@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/Storage';
 import { HttpClientModule } from '@angular/common/http';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,13 +19,13 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
               IonicModule.forRoot(), 
               AppRoutingModule,
               IonicStorageModule.forRoot(),
-              HttpClientModule
+              HttpClientModule,
+
             ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
-    NativeStorage,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
 })
