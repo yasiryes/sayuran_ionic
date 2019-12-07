@@ -24,3 +24,21 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.searchbar-input {
+    border: 0 !important;
+    border-radius: 25px !important;
+    box-shadow: none !important;
+}
+
+div[scrollx=true] {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+       display: none;
+    }
+     .scroll-item {
+       flex: 0 0 auto;
+    }
+  }
