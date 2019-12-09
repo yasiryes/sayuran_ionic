@@ -1,5 +1,16 @@
-
-<ion-tabs>
+<ion-header no-border>
+    <ion-toolbar>
+      <ion-grid>
+          <ion-row>
+              <ion-col size="12">
+                  <ion-searchbar [(ngModel)]="cariVal" (ionChange) = "selectCariProdukTab()" color="light" placeholder="pencarian" no-shadow></ion-searchbar>
+              </ion-col>
+  
+            </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-header>
+<ion-tabs #tabs>
   <ion-tab-bar slot="bottom">
 
     <ion-tab-button tab="dashboard">
@@ -18,5 +29,9 @@
       <ion-label>Akun</ion-label>
     </ion-tab-button>
 
+    <ion-tab-button tab="cari_produk">
+        <ion-icon name="md-search"></ion-icon>
+        <ion-label>Cari</ion-label>
+      </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

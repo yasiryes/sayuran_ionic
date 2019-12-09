@@ -1,0 +1,19 @@
+<ion-header no-border>
+    <ion-toolbar >
+  
+      <ion-title >Pencarian</ion-title>
+      <ion-buttons slot="primary" >
+          <ion-button>
+            <ion-icon slot="icon-only" name="settings"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <ion-item *ngFor="let item of cariDatas">
+      <ion-label>
+        {{item.nama}}
+      </ion-label>
+    </ion-item>
+</ion-content>

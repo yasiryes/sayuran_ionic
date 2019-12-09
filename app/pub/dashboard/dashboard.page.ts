@@ -60,22 +60,11 @@ export class DashboardPage implements OnInit {
       'Content-type': 'application/json'
     });
     console.log('after declaring header >>>>>>>>>>>>>>>>>>>>')
-    // this.http.get(this.env.API_URL + 'kategori_produk/', { headers: headers }).pipe(
-    //   tap(data => {
-    //     console.log(data)
-    //   },
-    //   errornya => {
-    //     console.log('error get method >>>>>>>>>>>>>>>>>>>>>>>>>>');
-    //     console.log(errornya);
-    //   },
-    //   () => {
-    //     console.log('done getting data ? >>>>>>>>>>>>>')
-    //   }
-    //   ),
+
     this.http.get(this.env.API_URL + 'kategori_produk/', { headers: headers }).subscribe(
       res => {
-        console.log('isi result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-
+        console.log('isi result kategori >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+        console.log(res)
         // console
         this.kategoriDatas = res;
 

@@ -27,7 +27,7 @@
 
 .searchbar-input {
     border: 0 !important;
-    border-radius: 25px !important;
+    border-radius: 10px !important;
     box-shadow: none !important;
 }
 
@@ -42,3 +42,18 @@ div[scrollx=true] {
        flex: 0 0 auto;
     }
   }
+
+.collection{
+  @media (max-width: 779px) and (min-width: 0px){
+    column-count: 2;
+  }
+  @media (max-width: 1039px) and (min-width: 780px){
+    column-count: 3;
+  }
+  @media (max-width: 1299px) and (min-width: 1040px){
+    column-count: 4;
+  }
+  @media (min-width: 1300px){
+    column-count: 5;
+  }
+}

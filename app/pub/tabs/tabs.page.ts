@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonTabs, Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -6,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
+  @ViewChild('tabs', {static: true}) tabs : IonTabs;
 
-  constructor() { }
+  cariVal: string;
+  constructor(public event: Events) { 
+  }
 
   ngOnInit() {
   }
+  
+  selectCariProdukTab(){
+    console.log('called the focus search function >>');
+    console.log(this.cariVal);
+    this.tabs.select('cari_produk');
 
+    this.event.publish('produk:cari', this.cariVal);
+  }
 }

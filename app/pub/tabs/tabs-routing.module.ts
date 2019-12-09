@@ -20,6 +20,10 @@ const routes: Routes = [
           loadChildren: '../cart/cart.module#CartPageModule'
         },
         {
+          path: 'cari_produk',
+          loadChildren: '../cari-produk/cari-produk.module#CariProdukPageModule'
+        },
+        {
           path: '',
           redirectTo: '/pub/tabs/dashboard',
           pathMatch: 'full'
