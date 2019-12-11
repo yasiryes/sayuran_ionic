@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-produk-det',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./produk-det.page.scss'],
 })
 export class ProdukDetPage implements OnInit {
-
-  constructor() { }
+  id: string;
+  constructor(
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id');
   }
 
 }

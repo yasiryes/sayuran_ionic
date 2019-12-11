@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { DataResolverService } from './resolver/data-resolver.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'pub', pathMatch: 'full' },
@@ -8,7 +9,13 @@ const routes: Routes = [
 
   { path: 'pub', loadChildren: './pub/tabs/tabs.module#TabsPageModule' },
   { path: 'cart', loadChildren: './pub/cart/cart.module#CartPageModule' },
-  { path: 'produk-det', loadChildren: './pub/produk-det/produk-det.module#ProdukDetPageModule' },
+  { 
+    path: 'produk-det/:id', 
+    resolve: {
+      special: DataResolverService
+    },
+    loadChildren: './pub/produk-det/produk-det.module#ProdukDetPageModule' 
+  },
   // {
   //   path: 'cari-produk',
   //   loadChildren: () => import('./pub/cari-produk/cari-produk.module').then( m => m.CariProdukPageModule)

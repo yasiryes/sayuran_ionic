@@ -85,4 +85,8 @@ export class DashboardPage implements OnInit {
     this.navCtrl.navigateRoot('members/account');
   }
 
+  openDetailProduk(id){
+    
+  }
+
 }
