@@ -45,15 +45,33 @@ div[scrollx=true] {
 
 .collection{
   @media (max-width: 779px) and (min-width: 0px){
-    column-count: 2;
+    column-count: 1;
   }
   @media (max-width: 1039px) and (min-width: 780px){
-    column-count: 3;
+    column-count: 1;
   }
   @media (max-width: 1299px) and (min-width: 1040px){
-    column-count: 4;
+    column-count: 1;
   }
   @media (min-width: 1300px){
-    column-count: 5;
+    column-count: 1;
+  }
+
+  :root {
+    --ion-color-new: #69bb7b;
+    --ion-color-new-rgb: 105,187,123;
+    --ion-color-new-contrast: #ffffff;
+    --ion-color-new-contrast-rgb: 255,255,255;
+    --ion-color-new-shade: #5ca56c;
+    --ion-color-new-tint: #78c288;
+  }
+  
+  .ion-color-new {
+    --ion-color-base: var(--ion-color-new);
+    --ion-color-base-rgb: var(--ion-color-new-rgb);
+    --ion-color-contrast: var(--ion-color-new-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-new-contrast-rgb);
+    --ion-color-shade: var(--ion-color-new-shade);
+    --ion-color-tint: var(--ion-color-new-tint);
   }
 }

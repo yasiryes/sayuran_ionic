@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonTabs, Events } from '@ionic/angular';
+import {Platform} from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -8,9 +9,16 @@ import { IonTabs, Events } from '@ionic/angular';
 })
 export class TabsPage implements OnInit {
   @ViewChild('tabs', {static: true}) tabs : IonTabs;
-
+  subscribe: any;
   cariVal: string;
-  constructor(public event: Events) { 
+  constructor(public event: Events, public platform: Platform) { 
+    this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
+      if (this.constructor.name == "TabsPage"){
+        if(window.confirm("yakin anda mau keluar ?")){
+          navigator["app"].exitApp();
+        }
+      }
+    })
   }
 
   ngOnInit() {

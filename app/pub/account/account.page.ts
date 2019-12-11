@@ -13,7 +13,11 @@ import { Injectable } from '@angular/core';
 })
 export class AccountPage implements OnInit {
   accData = {};
+
   auau: string = 'yasir';
+  token: any;
+  isLogged: boolean;
+
 
   constructor(
     private http: HttpClient,
@@ -31,16 +35,16 @@ export class AccountPage implements OnInit {
 
   get_account(){
     console.log('masuk get_account >>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    let token = ''
     this.storage.get('token').then(
       resu => {
-        token = resu
+        
+        this.token = resu 
 
         console.log('get storage >>>>>>>>>>>>>>>>>>>>>>>>>');
         console.log(resu);
 
         const post_data = { 
-          token: token
+          token: this.token
         } 
         console.log('isi post Data >>>>>>>>>>>>>>>>>>>>>>>>>');
         console.log(post_data);
@@ -57,6 +61,10 @@ export class AccountPage implements OnInit {
           resu => {
             console.log('sukses acc_token >>>>>>>>>>>>>>>>>>>>>>>>>');
             this.accData = resu;
+            if (resu['id'] == null){
+              this.isLogged = false;
+            }
+            console.log(resu);
           },
           error => {
             console.log('error hlo be e>>>>>>>>>>>>>>>>>>>>>>>>>>');

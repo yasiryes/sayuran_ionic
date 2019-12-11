@@ -3,6 +3,8 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { EnvService } from 'src/app/services/env.service';
 import { tap } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
+import { DataService } from 'src/app/services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +14,14 @@ import { NavController } from '@ionic/angular';
 export class DashboardPage implements OnInit {
   kategoriDatas: any;
   produkDatas: any;
+  selectedKatId = '';
 
   constructor(
     public navCtrl: NavController,
     private http: HttpClient,
     private env: EnvService,
+    private dataService: DataService,
+    private router: Router
   ) {
     console.log('constructor method >>>>>>>>>>>>>>>>>>>>');
     this.getKategoriProduk();
@@ -27,12 +32,21 @@ export class DashboardPage implements OnInit {
     console.log('on init >>>>>>>>>>>>>>>>>>>>');
   }
 
+  reloadRefresh(event){
+    console.log('masuk reload refresh >>>>>>>>>>>>>>');
+    console.log(this.selectedKatId);
+    this.reloadProduk(this.selectedKatId);
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
   reloadProduk(id_kat){
     // let kat = this.kat_nya
     
     console.log('isi id_kat >>>>>>>>>>>>>>>>>>>>>>>>');
     console.log(id_kat)
-
+    this.selectedKatId = id_kat;
     const headers = new HttpHeaders({
       'Content-type': 'application/json'
     });
@@ -86,7 +100,8 @@ export class DashboardPage implements OnInit {
   }
 
   openDetailProduk(id){
-    
+    // this.dataService.setData(42, this.user);
+    this.router.navigateByUrl('produk-det/' + id);
   }
 
 }

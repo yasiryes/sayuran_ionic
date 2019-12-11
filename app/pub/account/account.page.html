@@ -14,7 +14,7 @@
   <ion-grid>
     <ion-row responsive-sm>
         <ion-col >
-          <ion-card style="margin: 0px;">
+          <ion-card *ngIf="isLogged" style="margin: 0px;">
             <ion-row>
               <ion-col size="6">
                 <ion-img [src]="accData['pp_url']"></ion-img>
@@ -25,6 +25,15 @@
 
             </ion-row>
           </ion-card>
+          <ion-card *ngIf="!isLogged" style="margin: 0px;">
+              <ion-row>
+                <ion-col size="12">
+                  <ion-label>not logged</ion-label>
+                  <ion-img [src]="accData['pp_url']"></ion-img>
+                </ion-col>
+  
+              </ion-row>
+            </ion-card>
         </ion-col>
     </ion-row>
   </ion-grid>
