@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EnvService } from 'src/app/services/env.service';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-account',
@@ -17,6 +18,7 @@ export class AccountPage implements OnInit {
   auau: string = 'yasir';
   token: any;
   isLogged: boolean;
+  isRegisterClicked: boolean;
 
 
   constructor(
@@ -25,11 +27,11 @@ export class AccountPage implements OnInit {
     private env: EnvService,
   ) { 
     console.log('construtor account >>>>>>>>>>>>>>>>>>>>>>>');
-    
+    this.isRegisterClicked = false;
   }
 
   ngOnInit() {
-    console.log('on init >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    console.log('on init acc>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     this.get_account();
   }
 
@@ -96,6 +98,13 @@ export class AccountPage implements OnInit {
 
 
 
+  }
+
+  onSubmitLogin(form: NgForm){
+
+  }
+  onClickRegister(){
+    this.isRegisterClicked = true;
   }
 
 }

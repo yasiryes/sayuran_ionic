@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Events } from '@ionic/angular';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { EnvService } from 'src/app/services/env.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cari-produk',
@@ -15,17 +16,14 @@ export class CariProdukPage implements OnInit {
               public event: Events,
               private http: HttpClient,
               private env: EnvService,
+              private router: Router
               ) { 
     event.subscribe('produk:cari', (cari) => {
-      // user and time are the same arguments passed in `events.publish(user, time)`
-      console.log('ini dari pencarian page >>>>>>>>>>>>>');
-      console.log(cari);
       if (cari != ''){
         this.loadHasilCari(cari);
       }else{
         this.cariDatas = [];
       }
-      
     });
   }
 
@@ -33,21 +31,25 @@ export class CariProdukPage implements OnInit {
   ngOnInit() {
   }
 
+  gotoCari(id, tipe){
+    if(tipe == 1){
+
+    }else if(tipe == 2){
+      this.openDetailProduk(id);
+    }
+  }
+  openDetailProduk(id){
+    this.router.navigateByUrl('produk-det/' + id);
+  }
+
   loadHasilCari(cari_value){
-    console.log('masuk getKategoriProduk >>>>>>>>>>>>>>>>>>>>')
     const headers = new HttpHeaders({
       'Content-type': 'application/json'
     });
-    console.log('after declaring header >>>>>>>>>>>>>>>>>>>>')
 
     this.http.get(this.env.API_URL + 'produk_cari/' + cari_value + '/', { headers: headers }).subscribe(
       res => {
-        console.log('isi result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-
-        // console
         this.cariDatas = res;
-
-        console.log("Success : " + typeof(this.cariDatas));
       },
       errornya => {
 

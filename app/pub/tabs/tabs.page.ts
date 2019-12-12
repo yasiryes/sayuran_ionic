@@ -11,7 +11,9 @@ export class TabsPage implements OnInit {
   @ViewChild('tabs', {static: true}) tabs : IonTabs;
   subscribe: any;
   cariVal: string;
+  isShowSearch: boolean;
   constructor(public event: Events, public platform: Platform) { 
+    this.isShowSearch = true;
     this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
       if (this.constructor.name == "TabsPage"){
         if(window.confirm("yakin anda mau keluar ?")){
@@ -22,6 +24,17 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  changedTab(){
+    console.log('changedTab >>>>>>>>>>>>>>>>>>>');
+    console.log(this.tabs.getSelected());
+    var selectedTab = this.tabs.getSelected();
+    if (selectedTab == 'dashboard' || selectedTab == 'cari_produk'){
+      this.isShowSearch = true
+    }else{
+      this.isShowSearch = false;
+    }
   }
   
   selectCariProdukTab(){

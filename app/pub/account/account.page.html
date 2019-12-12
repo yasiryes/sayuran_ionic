@@ -22,19 +22,39 @@
               <ion-col size="6">
                 <p class="ion-text-wrap">{{accData['fullname']}}</p>
               </ion-col>
-
+              <ion-col size="12">
+                <ion-button>
+                  Logout
+                </ion-button>
+              </ion-col>
             </ion-row>
           </ion-card>
           <ion-card *ngIf="!isLogged" style="margin: 0px;">
               <ion-row>
-                <ion-col size="12">
-                  <ion-label>not logged</ion-label>
-                  <ion-img [src]="accData['pp_url']"></ion-img>
+                <ion-col size="12" style="text-align: center;">
+                  <form #form="ngForm" (ngSubmit)="onSubmitLogin(form)" method="post">
+                    <ion-item>
+                        <ion-input name="username" id="username"  placeholder="No. Handphone" ngModel required></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input name="pin" id="pin"  type="password" placeholder="6 digit pin" ngModel required></ion-input>
+                    </ion-item>
+                    <ion-item *ngIf = "isRegisterClicked">
+                        <ion-input name="pin_ulang" id="pin_ulang"  type="password" placeholder="6 digit pin" ngModel required></ion-input>
+                    </ion-item>
+                    
+                    
+                    <ion-button type="submit" [disabled]="form.invalid" style="width: 150px; margin-top: 10px;">
+                      Login
+                    </ion-button>
+                  </form>
+
                 </ion-col>
   
               </ion-row>
             </ion-card>
         </ion-col>
+        
     </ion-row>
   </ion-grid>
 </ion-content>

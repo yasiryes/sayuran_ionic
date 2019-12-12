@@ -11,6 +11,7 @@
 
 /* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
+@import "colors.scss";
 
 /* Basic CSS for apps built with Ionic */
 @import "~@ionic/angular/css/normalize.css";
@@ -57,21 +58,5 @@ div[scrollx=true] {
     column-count: 1;
   }
 
-  :root {
-    --ion-color-new: #69bb7b;
-    --ion-color-new-rgb: 105,187,123;
-    --ion-color-new-contrast: #ffffff;
-    --ion-color-new-contrast-rgb: 255,255,255;
-    --ion-color-new-shade: #5ca56c;
-    --ion-color-new-tint: #78c288;
-  }
-  
-  .ion-color-new {
-    --ion-color-base: var(--ion-color-new);
-    --ion-color-base-rgb: var(--ion-color-new-rgb);
-    --ion-color-contrast: var(--ion-color-new-contrast);
-    --ion-color-contrast-rgb: var(--ion-color-new-contrast-rgb);
-    --ion-color-shade: var(--ion-color-new-shade);
-    --ion-color-tint: var(--ion-color-new-tint);
-  }
+
 }
