@@ -1,6 +1,5 @@
 <ion-header no-border>
     <ion-toolbar >
-  
       <ion-title >Dashboard</ion-title>
       <ion-buttons slot="primary" >
           <ion-button>
@@ -9,78 +8,56 @@
         </ion-buttons>
     </ion-toolbar>
   </ion-header>
-
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="reloadRefresh($event)">
-      <ion-refresher-content
-        pullingIcon="arrow-dropdown"
-        pullingText="Pull to refresh"
-        refreshingSpinner="circles"
-        refreshingText="Refreshing...">
-      </ion-refresher-content>
-    </ion-refresher>
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="dots"
+      refreshingText="Perbarui data..">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-grid>
     <ion-row>
-      <ion-col size="12">
+      <ion-col size="12" style="margin-bottom: 5px; margin-top: 5px;">
         <ion-segment scrollable>
-          <ion-segment-button *ngFor="let item of kategoriDatas" (click)="reloadProduk(item.id)">
-              <ion-label >{{item.nama}}</ion-label>
-          </ion-segment-button>
-        </ion-segment>
+            <ion-segment-button *ngFor="let item of kategoriDatas" (click)="reloadProduk(item.id)">
+                <ion-avatar *ngIf="item.gambar_url">
+                  <img src="{{item.gambar_url}}"class="scroll-item"/>
+                </ion-avatar>
+                <ion-label >{{item.nama}}</ion-label>
+            </ion-segment-button>
+          </ion-segment>
       </ion-col>
     </ion-row>
 
-    <div class="collection ion-padding">
-        <div class="collection-item" text-center *ngFor="let itemProduk of produkDatas">
-          <ion-card style="margin-bottom: 4px; margin-inline-start: 0px; margin-inline-end: 0px;" class="ion-no-padding">
+    <div class="collection ">
+        <div class="collection-item" *ngFor="let itemProduk of produkDatas">
+          <ion-item no-padding>
             <ion-row>
-              <ion-col size="6">
-                <ion-img (click)="openDetailProduk(itemProduk.id)" [src]="itemProduk.gambar_url"></ion-img>
-              </ion-col>
-              <ion-col size="6">
-                <p style="padding-left: 5px; padding-right: 5px; text-align: left; font-weight: bold; margin-top: 5px; margin-bottom: 5px;">{{itemProduk.nama}}</p>
-                <p style="padding-left: 5px; padding-right: 5px; text-align: left; font-weight: bold; margin-top: 5px; margin-bottom: 5px; color: indianred;">Rp.{{itemProduk.harga_jual_th}}</p>
-                <div style="text-align: right; width: 100%; position: absolute; bottom: 0px; padding-right: 15px;">
-                    <ion-icon size="small" name="cart"></ion-icon>
-                </div>
-                
+                <ion-col size="6">
+                  <ion-img (click)="openDetailProduk(itemProduk.id)" [src]="itemProduk.gambar_url"></ion-img>
+                </ion-col>
+                <ion-col size="6">
+                  <p style="padding-left: 5px; padding-right: 5px; text-align: right; font-weight: bold; margin-top: 5px; margin-bottom: 5px;">{{itemProduk.nama}}</p>
+                  <p style="padding-left: 5px; padding-right: 5px; text-align: right; font-weight: bold; margin-top: 5px; margin-bottom: 5px; color: indianred;">Rp.{{itemProduk.harga_jual_th}}</p>
+                  <div style="text-align: right; width: 100%; position: absolute; bottom: 0px; padding-right: 15px;">
+                      <ion-icon size="small" name="cart"></ion-icon>
+                  </div>
+                  
+  
+                </ion-col>
+              </ion-row>
+          </ion-item>
 
-              </ion-col>
-            </ion-row>
-              
-              
-
-          </ion-card>
         </div>
       </div> 
-    <!-- <ion-item *ngFor="let itemProduk of produkDatas">
-        <ion-img (click)="openDetailProduk(itemProduk.id)" [src]="itemProduk.gambar_url"></ion-img>
-        <p style="padding-left: 5px; padding-right: 5px;">{{itemProduk.nama}}</p>
-    </ion-item> -->
 
   </ion-grid>
-
-
-
-
-
-    
-    
-  <!-- <ion-footer slot="bottom">
-    <ion-segment style="height: 50px; vertical-align: bottom;" scrollable>
-      <ion-segment-button >
-        <ion-icon style="width: 20px; height: 20px;" name="home"></ion-icon>
-        <p style="font-size: 0.5rem; margin: 0px; margin-bottom: 2px;">Beranda</p>
-      </ion-segment-button>
-      <ion-segment-button >
-        <ion-icon style="width: 20px; height: 20px;" name="cart"></ion-icon>
-        <p style="font-size: 0.5rem; margin: 0px; margin-bottom: 2px;">Keranjang</p>
-      </ion-segment-button>
-      <ion-segment-button >
-        <ion-icon style="width: 20px; height: 20px;" name="md-person"></ion-icon>
-        <p style="font-size: 0.5rem; margin: 0px; margin-bottom: 2px;">Akun</p>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-footer> -->
-
 </ion-content>
+
+
+
+
+    
+    

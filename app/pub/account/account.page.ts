@@ -6,6 +6,8 @@ import { EnvService } from 'src/app/services/env.service';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-account',
@@ -25,6 +27,8 @@ export class AccountPage implements OnInit {
     private http: HttpClient,
     private storage: Storage, 
     private env: EnvService,
+    private authService: AuthenticationService,
+    private alertService: AlertService, 
   ) { 
     console.log('construtor account >>>>>>>>>>>>>>>>>>>>>>>');
     this.isRegisterClicked = false;
@@ -101,7 +105,20 @@ export class AccountPage implements OnInit {
   }
 
   onSubmitLogin(form: NgForm){
-
+    console.log("masuk login login.page.ts >>>>>>>>>>>>>>");
+    console.log("username: " + form.value.username);
+    console.log("password: " + form.value.password);
+    this.authService.login(form.value.username, form.value.password).subscribe(
+      data => {
+        this.alertService.presentToast("Logged in");
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        this.isLogged = true;
+      }
+    )
   }
   onClickRegister(){
     this.isRegisterClicked = true;
