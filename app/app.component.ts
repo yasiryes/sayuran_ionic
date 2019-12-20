@@ -25,6 +25,11 @@ export class AppComponent {
     private router: Router,
   ) {
     this.initializeApp();
+
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      console.log('back button just pressed loh >>>>>>>');
+    })
+  
   }
 
   initializeApp() {
