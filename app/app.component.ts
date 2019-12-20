@@ -31,7 +31,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.authService.getToken();
-      // this.splashScreen.hide();
+      this.splashScreen.hide();
     });
   }
 
