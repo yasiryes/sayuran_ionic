@@ -15,6 +15,13 @@ export class TabsPage implements OnInit {
   constructor(public event: Events, public platform: Platform) { 
     this.isShowSearch = true;
     this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
+      console.log('back button pressed >>>>>>>>>>>');
+      console.log(this);
+      console.log('constructor name >>>>>>>>>>>>>>>>>');
+      console.log(this.constructor.name);
+      console.log('constructor >>>>>>>>>>>>>>>>>>>>>>');
+      console.log(this.constructor);
+
       if (this.constructor.name == "TabsPage"){
         if(window.confirm("yakin anda mau keluar ?")){
           navigator["app"].exitApp();
@@ -31,6 +38,7 @@ export class TabsPage implements OnInit {
     console.log(this.tabs.getSelected());
     var selectedTab = this.tabs.getSelected();
     if (selectedTab == 'dashboard' || selectedTab == 'cari_produk'){
+      console.log('change tab -> dashboard / cari_produk True');
       this.isShowSearch = true
     }else{
       this.isShowSearch = false;
@@ -40,8 +48,8 @@ export class TabsPage implements OnInit {
   selectCariProdukTab(){
     console.log('called the focus search function >>');
     console.log(this.cariVal);
-    this.tabs.select('cari_produk');
+    // this.tabs.select('cari_produk');
 
-    this.event.publish('produk:cari', this.cariVal);
+    // this.event.publish('produk:cari', this.cariVal);
   }
 }

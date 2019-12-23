@@ -1,13 +1,14 @@
-<ion-header no-border>
-    <ion-toolbar >
-      <ion-title >Dashboard</ion-title>
-      <ion-buttons slot="primary" >
-          <ion-button>
-            <ion-icon slot="icon-only" name="settings"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+<ion-header color="ion-color-new" no-border>
+  <ion-toolbar color="new">
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12">
+                <ion-searchbar [(ngModel)]="cariVal" (ionFocus) = "gotoSearch()" color="light" placeholder="Pencarian" no-shadow></ion-searchbar>
+            </ion-col>
+          </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="reloadRefresh($event)">
     <ion-refresher-content
@@ -20,8 +21,14 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" style="margin-bottom: 5px; margin-top: 5px;">
-        <ion-segment scrollable>
-            <ion-segment-button *ngFor="let item of kategoriDatas" (click)="reloadProduk(item.id)">
+        <ion-segment [(ngModel)]="kat_select" (ionChange)="reloadProduk2nd()" value="0" scrollable >
+          <ion-segment-button value="0" checked>
+              <ion-avatar >
+                <!-- <img src="{{item.gambar_url}}"class="scroll-item"/> -->
+              </ion-avatar>
+              <ion-label >Semua</ion-label>
+          </ion-segment-button>
+            <ion-segment-button value="{{item.id}}" *ngFor="let item of kategoriDatas" >
                 <ion-avatar *ngIf="item.gambar_url">
                   <img src="{{item.gambar_url}}"class="scroll-item"/>
                 </ion-avatar>

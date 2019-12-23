@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/authentication.service';
 import { Router } from '@angular/router';
 import { AlertService } from './services/alert.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -23,11 +24,17 @@ export class AppComponent {
     private navCtrl: NavController,
     private alertService: AlertService,
     private router: Router,
+    private location: Location
   ) {
     this.initializeApp();
 
-    this.platform.backButton.subscribeWithPriority(0, () => {
+
+
+    this.platform.backButton.subscribeWithPriority(6666666, () => {
       console.log('back button just pressed loh >>>>>>>');
+      console.log('location getState() >>>>>>>>>>>>>>>>>>>');
+      console.log(this.location.getState());
+      this.location.back();
     })
   
   }

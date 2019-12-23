@@ -38,8 +38,11 @@ export class ProdukDetPage implements OnInit {
     this.http.get(this.env.API_URL + 'produk/one/?id=' + id, { headers: headers }).subscribe(
       res => {
         console.log('isi result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-
-        this.produkData = res;
+        var produk = res;
+        if (produk['keterangan'] == null){
+          produk['keterangan'] = '-';
+        }
+        this.produkData = produk;
         // console.log("Success : " + this.produkDatas);
       },
       errornya => {

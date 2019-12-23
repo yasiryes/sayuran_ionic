@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { EnvService } from 'src/app/services/env.service';
 import { tap } from 'rxjs/operators';
-import { NavController } from '@ionic/angular';
+import { NavController, IonSegment, Events } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 
@@ -12,24 +12,34 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
+  // @ViewChild('kat_select', {static: true}) kat_select : IonSegment;
+  kat_select: String = "0";
+  // this.kat_select.value = "0";
   kategoriDatas: any;
   produkDatas: any;
   selectedKatId = '';
+  // kat_select: number;
 
   constructor(
     public navCtrl: NavController,
     private http: HttpClient,
     private env: EnvService,
     private dataService: DataService,
-    private router: Router
+    private router: Router,
+    public event: Events
   ) {
     console.log('constructor method >>>>>>>>>>>>>>>>>>>>');
     this.getKategoriProduk();
-    this.reloadProduk(0);
+
+    event.subscribe('produk:kat_select', (kat_s) => {
+      this.kat_select = kat_s.toString();
+    });
   }
 
   ngOnInit() {
     console.log('on init >>>>>>>>>>>>>>>>>>>>');
+    this.reloadProduk(0);
+    // this.kat_select = "0";
   }
 
   reloadRefresh(event){
@@ -41,11 +51,18 @@ export class DashboardPage implements OnInit {
       event.target.complete();
     }, 2000);
   }
+
+  reloadProduk2nd(){
+    console.log('isi kat_select >>>>>>>>>>>>>>>>>>>>>');
+    console.log(this.kat_select);
+    this.reloadProduk(this.kat_select);
+  }
   reloadProduk(id_kat){
     // let kat = this.kat_nya
-    
     console.log('isi id_kat >>>>>>>>>>>>>>>>>>>>>>>>');
     console.log(id_kat)
+    // console.log('isi kat_select >>>>>>>>>>>>>>>>>>>>>');
+    // console.log(this.kat_select);
     this.selectedKatId = id_kat;
     const headers = new HttpHeaders({
       'Content-type': 'application/json'
@@ -104,4 +121,8 @@ export class DashboardPage implements OnInit {
     this.router.navigateByUrl('produk-det/' + id);
   }
 
+  gotoSearch(){
+    this.router.navigateByUrl('pub/tabs/cari_produk');
+    // this.kat_select = "2";
+  }
 }
