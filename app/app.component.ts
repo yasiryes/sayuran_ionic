@@ -27,13 +27,14 @@ export class AppComponent {
     private location: Location
   ) {
     this.initializeApp();
-
-
-
     this.platform.backButton.subscribeWithPriority(6666666, () => {
-      console.log('back button just pressed loh >>>>>>>');
-      console.log('location getState() >>>>>>>>>>>>>>>>>>>');
-      console.log(this.location.getState());
+      if (this.location.path() == '/pub/tabs/dashboard'){
+        if(window.confirm("Keluar Aplikasi ?")){
+          navigator["app"].exitApp();
+        }else{
+          return;
+        }
+      }
       this.location.back();
     })
   

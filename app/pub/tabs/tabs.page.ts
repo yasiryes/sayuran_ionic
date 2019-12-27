@@ -14,20 +14,7 @@ export class TabsPage implements OnInit {
   isShowSearch: boolean;
   constructor(public event: Events, public platform: Platform) { 
     this.isShowSearch = true;
-    this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
-      console.log('back button pressed >>>>>>>>>>>');
-      console.log(this);
-      console.log('constructor name >>>>>>>>>>>>>>>>>');
-      console.log(this.constructor.name);
-      console.log('constructor >>>>>>>>>>>>>>>>>>>>>>');
-      console.log(this.constructor);
 
-      if (this.constructor.name == "TabsPage"){
-        if(window.confirm("yakin anda mau keluar ?")){
-          navigator["app"].exitApp();
-        }
-      }
-    })
   }
 
   ngOnInit() {
