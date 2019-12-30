@@ -28,12 +28,8 @@ export class LoginPage implements OnInit {
     this.modalController.dismiss();
   }
 
-  async registerModal(){
-    this.dismissLogin();
-    const registerModal = await this.modalController.create({
-      component: RegisterPage
-    });
-    return await registerModal.present();
+  registerModal(){
+    this.navCtrl.navigateRoot('register');
   }
 
   login(form: NgForm){

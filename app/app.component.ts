@@ -43,8 +43,16 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.authService.getToken();
+      let logged_token = this.authService.getToken();
       this.splashScreen.hide();
+      console.log('initializeapp, isi logged_token : >>>>>>>>>>>>');
+      console.log(logged_token);
+      if (logged_token){
+        this.navCtrl.navigateRoot('pub/tabs');
+        // this.navCtrl.navigateRoot('login');
+      }else{
+        this.navCtrl.navigateRoot('pub/tabs');
+      }
     });
   }
 
