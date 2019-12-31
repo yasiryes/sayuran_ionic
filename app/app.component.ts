@@ -48,8 +48,8 @@ export class AppComponent {
       console.log('initializeapp, isi logged_token : >>>>>>>>>>>>');
       console.log(logged_token);
       if (logged_token){
-        this.navCtrl.navigateRoot('pub/tabs');
-        // this.navCtrl.navigateRoot('login');
+        // this.navCtrl.navigateRoot('pub/tabs');
+        this.navCtrl.navigateRoot('login');
       }else{
         this.navCtrl.navigateRoot('pub/tabs');
       }
