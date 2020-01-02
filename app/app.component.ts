@@ -43,16 +43,24 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      let logged_token = this.authService.getToken();
+      this.authService.getToken().then( (res) => {
+        if (res != null || res != ""){
+          console.log('isi result get_token() >>>>>>>>>>>>>>>>>>');
+          console.log(res);
+          this.navCtrl.navigateRoot('pub/tabs');
+        }else{
+          this.navCtrl.navigateRoot('login');
+        }
+      });
       this.splashScreen.hide();
-      console.log('initializeapp, isi logged_token : >>>>>>>>>>>>');
-      console.log(logged_token);
-      if (logged_token){
-        // this.navCtrl.navigateRoot('pub/tabs');
-        this.navCtrl.navigateRoot('login');
-      }else{
-        this.navCtrl.navigateRoot('pub/tabs');
-      }
+      // console.log('initializeapp, isi logged_token : >>>>>>>>>>>>');
+      // console.log(logged_token);
+      // if (logged_token){
+      //   // this.navCtrl.navigateRoot('pub/tabs');
+        
+      // }else{
+        
+      // }
     });
   }
 

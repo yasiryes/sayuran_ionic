@@ -29,7 +29,7 @@ export class LoginPage implements OnInit {
   }
 
   registerModal(){
-    this.navCtrl.navigateRoot('register');
+    this.navCtrl.navigateForward('register');
   }
 
   login(form: NgForm){
@@ -45,7 +45,7 @@ export class LoginPage implements OnInit {
       },
       () => {
         this.dismissLogin();
-        this.navCtrl.navigateRoot('members');
+        this.navCtrl.navigateRoot('pub');
       }
     )
   }

@@ -21,4 +21,11 @@ export class ApiService {
   doGet(url: string): Observable<Object>{
     return this.http.get(this.env.API_URL + url).pipe()
   }
+
+  doPost(url: string, post_data: {}){
+    console.log('doPost, post_date >>>>>>>>>>>>>>>>>');
+    console.log(post_data);
+    return this.http.post(url, post_data, this.httpOptions).pipe()
+  }
+
 }

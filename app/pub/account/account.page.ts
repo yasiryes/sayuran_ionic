@@ -104,24 +104,24 @@ export class AccountPage implements OnInit {
 
   }
 
-  onSubmitLogin(form: NgForm){
-    console.log("masuk login login.page.ts >>>>>>>>>>>>>>");
-    console.log("username: " + form.value.username);
-    console.log("password: " + form.value.password);
-    this.authService.login(form.value.username, form.value.password).subscribe(
-      data => {
-        this.alertService.presentToast("Logged in");
-      },
-      error => {
-        console.log(error);
-      },
-      () => {
-        this.isLogged = true;
-      }
-    )
-  }
-  onClickRegister(){
-    this.isRegisterClicked = true;
-  }
+  // onSubmitLogin(form: NgForm){
+  //   console.log("masuk login login.page.ts >>>>>>>>>>>>>>");
+  //   console.log("username: " + form.value.username);
+  //   console.log("password: " + form.value.password);
+  //   this.authService.login(form.value.username, form.value.password).subscribe(
+  //     data => {
+  //       this.alertService.presentToast("Logged in");
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     },
+  //     () => {
+  //       this.isLogged = true;
+  //     }
+  //   )
+  // }
+  // onClickRegister(){
+  //   this.isRegisterClicked = true;
+  // }
 
 }

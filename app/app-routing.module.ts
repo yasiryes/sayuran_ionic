@@ -15,7 +15,11 @@ const routes: Routes = [
       special: DataResolverService
     },
     loadChildren: './pub/produk-det/produk-det.module#ProdukDetPageModule' 
+  },  {
+    path: 'email-verify',
+    loadChildren: () => import('./pub/email-verify/email-verify.module').then( m => m.EmailVerifyPageModule)
   },
+
   // {
   //   path: 'cari-produk',
   //   loadChildren: () => import('./pub/cari-produk/cari-produk.module').then( m => m.CariProdukPageModule)

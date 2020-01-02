@@ -95,20 +95,6 @@ export class AuthenticationService {
   }
 
   getToken(){
-    return this.storage.get('token').then(
-      data => {
-        this.token = data;
-
-        if (this.token != null){
-          this.isLoggedIn = true;
-        } else {
-          this.isLoggedIn = false;
-        }
-      },
-      error => {
-        this.token = null;
-        this.isLoggedIn = false;
-      }
-      )
+    return this.storage.get('token')
   }
 }
