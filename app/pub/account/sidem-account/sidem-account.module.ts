@@ -5,22 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AccountPage } from './account.page';
+import { SidemAccountPage } from './sidem-account.page';
 
 const routes: Routes = [
   {
-    path: 'account',
-    component: AccountPage,
-    children: [
-      { 
-        path: 'sidem-account', 
-        loadChildren: './sidem-account/sidem-account.module#SidemAccountPageModule' 
-      }
-    ]
-  },
-  {
     path: '',
-    redirectTo: '/pub/tabs/account/account'
+    component: SidemAccountPage
   }
 ];
 
@@ -31,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AccountPage]
+  declarations: [SidemAccountPage]
 })
-export class AccountPageModule {}
+export class SidemAccountPageModule {}
