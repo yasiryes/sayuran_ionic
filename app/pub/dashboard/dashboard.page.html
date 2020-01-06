@@ -1,5 +1,5 @@
-<ion-header color="deep-new" no-border>
-  <ion-toolbar class="myButton" color="deep-new">
+<ion-header no-border>
+  <ion-toolbar class="myButton" >
     <ion-grid>
         <ion-row>
             <ion-col size="12">
@@ -9,7 +9,7 @@
     </ion-grid>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content color=new">
   <ion-refresher slot="fixed" (ionRefresh)="reloadRefresh($event)">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
@@ -18,43 +18,22 @@
       refreshingText="Perbarui data..">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-segment class="grad-menu-avatar" color="dark" style="background-color: #ffd447;" [(ngModel)]="kat_select" (ionChange)="reloadProduk2nd()" value="0" scrollable >
-    <ion-segment-button style="margin-left: 5px; margin-right: 5px;" value="0" checked no-padding>
-        <ion-avatar >
-          <!-- <img src="{{item.gambar_url}}"class="scroll-item"/> -->
-        </ion-avatar>
-        <ion-label style="margin-top: 2px; font-size: 0.8em;" >Semua</ion-label>
-    </ion-segment-button>
-      <ion-segment-button style="margin-left: 5px; margin-right: 5px;" size="small" value="{{item.id}}" *ngFor="let item of kategoriDatas" no-padding>
-          <ion-avatar size="small" *ngIf="item.gambar_url">
-            <img src="{{item.gambar_url}}"class="scroll-item"/>
-          </ion-avatar>
-          <ion-label style="font-size: 0.8em; margin-top: 2px;" size="small" no-margin>{{item.nama}}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
 
   <ion-grid>
-
-    <div class="collection ">
-        <div class="collection-item" *ngFor="let itemProduk of produkDatas">
-          <ion-row class="grad-produk" style="margin-top: 3px; margin-bottom: 3px;">
-              <ion-col size="6">
-                <ion-img (click)="openDetailProduk(itemProduk.id)" [src]="itemProduk.gambar_url"></ion-img>
-              </ion-col>
-              <ion-col size="6">
-                <p style="padding-left: 5px; padding-right: 5px; text-align: right; font-weight: bold; margin-top: 5px; margin-bottom: 5px;">{{itemProduk.nama}}</p>
-                <p style="padding-left: 5px; padding-right: 5px; text-align: right; font-weight: bold; margin-top: 5px; margin-bottom: 5px; color: indianred;">Rp.{{itemProduk.harga_jual_th}}</p>
-                <div style="text-align: right; width: 100%; position: absolute; bottom: 0px; padding-right: 15px;">
-                    <ion-icon size="small" name="cart"></ion-icon>
-                </div>
-                
-
-              </ion-col>
-            </ion-row>
-
+    <ion-row>
+      <ion-col size="12" *ngFor="let katitem of produkPerKat" class="ion-no-padding">
+        <div style="margin-left: 2px; margin-right: 2px; width: 100%;">
+          <label>Judul</label>
+          <div class="slider" style="width: 100%;" >
+            <div class="slide" *ngFor="let itemp of katitem['data']">
+              <ion-card  style = "margin: 2px; height: 180px;">
+                <img style="width: 120px;" src="{{itemp.gambar_url}}"/>
+              </ion-card>
+            </div>
+          </div>
         </div>
-      </div> 
-
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>
 

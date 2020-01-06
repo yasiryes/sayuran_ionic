@@ -1,0 +1,65 @@
+<ion-header no-border>
+  <ion-toolbar class="myButton" >
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12">
+                <ion-searchbar [(ngModel)]="cariVal" (ionFocus) = "gotoSearch()" color="light" placeholder="Pencarian" no-shadow></ion-searchbar>
+            </ion-col>
+          </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="reloadRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="dots"
+      refreshingText="Perbarui data..">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-segment color="dark" [(ngModel)]="kat_select" (ionChange)="reloadProduk2nd()" value="0" scrollable >
+    <ion-segment-button style="margin-left: 5px; margin-right: 5px;" value="0" checked no-padding>
+        <ion-avatar >
+          <!-- <img src="{{item.gambar_url}}"class="scroll-item"/> -->
+        </ion-avatar>
+        <ion-label style="margin-top: 2px; font-size: 0.8em;" >Semua</ion-label>
+    </ion-segment-button>
+      <ion-segment-button style="margin-left: 5px; margin-right: 5px;" size="small" value="{{item.id}}" *ngFor="let item of kategoriDatas" no-padding>
+          <ion-avatar size="small" *ngIf="item.gambar_url">
+            <img src="{{item.gambar_url}}"class="scroll-item"/>
+          </ion-avatar>
+          <ion-label style="font-size: 0.8em; margin-top: 2px;" size="small" no-margin>{{item.nama}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+  <ion-grid>
+
+    <div class="collection ">
+        <div class="collection-item" *ngFor="let itemProduk of produkDatas">
+          <ion-row style="margin-top: 3px; margin-bottom: 3px;">
+              <ion-col size="6">
+                <ion-img (click)="openDetailProduk(itemProduk.id)" [src]="itemProduk.gambar_url"></ion-img>
+              </ion-col>
+              <ion-col size="6">
+                <p style="padding-left: 5px; padding-right: 5px; text-align: right; font-weight: bold; margin-top: 5px; margin-bottom: 5px;">{{itemProduk.nama}}</p>
+                <p style="padding-left: 5px; padding-right: 5px; text-align: right; font-weight: bold; margin-top: 5px; margin-bottom: 5px; color: indianred;">Rp.{{itemProduk.harga_jual_th}}</p>
+                <div style="text-align: right; width: 100%; position: absolute; bottom: 0px; padding-right: 15px;">
+                    <ion-icon size="small" name="cart"></ion-icon>
+                </div>
+                
+
+              </ion-col>
+            </ion-row>
+
+        </div>
+      </div> 
+
+  </ion-grid>
+</ion-content>
+
+
+
+
+    
+    

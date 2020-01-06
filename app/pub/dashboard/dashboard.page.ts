@@ -5,6 +5,7 @@ import { tap } from 'rxjs/operators';
 import { NavController, IonSegment, Events } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,7 @@ export class DashboardPage implements OnInit {
   kategoriDatas: any;
   produkDatas: any;
   selectedKatId = '';
+  produkPerKat: any;
   // kat_select: number;
 
   constructor(
@@ -26,10 +28,12 @@ export class DashboardPage implements OnInit {
     private env: EnvService,
     private dataService: DataService,
     private router: Router,
-    public event: Events
+    public event: Events,
+    private api: ApiService
   ) {
     console.log('constructor method >>>>>>>>>>>>>>>>>>>>');
-    this.getKategoriProduk();
+    // this.getKategoriProduk();
+    this.loadProdukPerKat();
 
     event.subscribe('produk:kat_select', (kat_s) => {
       this.kat_select = kat_s.toString();
@@ -38,7 +42,7 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {
     console.log('on init >>>>>>>>>>>>>>>>>>>>');
-    this.reloadProduk(0);
+    // this.reloadProduk(0);
     // this.kat_select = "0";
   }
 
@@ -56,6 +60,16 @@ export class DashboardPage implements OnInit {
     console.log('isi kat_select >>>>>>>>>>>>>>>>>>>>>');
     console.log(this.kat_select);
     this.reloadProduk(this.kat_select);
+  }
+
+  loadProdukPerKat(){
+    this.api.doGet('produk_per_kat/').subscribe(
+      (data) => {
+        this.produkPerKat = data;
+        console.log('isi produk per kat >>>>>>>>>');
+        console.log(this.produkPerKat);
+      }
+    )
   }
   reloadProduk(id_kat){
     // let kat = this.kat_nya

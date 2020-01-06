@@ -16,3 +16,15 @@
     background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
     
   }
+
+  .slider {
+    width: auto;
+    height: auto;
+    display: flex;
+    overflow-x: auto;
+  }
+  .slide {
+    width: auto;
+    flex-shrink: 0;
+    height: auto;
+  }
