@@ -32,17 +32,17 @@
     box-shadow: none !important;
 }
 
-// div[scrollx=true] {
-//     display: flex;
-//     flex-wrap: nowrap;
-//     overflow-x: auto;
-//     &::-webkit-scrollbar {
-//        display: none;
-//     }
-//      .scroll-item {
-//        flex: 0 0 auto;
-//     }
-//   }
+div[scrollx=true] {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+       display: none;
+    }
+     .scroll-item {
+       flex: 0 0 auto;
+    }
+  }
 
 .collection{
   @media (max-width: 779px) and (min-width: 0px){
@@ -81,3 +81,17 @@
 ion-content{
   // --ion-background-color: #f76a6a;
 }
+label{
+  font-family: 'Varela Round', sans-serif;
+}
+
+.ion-activatable {
+  position: relative;
+  overflow: hidden;
+}
+
+div.scroll { 
+  overflow-x: hidden; 
+  overflow-x: auto; 
+  text-align:justify; 
+} 

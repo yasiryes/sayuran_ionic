@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/Storage';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http/ngx';
+import { IonBottomDrawerModule } from 'ion-bottom-drawer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +22,7 @@ import { HTTP } from '@ionic-native/http/ngx';
               AppRoutingModule,
               IonicStorageModule.forRoot(),
               HttpClientModule,
+              IonBottomDrawerModule
             ],
   providers: [
     StatusBar,

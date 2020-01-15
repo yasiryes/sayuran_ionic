@@ -20,6 +20,15 @@ const routes: Routes = [
     path: 'email-verify',
     loadChildren: () => import('./pub/email-verify/email-verify.module').then( m => m.EmailVerifyPageModule)
   },
+  {
+    path: 'promo-det/:id',
+    loadChildren: () => import('./pub/promo-det/promo-det.module').then( m => m.PromoDetPageModule)
+  },
+  {
+    path: 'kategori-det/:id',
+    loadChildren: () => import('./pub/kategori-det/kategori-det.module').then( m => m.KategoriDetPageModule)
+  },
+
   // { path: 'sidem-account', loadChildren: './pub/account/sidem-account/sidem-account.module#SidemAccountPageModule' },
 
   // {

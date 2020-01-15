@@ -6,6 +6,7 @@ import { NavController, IonSegment, Events } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { DrawerState } from 'ion-bottom-drawer';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,14 +14,17 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-  // @ViewChild('kat_select', {static: true}) kat_select : IonSegment;
   kat_select: String = "0";
-  // this.kat_select.value = "0";
   kategoriDatas: any;
   produkDatas: any;
   selectedKatId = '';
   produkPerKat: any;
-  // kat_select: number;
+  promos: any;
+
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
 
   constructor(
     public navCtrl: NavController,
@@ -32,8 +36,9 @@ export class DashboardPage implements OnInit {
     private api: ApiService
   ) {
     console.log('constructor method >>>>>>>>>>>>>>>>>>>>');
-    // this.getKategoriProduk();
+    this.getKategoriProduk();
     this.loadProdukPerKat();
+    this.loadPromos();
 
     event.subscribe('produk:kat_select', (kat_s) => {
       this.kat_select = kat_s.toString();
@@ -46,6 +51,15 @@ export class DashboardPage implements OnInit {
     // this.kat_select = "0";
   }
 
+  loadPromos(){
+    this.api.doGet('promo/all/').subscribe(
+      (data) => {
+        this.promos = data;
+        console.log('isi produk per kat >>>>>>>>>');
+        console.log(this.produkPerKat);
+      }
+    )
+  }
   reloadRefresh(event){
     console.log('masuk reload refresh >>>>>>>>>>>>>>');
     console.log(this.selectedKatId);
@@ -72,11 +86,6 @@ export class DashboardPage implements OnInit {
     )
   }
   reloadProduk(id_kat){
-    // let kat = this.kat_nya
-    console.log('isi id_kat >>>>>>>>>>>>>>>>>>>>>>>>');
-    console.log(id_kat)
-    // console.log('isi kat_select >>>>>>>>>>>>>>>>>>>>>');
-    // console.log(this.kat_select);
     this.selectedKatId = id_kat;
     const headers = new HttpHeaders({
       'Content-type': 'application/json'
@@ -84,23 +93,17 @@ export class DashboardPage implements OnInit {
 
     this.http.get(this.env.API_URL + 'produk/kat/?id=' + id_kat, { headers: headers }).subscribe(
       res => {
-        console.log('isi result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-
         this.produkDatas = res;
-        console.log("Success : " + this.produkDatas);
       },
       errornya => {
 
       },
       () => {
-        console.log(console.log('selesai manggil nya >>>>>>>>>>>>>'));
+
       }
     )
-    // );
-    console.log('after calling get produk >>>>>>>>>>>>>>>>>>>>');
   }
   getKategoriProduk(){
-    console.log('masuk getKategoriProduk >>>>>>>>>>>>>>>>>>>>')
     const headers = new HttpHeaders({
       'Content-type': 'application/json'
     });
@@ -138,5 +141,15 @@ export class DashboardPage implements OnInit {
   gotoSearch(){
     this.router.navigateByUrl('pub/tabs/cari_produk');
     // this.kat_select = "2";
+  }
+
+  gotoPromo(id){
+    this.navCtrl.navigateForward('promo-det/' + id);
+    // this.router.navigateByUrl('promo-det/' + id);
+
+  }
+
+  gotoKategori(id){
+    this.navCtrl.navigateForward('kategori-det/' + id);
   }
 }

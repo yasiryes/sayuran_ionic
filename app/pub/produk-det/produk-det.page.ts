@@ -28,9 +28,6 @@ export class ProdukDetPage implements OnInit {
   }
 
   loadProduk(id){
-  
-
-
     const headers = new HttpHeaders({
       'Content-type': 'application/json'
     });
