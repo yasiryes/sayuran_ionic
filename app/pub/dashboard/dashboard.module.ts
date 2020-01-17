@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { DashboardPage } from './dashboard.page';
 import { IonBottomDrawerModule } from 'ion-bottom-drawer';
+import { CartAddPage } from '../cart-add/cart-add.page';
+import { CartAddPageModule } from '../cart-add/cart-add.module';
 
 const routes: Routes = [
   {
@@ -21,7 +23,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    IonBottomDrawerModule
+    IonBottomDrawerModule,
   ],
   declarations: [DashboardPage]
 })

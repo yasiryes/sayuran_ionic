@@ -12,6 +12,7 @@ import { IonicStorageModule } from '@ionic/Storage';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http/ngx';
 import { IonBottomDrawerModule } from 'ion-bottom-drawer';
+import { CartAddPageModule } from './pub/cart-add/cart-add.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,8 @@ import { IonBottomDrawerModule } from 'ion-bottom-drawer';
               AppRoutingModule,
               IonicStorageModule.forRoot(),
               HttpClientModule,
-              IonBottomDrawerModule
+              IonBottomDrawerModule,
+              CartAddPageModule,
             ],
   providers: [
     StatusBar,

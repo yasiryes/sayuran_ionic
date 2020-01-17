@@ -27,7 +27,11 @@ const routes: Routes = [
   {
     path: 'kategori-det/:id',
     loadChildren: () => import('./pub/kategori-det/kategori-det.module').then( m => m.KategoriDetPageModule)
+  },  {
+    path: 'cart-add',
+    loadChildren: () => import('./pub/cart-add/cart-add.module').then( m => m.CartAddPageModule)
   },
+
 
   // { path: 'sidem-account', loadChildren: './pub/account/sidem-account/sidem-account.module#SidemAccountPageModule' },
 

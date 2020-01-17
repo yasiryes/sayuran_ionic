@@ -2,11 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { EnvService } from 'src/app/services/env.service';
 import { tap } from 'rxjs/operators';
-import { NavController, IonSegment, Events } from '@ionic/angular';
+import { NavController, IonSegment, Events, PopoverController, ModalController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { DrawerState } from 'ion-bottom-drawer';
+import { CartAddPage } from '../cart-add/cart-add.page';
+import { trigger, state, style, transition, animate, AnimationBuilder, AnimationPlayer } from '@angular/animations';
+import { slideInAnimation } from 'src/app/animations';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,9 +36,10 @@ export class DashboardPage implements OnInit {
     private dataService: DataService,
     private router: Router,
     public event: Events,
-    private api: ApiService
+    private api: ApiService,
+    public popoverController: PopoverController,
+    public modalController: ModalController
   ) {
-    console.log('constructor method >>>>>>>>>>>>>>>>>>>>');
     this.getKategoriProduk();
     this.loadProdukPerKat();
     this.loadPromos();
@@ -46,9 +50,29 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('on init >>>>>>>>>>>>>>>>>>>>');
-    // this.reloadProduk(0);
-    // this.kat_select = "0";
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: CartAddPage,
+      animated: true,
+    });
+    return await modal.present();
+  }
+    
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: CartAddPage,
+      event: ev,
+      translucent: true,
+    });
+    
+    return await popover.present();
+    
+  }
+
+  get_pop_element(){
+    return document.querySelector('.popover-wrapper');
   }
 
   loadPromos(){
@@ -61,18 +85,13 @@ export class DashboardPage implements OnInit {
     )
   }
   reloadRefresh(event){
-    console.log('masuk reload refresh >>>>>>>>>>>>>>');
-    console.log(this.selectedKatId);
     this.reloadProduk(this.selectedKatId);
     setTimeout(() => {
-      console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
   }
 
   reloadProduk2nd(){
-    console.log('isi kat_select >>>>>>>>>>>>>>>>>>>>>');
-    console.log(this.kat_select);
     this.reloadProduk(this.kat_select);
   }
 
@@ -80,8 +99,6 @@ export class DashboardPage implements OnInit {
     this.api.doGet('produk_per_kat/').subscribe(
       (data) => {
         this.produkPerKat = data;
-        console.log('isi produk per kat >>>>>>>>>');
-        console.log(this.produkPerKat);
       }
     )
   }
@@ -107,26 +124,17 @@ export class DashboardPage implements OnInit {
     const headers = new HttpHeaders({
       'Content-type': 'application/json'
     });
-    console.log('after declaring header >>>>>>>>>>>>>>>>>>>>')
 
     this.http.get(this.env.API_URL + 'kategori_produk/', { headers: headers }).subscribe(
       res => {
-        console.log('isi result kategori >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-        console.log(res)
-        // console
         this.kategoriDatas = res;
-
-        console.log("Success : " + typeof(this.kategoriDatas));
       },
       errornya => {
 
       },
       () => {
-        console.log(console.log('selesai manggil nya >>>>>>>>>>>>>'));
       }
     )
-    // );
-    console.log('after calling get kategori produk >>>>>>>>>>>>>>>>>>>>');
   }
 
   navAccount(){
@@ -134,18 +142,16 @@ export class DashboardPage implements OnInit {
   }
 
   openDetailProduk(id){
-    // this.dataService.setData(42, this.user);
-    this.router.navigateByUrl('produk-det/' + id);
+    // this.router.navigateByUrl('produk-det/' + id);
+    this.navCtrl.navigateForward('produk-det/' + id);
   }
 
   gotoSearch(){
     this.router.navigateByUrl('pub/tabs/cari_produk');
-    // this.kat_select = "2";
   }
 
   gotoPromo(id){
     this.navCtrl.navigateForward('promo-det/' + id);
-    // this.router.navigateByUrl('promo-det/' + id);
 
   }
 

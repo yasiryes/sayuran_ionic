@@ -68,7 +68,7 @@
           </ion-row>
           <div class="slider" style=" width: 100%;" >
             
-              <div *ngFor="let itemp of katitem['data']" class="ion-activatable slide" style="background-color: white; border-radius: 4px 4px 4px 4px; border: 1px solid #e6e6e6; margin: 1px; height: 220px; width: 140px;">
+              <div (click)="openDetailProduk(itemp.id)" *ngFor="let itemp of katitem['data']" class="ion-activatable slide" style="background-color: white; border-radius: 4px 4px 4px 4px; border: 1px solid #e6e6e6; margin: 1px; height: 220px; width: 140px;">
                 <div style="margin: 2px; border-radius: 10px 10px 10px 10px; height: 50%;">
                   <img style="border-radius: 10px 10px 10px 10px; height: 100%; width: auto;" src="{{itemp.gambar_url}}"/>
                 </div>
