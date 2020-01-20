@@ -142,7 +142,6 @@ export class DashboardPage implements OnInit {
   }
 
   openDetailProduk(id){
-    // this.router.navigateByUrl('produk-det/' + id);
     this.navCtrl.navigateForward('produk-det/' + id);
   }
 

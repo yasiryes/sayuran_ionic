@@ -28,7 +28,9 @@ export class AppComponent {
   ) {
     this.initializeApp();
     this.platform.backButton.subscribeWithPriority(6666666, () => {
-      if (this.location.path() == '/pub/tabs/dashboard'){
+      console.log('path >');
+      console.log(this.location.path());
+      if (this.location.path() == '/pub/tabs/dashboard' || this.location.path() == '/login'){
         if(window.confirm("Keluar Aplikasi ?")){
           navigator["app"].exitApp();
         }else{
@@ -43,38 +45,20 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.authService.getToken().then( (res) => {
-        if (res != null || res != ""){
-          console.log('isi result get_token() >>>>>>>>>>>>>>>>>>');
-          console.log(res);
-          this.navCtrl.navigateRoot('pub/tabs');
-        }else{
-          this.navCtrl.navigateRoot('login');
+
+      this.authService.authenticationState.subscribe(
+        (data) => {
+          console.log('changed auth isLoggedIn >');
+          if (data == false){
+            this.navCtrl.navigateRoot('login');
+
+          }else{
+            this.navCtrl.navigateRoot('pub/tabs');
+          }
         }
-      });
+      )
       this.splashScreen.hide();
-      // console.log('initializeapp, isi logged_token : >>>>>>>>>>>>');
-      // console.log(logged_token);
-      // if (logged_token){
-      //   // this.navCtrl.navigateRoot('pub/tabs');
-        
-      // }else{
-        
-      // }
     });
   }
 
-  logout(){
-    this.authService.logout().subscribe(
-      data => {
-        this.alertService.presentToast(data['message']);
-      },
-      error => {
-        console.log(error);
-      },
-      () => {
-        this.navCtrl.navigateRoot('/landing');
-      }
-    )
-  }
 }

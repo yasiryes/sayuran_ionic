@@ -23,9 +23,7 @@ export class ApiService {
   }
 
   doPost(url: string, post_data: {}){
-    console.log('doPost, post_date >>>>>>>>>>>>>>>>>');
-    console.log(post_data);
-    return this.http.post(url, post_data, this.httpOptions).pipe()
+    return this.http.post(this.env.API_URL + url, post_data, this.httpOptions).pipe()
   }
 
 }

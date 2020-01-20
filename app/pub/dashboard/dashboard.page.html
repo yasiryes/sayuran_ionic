@@ -76,7 +76,7 @@
                 <label style="padding-left: 4px; margin-bottom: 6px; font-size: 0.7em; display: block; font-weight: normal; color: rgb(129, 129, 129);">{{itemp.keterangan}}</label>
                 <div style="padding-left: 4px; display: block;">
                   <label style="font-size: 0.8em; font-weight: bolder; color: indianred; display: inline-block;">Rp. {{itemp.harga_jual_th}} &nbsp;</label>
-                  <label style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{itemp.satuan_nama}}</label>
+                  <label *ngIf="itemp.satuan_nama" style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{itemp.satuan_nama}}</label>
                 </div>
                 <div style="margin-top: 6px; padding-left: 4px; padding-right: 4px; text-align: left;">
                   <label *ngIf="itemp.stok < 1" style="display: block; font-size: 0.8em; font-weight: normal; color: indianred">Stok Tersedia : {{itemp.stok}}</label>

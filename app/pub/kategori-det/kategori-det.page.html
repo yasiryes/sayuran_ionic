@@ -10,10 +10,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content (click)="pop_cart_input(produk['id'], true)" id="content">
+<ion-content id="content">
   <ion-grid>
     <ion-row>
-      <ion-col (click)="pop_cart_input(produk.id, false)" class="ion-activatable" size="12" *ngFor="let produk of produks" style="height: 100px; border: #f2f2f2; border-style: solid; border-width: 0px 0px 0.2px 0px;">
+      <ion-col (click)="goto_produk_det(produk.id)" class="ion-activatable" size="12" *ngFor="let produk of produks" style="height: 100px; border: #f2f2f2; border-style: solid; border-width: 0px 0px 0.2px 0px;">
         <ion-row style="height: 100px;">
           <ion-col size="4">
             <div style="height: 90px;">
@@ -29,7 +29,7 @@
           </ion-col>
           <ion-col size="4" style="text-align: right;">
             <label style="margin-bottom: 2px; display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{produk.harga_jual_th}} &nbsp;</label>
-            <label style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{produk.satuan_nama}}</label>
+            <label *ngIf="produk.satuan_nama" style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{produk.satuan_nama}}</label>
 
           </ion-col>
         </ion-row>
@@ -40,12 +40,3 @@
   </ion-grid>
 
 </ion-content>
-<ion-bottom-drawer #bot_drawer (stateChange)="on_change_drawer_produk($event)" [(state)]="drawerState" [minimumHeight]="minimumHeight" [dockedHeight]="dockedHeight" [shouldBounce]="shouldBounce"
- [distanceTop]="distanceTop">
-	<div class="drawer-content" style="text-align: center;">
-    <hr style="background-color: lightgray; width: 50px; height: 2px; margin-top: 1px; margin-bottom: 1px;">
-    <hr style="background-color: lightgray; width: 25px; height: 2px; margin-top: 1px; margin-bottom: 1px;">
-    <label style="color: darkslategrey; margin-top: 10px; display: block;">Tambah ke Keranjang</label>
-    <label style="color: darkslategrey; margin-top: 10px; display: block;">{{selected_produk['nama']}}</label>
-	</div>
-</ion-bottom-drawer>

@@ -8,9 +8,10 @@
     </ion-tab-button>
 
     <ion-tab-button tab="cart">
+      
       <ion-icon color="new" name="cart"></ion-icon>
       <ion-label color="dark-grey">Keranjang</ion-label>
-      <!-- <ion-badge>6</ion-badge> -->
+      <ion-badge *ngIf="cart_badge_val > 0" color="pale-grey">{{cart_badge_val}}</ion-badge>
     </ion-tab-button>
 
     <ion-tab-button tab="account">

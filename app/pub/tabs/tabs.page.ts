@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonTabs, Events } from '@ionic/angular';
 import {Platform} from '@ionic/angular';
+import { CartBadgeService } from 'src/app/services/cart-badge.service';
 
 @Component({
   selector: 'app-tabs',
@@ -12,9 +13,20 @@ export class TabsPage implements OnInit {
   subscribe: any;
   cariVal: string;
   isShowSearch: boolean;
-  constructor(public event: Events, public platform: Platform) { 
-    this.isShowSearch = true;
 
+  cart_badge_val: number = 0;
+
+  constructor(
+    public event: Events, 
+    public platform: Platform,
+    private cart_badge: CartBadgeService
+    ) { 
+    this.isShowSearch = true;
+    this.cart_badge.cart_count.subscribe(
+      (data) => {
+        this.cart_badge_val = data;
+      }
+    )
   }
 
   ngOnInit() {

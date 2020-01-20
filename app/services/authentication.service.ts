@@ -5,6 +5,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EnvService } from './env.service';
 import { Users } from '../models/users';
 import {Storage} from '@ionic/Storage';
+import { ApiService } from './api.service';
+import { CartBadgeService } from './cart-badge.service';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -16,17 +18,15 @@ export class AuthenticationService {
   isLoggedIn = false;
   token: any;
 
-  authenticationState = new BehaviorSubject(false);
+  authenticationState = new BehaviorSubject(this.isLoggedIn);
 
   constructor(
     private http: HttpClient,
     private storage: Storage, 
     private env: EnvService,
+    private api: ApiService
     ) { }
 
-  // doLogin(users: Users): Observable<Users>{
-
-  // }
   login(email: String, password: String){
     const post_data = { 
       username: email,
@@ -39,12 +39,12 @@ export class AuthenticationService {
     };
     return this.http.post(this.env.API_URL + 'users/login/', post_data, httpOptions).pipe(
       tap(resu => {
-        console.log('isi token');
-        console.log(resu['token']);
         this.storage.set('token', resu['token'])
         .then(
           () => {
             console.log('token stored');
+            this.authenticationState.next(true);
+            
             this.storage.get('token').then(
               resu => {
                 console.log(resu);
@@ -67,19 +67,21 @@ export class AuthenticationService {
     return this.http.post(this.env.API_URL, {username: username, fullname: fullname, password: password});
   }
 
-  logout(){
-    const headers = new HttpHeaders({
-      'Authorization': this.token["token_type"] + " " + this.token["access_token"]
-    });
-    return this.http.get(this.env.API_URL, { headers: headers }).pipe(
-      tap(data => {
-        this.storage.remove("token");
-        this.isLoggedIn = false;
-        delete this.token;
-        return data;
-      })
-    );
+  set_logged_out(){
+    this.isLoggedIn = false;
+    this.authenticationState.next(false);
+    this.storage.remove("token");
 
+    delete this.token;
+
+    console.log('sukses Logout >');
+  }
+  logout(){
+    const post_data = {
+      token: this.token
+    }
+    console.log('execute logout');
+    return this.api.doPost("users/logout/", post_data);
   }
   user(){
     const headers = new HttpHeaders({

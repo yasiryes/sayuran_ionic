@@ -1,9 +1,19 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>sidem-account</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
-
+<ion-content style="text-align: center; height: 200px; border-radius: 60px 60px 60px 60px; ">
+  <ion-grid>
+    <ion-row>
+      <ion-col (click)="clickLogout()" *ngIf="is_logged_in" class="ion-activatable" size="12" style="font-size: 1.2em; font-weight: normal; height: 40px; border: #f2f2f2; border-style: solid; border-width: 0px 0px 0.2px 0px;">
+        <label>
+          Logout
+        </label>
+        <ion-ripple-effect ></ion-ripple-effect>
+      </ion-col>
+      <ion-col *ngIf="!is_logged_in"  class="ion-activatable" size="12" style="font-size: 1.2em; font-weight: normal; height: 40px; border: #f2f2f2; border-style: solid; border-width: 0px 0px 0.2px 0px;">
+        <label>
+          Login
+        </label>
+        <ion-ripple-effect ></ion-ripple-effect>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

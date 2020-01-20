@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, SimpleChange } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { DrawerState, IonBottomDrawerModule } from 'ion-bottom-drawer';
-import { IonContent } from '@ionic/angular';
+import { IonContent, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-kategori-det',
@@ -29,7 +29,8 @@ export class KategoriDetPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private api: ApiService
+    private api: ApiService,
+    public navCtrl: NavController,
   ) { }
 
   ngOnInit() {
@@ -63,33 +64,7 @@ export class KategoriDetPage implements OnInit {
       }
     )
   }
-
-  drop_drawer(){
-    this.get_content_element().setAttribute('style', 'filter: brightness(100%)');
-    this.drawerState = DrawerState.Bottom;
-  }
-  pop_cart_input(id, is_parent){
-    console.log(id);
-    if (id == undefined && is_parent){
-      this.get_content_element().setAttribute('style', 'filter: brightness(100%)');
-      this.drawerState = DrawerState.Bottom;
-      // return;
-    } else if (this.drawerState == DrawerState.Docked && is_parent == false){
-      this.get_content_element().setAttribute('style', 'filter: brightness(100%)');
-      this.drawerState = DrawerState.Bottom;
-      // return;
-    }else if (this.drawerState == DrawerState.Bottom && is_parent == false) {
-
-      this.load_selected_produk(id);
-
-      this.drawerState = DrawerState.Docked;
-      this.get_content_element().setAttribute('style', 'filter: brightness(60%)');
-    }
-
-  }
-  on_change_drawer_produk(event){
-    if(event == 0){
-      this.get_content_element().setAttribute('style', 'filter: brightness(100%)');
-    }
+  goto_produk_det(id){
+    this.navCtrl.navigateForward('produk-det/' + id);
   }
 }

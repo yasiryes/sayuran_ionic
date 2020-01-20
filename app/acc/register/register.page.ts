@@ -80,22 +80,15 @@ export class RegisterPage implements OnInit {
   }
 
   formSubmit(form: NgForm){
-    console.log("isi email submit >>>")
-    console.log(form.value.username);
     var isValidated = this.validateForm(form);
-
-    console.log('is form valid >>>>>>>>>>> ?');
-    console.log(isValidated);
     if (isValidated){
       const register_data = {
         username: form.value.username,
         fullname: form.value.fullname,
         password: form.value.pin
       }
-      const url = this.env.API_URL;
-      this.api.doPost(url + 'users/register/', register_data).subscribe(
+      this.api.doPost('users/register/', register_data).subscribe(
         (res) => {
-          console.log('sukses register >>>>>>>>>>>>');
           if (res['status'] == 1){
             this.navCtrl.navigateRoot('email-verify');
           }else if (res['status'] == 0){

@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http/ngx';
 import { IonBottomDrawerModule } from 'ion-bottom-drawer';
 import { CartAddPageModule } from './pub/cart-add/cart-add.module';
+import { SidemAccountPageModule } from './pub/account/sidem-account/sidem-account.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { CartAddPageModule } from './pub/cart-add/cart-add.module';
               HttpClientModule,
               IonBottomDrawerModule,
               CartAddPageModule,
+              SidemAccountPageModule
             ],
   providers: [
     StatusBar,

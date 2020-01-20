@@ -1,10 +1,10 @@
 
 <ion-header no-border>
-  <ion-toolbar color="deep-new">
+  <ion-toolbar>
 
     <ion-title >Akun Saya</ion-title>
     <ion-buttons slot="primary" >
-        <ion-button>
+        <ion-button (click)="presentPopover()">
           <ion-icon slot="icon-only" name="settings"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -23,24 +23,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
-  <ion-menu contentId = "content" side="end" type="push">
-    <ion-header>
-      <ion-toolbar color="danger">
-        <ion-title>End Menu</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-        <ion-item>Menu Item</ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
 </ion-content>
 
 
