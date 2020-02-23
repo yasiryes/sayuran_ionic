@@ -14,6 +14,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { IonBottomDrawerModule } from 'ion-bottom-drawer';
 import { CartAddPageModule } from './pub/cart-add/cart-add.module';
 import { SidemAccountPageModule } from './pub/account/sidem-account/sidem-account.module';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import { SidemAccountPageModule } from './pub/account/sidem-account/sidem-accoun
     StatusBar,
     SplashScreen,
     HTTP,
+    AndroidPermissions,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],

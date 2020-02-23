@@ -15,7 +15,7 @@
           <ion-grid>
             <ion-row>
               <ion-col size="12">
-                <ion-label color="medium" style="font-size: 0.9rem;">Alamat Email :</ion-label>
+                <ion-label color="medium" style="font-size: 0.9rem;">No. Handphone</ion-label>
                 <ion-item>
                     <ion-input name="username" id="username"  ngModel required></ion-input>
                 </ion-item>
@@ -37,7 +37,7 @@
               <ion-col size="12">
                 <ion-label color="medium" style="font-size: 0.9rem;">6 digit pin :</ion-label>
                 <ion-item class="radius">
-                    <ion-input name="pin" id="pin" ngModel required></ion-input>
+                    <ion-input name="pin" id="pin" type="password" ngModel required></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col *ngIf="isErrorPin" size="12" style="padding-top: 0px">
@@ -47,7 +47,7 @@
               <ion-col size="12">
                 <ion-label color="medium" style="font-size: 0.9rem; ">Ulang 6 digit pin :</ion-label>
                 <ion-item>
-                    <ion-input name="ulangPin" id="ulangPin" ngModel required></ion-input>
+                    <ion-input name="ulangPin" id="ulangPin" type="password" ngModel required></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col *ngIf="isErrorPinUlang" size="12" style="padding-top: 0px">

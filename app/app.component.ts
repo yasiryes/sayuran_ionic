@@ -8,6 +8,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { Router } from '@angular/router';
 import { AlertService } from './services/alert.service';
 import { Location } from '@angular/common';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +25,10 @@ export class AppComponent {
     private navCtrl: NavController,
     private alertService: AlertService,
     private router: Router,
-    private location: Location
+    private location: Location,
   ) {
     this.initializeApp();
+
     this.platform.backButton.subscribeWithPriority(6666666, () => {
       console.log('path >');
       console.log(this.location.path());
