@@ -22,6 +22,11 @@ export class CartPage implements OnInit {
 
   ngOnInit() {
     this.load_cart();
+    this.cart_badge.cart_count.subscribe(
+      (data) => {
+        this.load_cart();
+      }
+    )
   }
 
   reload(event){
@@ -47,10 +52,10 @@ export class CartPage implements OnInit {
     if (event.detail.value != undefined && event.detail.value != ''){
       console.log('valid inputan >');
       this.set_qty(produk_id, event.detail.value);
+
     }
   }
-
-
+  
   update_total(){
     this.total = 0;
     this.cart_datas.forEach(
@@ -73,6 +78,16 @@ export class CartPage implements OnInit {
             console.log('sukses insert_cart >');
             this.cart_badge.do_update();
             this.load_cart();
+            
+            this.auth.getToken().then(
+              (token) => {
+                this.api.doGet('cart_count/'+ token +'/').subscribe(
+                  (data) => {
+                    this.cart_badge.set_count(data['count']);
+                  }
+                )
+              }
+            )
           },
           (err) => {
             console.log('error insert_cart >');

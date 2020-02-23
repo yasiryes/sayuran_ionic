@@ -37,20 +37,12 @@ export class LoginPage implements OnInit {
   }
 
   login(form: NgForm){
-    console.log("masuk login login.page.ts >>>>>>>>>>>>>>");
-    console.log("username: " + form.value.username);
-    console.log("password: " + form.value.password);
     this.authService.login(form.value.username, form.value.password).subscribe(
       data => {
-        this.alertService.presentToast("Logged in");
-        this.authService.getToken().then(
+        // this.alertService.presentToast("Selamat Datang");
+        this.api.doGet('cart_count/'+ data['token'] +'/').subscribe(
           (data) => {
-            this.api.doGet('cart_count/'+ data +'/').subscribe(
-              (data) => {
-                this.cart_badge.set_count(data['count']);
-              }
-            )
-    
+            this.cart_badge.set_count(data['count']);
           }
         )
       },

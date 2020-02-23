@@ -65,8 +65,16 @@ export class ProdukDetPage implements OnInit {
         }
         this.api.doPost('cart_new/', post_data).subscribe(
           (data) => {
-            console.log('sukses insert_cart >');
-            this.cart_badge.do_update();
+            console.log('sukses insert_cart >');      
+            this.auth.getToken().then(
+              (token) => {
+                this.api.doGet('cart_count/'+ token +'/').subscribe(
+                  (data) => {
+                    this.cart_badge.set_count(data['count']);
+                  }
+                )
+              }
+            )
             
             this.navCtrl.navigateRoot('pub')
           },
