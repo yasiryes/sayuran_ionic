@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'cart-add',
     loadChildren: () => import('./pub/cart-add/cart-add.module').then( m => m.CartAddPageModule)
   },
+  {
+    path: 'sms-verify',
+    loadChildren: () => import('./pub/sms-verify/sms-verify.module').then( m => m.SmsVerifyPageModule)
+  },
 
 
   // { path: 'sidem-account', loadChildren: './pub/account/sidem-account/sidem-account.module#SidemAccountPageModule' },
