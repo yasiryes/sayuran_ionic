@@ -42,25 +42,6 @@ export class RegisterPage implements OnInit {
     
     this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
 
-    SMSReceive.startWatch(
-      () => {
-        document.addEventListener('onSMSArrive', (e: any) => {
-          var IncomingSMS = e.data;
-          // this.processSMS(IncomingSMS);
-          console.log('sms in >>');
-          this.alertService.presentToast(IncomingSMS.body);
-          const logs_data = {
-            isi: IncomingSMS.body
-          }
-          this.api.doPost('tools/logs_new/', logs_data).subscribe(
-            (res) => {
-              console.log(res);
-            }
-          )
-        });
-      },
-      () => { console.log('watch start failed') }
-    )
    }
 
   ngOnInit() {
@@ -126,10 +107,18 @@ export class RegisterPage implements OnInit {
       this.api.doPost('users/register/', register_data).subscribe(
         (res) => {
           if (res['status'] == 1){
-            this.navCtrl.navigateRoot('email-verify');
+            this.navCtrl.navigateRoot('sms-verify');
           }else if (res['status'] == 0){
             this.isErrorEmail = true;
             this.emailErrorMsg = res['msg'];
+            const logs_data = {
+              isi: 'gagal'
+            }
+            this.api.doPost('tools/logs_new/', logs_data).subscribe(
+              (res) => {
+                console.log(res);
+              }
+            )
           }
         }
       )
