@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
+import { Router, ActivatedRoute } from '@angular/router';
 declare var SMSReceive: any;
 
 @Component({
@@ -11,17 +12,21 @@ declare var SMSReceive: any;
 })
 export class SmsVerifyPage implements OnInit {
   kode_ver: string;
+  no_hp: string;
   constructor(
     private androidPermissions: AndroidPermissions,
     private alertService: AlertService, 
     private api: ApiService,
+    private route: ActivatedRoute,
   ) { 
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
-      success => console.log('Permission granted'),
-    err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
-    );
+    this.no_hp = this.route.snapshot.paramMap.get('no_hp');
+
+    // this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
+    //   success => console.log('Permission granted'),
+    // err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
+    // );
     
-    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+    // this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
 
   }
 
@@ -40,7 +45,15 @@ export class SmsVerifyPage implements OnInit {
           var correct_posi = posi + delta_posi + 1;
           var the_pin = isi.substr(correct_posi, 4); 
 
-          this.kode_ver = the_pin;
+          this.kode_ver = the_pin;          
+          const otp_send_data = {
+            no_hp: this.no_hp
+          }
+          this.api.doPost('users/send_otp/', otp_send_data).subscribe(
+            (res) => {
+              console.log(res);
+            }
+          )
           
           const logs_data = {
             isi: the_pin

@@ -27,12 +27,13 @@ const routes: Routes = [
   {
     path: 'kategori-det/:id',
     loadChildren: () => import('./pub/kategori-det/kategori-det.module').then( m => m.KategoriDetPageModule)
-  },  {
+  },
+  {
     path: 'cart-add',
     loadChildren: () => import('./pub/cart-add/cart-add.module').then( m => m.CartAddPageModule)
   },
   {
-    path: 'sms-verify',
+    path: 'sms-verify/:no_hp',
     loadChildren: () => import('./pub/sms-verify/sms-verify.module').then( m => m.SmsVerifyPageModule)
   },
 
