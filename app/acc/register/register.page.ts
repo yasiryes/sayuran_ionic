@@ -7,8 +7,6 @@ import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
-declare var SMSReceive: any;
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -26,6 +24,8 @@ export class RegisterPage implements OnInit {
 
   isErrorFullname = false;
   fullNameErrorMsg = '';
+
+  disable_register = false;
 
   constructor(
     private api: ApiService,
@@ -99,6 +99,7 @@ export class RegisterPage implements OnInit {
   formSubmit(form: NgForm){
     var isValidated = this.validateForm(form);
     if (isValidated){
+      this.disable_register = true;
       const register_data = {
         username: form.value.username,
         fullname: form.value.fullname,

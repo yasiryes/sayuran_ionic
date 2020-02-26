@@ -23,6 +23,9 @@ export class SmsVerifyPage implements OnInit {
     
     this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
 
+  }
+
+  ngOnInit() {
     SMSReceive.startWatch(
       () => {
         document.addEventListener('onSMSArrive', (e: any) => {
@@ -51,9 +54,6 @@ export class SmsVerifyPage implements OnInit {
       },
       () => { console.log('watch start failed') }
     )
-  }
-
-  ngOnInit() {
   }
 
 }
