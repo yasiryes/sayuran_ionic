@@ -25,27 +25,36 @@ export class SmsVerifyPage implements OnInit {
     this.disable_send_otp = false;
 
     this.no_hp = this.route.snapshot.paramMap.get('no_hp');
+
+
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
+      success => console.log('Permission granted'),
+    err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
+    );
+    
+    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+
   }
 
   ngOnInit() {
-    // SMSReceive.startWatch(
-    //   () => {
-    //     document.addEventListener('onSMSArrive', (e: any) => {
-    //       var IncomingSMS = e.data;
-    //       console.log('sms in >>');
-    //       this.alertService.presentToast(IncomingSMS.body);
-    //       var isi = IncomingSMS.body;
-    //       var str_indic = 'kamu :'
-    //       var posi = isi.indexOf(str_indic);
-    //       var delta_posi = str_indic.length;
-    //       var correct_posi = posi + delta_posi + 1;
+    SMSReceive.startWatch(
+      () => {
+        document.addEventListener('onSMSArrive', (e: any) => {
+          var IncomingSMS = e.data;
+          console.log('sms in >>');
+          this.alertService.presentToast(IncomingSMS.body);
+          var isi = IncomingSMS.body;
+          var str_indic = 'kamu :'
+          var posi = isi.indexOf(str_indic);
+          var delta_posi = str_indic.length;
+          var correct_posi = posi + delta_posi + 1;
 
-    //       var the_pin = isi.substr(correct_posi, 4); 
-    //       var the_prefix = isi.substr(0, 5); 
+          var the_pin = isi.substr(correct_posi, 4); 
+          var the_prefix = isi.substr(0, 5); 
 
-    //       if (the_prefix == this.sms_prefix){
-    //         this.kode_ver = the_pin;
-    //       }
+          if (the_prefix == this.sms_prefix){
+            this.kode_ver = the_pin;
+          }
           // const logs_data = {
           //   isi: the_pin
           // }
@@ -70,10 +79,10 @@ export class SmsVerifyPage implements OnInit {
           //     console.log(res);
           //   }
           // )
-      //   });
-      // },
-      // () => { console.log('watch start failed') }
-    // )
+        });
+      },
+      () => { console.log('watch start failed') }
+    )
     const otp_send_data = {
       no_hp: this.no_hp
     }
