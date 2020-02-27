@@ -108,7 +108,7 @@ export class RegisterPage implements OnInit {
       this.api.doPost('users/register/', register_data).subscribe(
         (res) => {
           if (res['status'] == 1){
-            this.navCtrl.navigateRoot('sms-verify');
+            this.navCtrl.navigateRoot('sms-verify/' + register_data['username']);
           }else if (res['status'] == 0){
             this.isErrorEmail = true;
             this.emailErrorMsg = res['msg'];

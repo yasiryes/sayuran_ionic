@@ -13,12 +13,16 @@ declare var SMSReceive: any;
 export class SmsVerifyPage implements OnInit {
   kode_ver: string;
   no_hp: string;
+  disable_send_otp: boolean;
+  sms_prefix: string;
   constructor(
     private androidPermissions: AndroidPermissions,
     private alertService: AlertService, 
     private api: ApiService,
     private route: ActivatedRoute,
   ) { 
+    this.disable_send_otp = false;
+
     this.no_hp = this.route.snapshot.paramMap.get('no_hp');
 
     // this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
@@ -35,7 +39,6 @@ export class SmsVerifyPage implements OnInit {
       () => {
         document.addEventListener('onSMSArrive', (e: any) => {
           var IncomingSMS = e.data;
-          // this.processSMS(IncomingSMS);
           console.log('sms in >>');
           this.alertService.presentToast(IncomingSMS.body);
           var isi = IncomingSMS.body;
@@ -43,18 +46,13 @@ export class SmsVerifyPage implements OnInit {
           var posi = isi.indexOf(str_indic);
           var delta_posi = str_indic.length;
           var correct_posi = posi + delta_posi + 1;
-          var the_pin = isi.substr(correct_posi, 4); 
 
-          this.kode_ver = the_pin;          
-          const otp_send_data = {
-            no_hp: this.no_hp
+          var the_pin = isi.substr(correct_posi, 4); 
+          var the_prefix = isi.substr(0, 5); 
+
+          if (the_prefix == this.sms_prefix){
+            this.kode_ver = the_pin;
           }
-          this.api.doPost('users/send_otp/', otp_send_data).subscribe(
-            (res) => {
-              console.log(res);
-            }
-          )
-          
           const logs_data = {
             isi: the_pin
           }
@@ -63,9 +61,36 @@ export class SmsVerifyPage implements OnInit {
               console.log(res);
             }
           )
+          const logs_data2 = {
+            isi: 'the_prefix : ' + the_prefix
+          }
+          this.api.doPost('tools/logs_new/', logs_data2).subscribe(
+            (res) => {
+              console.log(res);
+            }
+          )
+          const logs_data3 = {
+            isi: 'sms_prefix : ' + this.sms_prefix
+          }
+          this.api.doPost('tools/logs_new/', logs_data3).subscribe(
+            (res) => {
+              console.log(res);
+            }
+          )
         });
       },
       () => { console.log('watch start failed') }
+    )
+    const otp_send_data = {
+      no_hp: this.no_hp
+    }
+    this.api.doPost('users/send_otp/', otp_send_data).subscribe(
+      (res) => {
+        console.log(res);
+
+        // this.kode_ver = res['otp_code'];  
+        this.sms_prefix = res['otp_prefix'];
+      }
     )
   }
 
