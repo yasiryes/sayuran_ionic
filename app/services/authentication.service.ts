@@ -76,6 +76,17 @@ export class AuthenticationService {
 
     console.log('sukses Logout >');
   }
+  set_new_token(token){
+    return this.storage.set('token', token);
+  }
+  set_logged_in(token){
+    console.log('token stored');
+    this.authenticationState.next(true);
+
+    this.token = token;
+    this.isLoggedIn = true;
+  }
+
   logout(){
     const post_data = {
       token: this.token

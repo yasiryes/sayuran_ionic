@@ -53,10 +53,10 @@ export class AppComponent {
           console.log('changed auth isLoggedIn >');
           this.navCtrl.navigateRoot('sms-verify/' + '085226442131');
           if (data == false){
-            // this.navCtrl.navigateRoot('login');
+            this.navCtrl.navigateRoot('login');
 
           }else{
-            // this.navCtrl.navigateRoot('pub/tabs');
+            this.navCtrl.navigateRoot('pub/tabs');
           }
         }
       )
