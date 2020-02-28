@@ -40,9 +40,6 @@ export class DashboardPage implements OnInit {
     public popoverController: PopoverController,
     public modalController: ModalController
   ) {
-    this.getKategoriProduk();
-    this.loadProdukPerKat();
-    this.loadPromos();
 
     event.subscribe('produk:kat_select', (kat_s) => {
       this.kat_select = kat_s.toString();
@@ -50,6 +47,9 @@ export class DashboardPage implements OnInit {
   }
 
   ngOnInit() {
+    this.getKategoriProduk();
+    this.loadProdukPerKat();
+    this.loadPromos();
   }
 
   async presentModal() {
@@ -85,10 +85,12 @@ export class DashboardPage implements OnInit {
     )
   }
   reloadRefresh(event){
-    this.reloadProduk(this.selectedKatId);
+    this.getKategoriProduk();
+    this.loadProdukPerKat();
+    this.loadPromos();
     setTimeout(() => {
       event.target.complete();
-    }, 2000);
+    }, 1500);
   }
 
   reloadProduk2nd(){

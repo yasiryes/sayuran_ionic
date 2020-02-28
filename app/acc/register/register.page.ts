@@ -35,13 +35,6 @@ export class RegisterPage implements OnInit {
     private androidPermissions: AndroidPermissions
   ) {
 
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
-      success => console.log('Permission granted'),
-    err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
-    );
-    
-    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
-
    }
 
   ngOnInit() {
@@ -112,6 +105,7 @@ export class RegisterPage implements OnInit {
           }else if (res['status'] == 0){
             this.isErrorEmail = true;
             this.emailErrorMsg = res['msg'];
+            this.disable_register = false;
             const logs_data = {
               isi: 'gagal'
             }

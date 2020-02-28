@@ -5,7 +5,6 @@ import { ApiService } from 'src/app/services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonInput, NavController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-
 declare var SMSReceive: any;
 
 @Component({
@@ -40,14 +39,12 @@ export class SmsVerifyPage implements OnInit {
 
     this.no_hp = this.route.snapshot.paramMap.get('no_hp');
 
-
-    // this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
-    //   success => console.log('Permission granted'),
-    // err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
-    // );
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
+      success => console.log('Permission granted'),
+    err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS)
+    );
     
-    // this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
-
+    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
   }
   
   ngOnInit() {
@@ -67,12 +64,13 @@ export class SmsVerifyPage implements OnInit {
 
           if (the_prefix == this.sms_prefix){
             this.kode_ver.value = the_pin;
+            this.do_verify();
           }
         });
       },
       () => { console.log('watch start failed') }
     )
-    this.do_send_otp();
+    this.do_send_otp(); 
   }
 
   do_verify(){
@@ -99,8 +97,6 @@ export class SmsVerifyPage implements OnInit {
     this.api.doPost('users/send_otp/', otp_send_data).subscribe(
       (res) => {
         console.log(res);
-
-        // this.kode_ver = res['otp_code'];  
         this.sms_prefix = res['otp_prefix'];
       }
     )
@@ -114,9 +110,9 @@ export class SmsVerifyPage implements OnInit {
         console.log(res);
         this.authService.set_new_token(res['token']).then(
           (res) => {
-            this.authService.set_logged_in(res['token']);
+            this.authService.set_logged_in();
 
-            this.navCtrl.navigateRoot('pub/tabs');
+            this.navCtrl.navigateRoot('pub/tabs/dashboard');
           },
           (err) => {
 

@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EnvService } from './env.service';
-import { Users } from '../models/users';
 import {Storage} from '@ionic/Storage';
 import { ApiService } from './api.service';
-import { CartBadgeService } from './cart-badge.service';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -15,9 +12,7 @@ const TOKEN_KEY = 'auth-token';
 })
 
 export class AuthenticationService {
-  isLoggedIn = false;
-  token: any;
-
+  isLoggedIn: boolean;
   authenticationState = new BehaviorSubject(this.isLoggedIn);
 
   constructor(
@@ -25,7 +20,13 @@ export class AuthenticationService {
     private storage: Storage, 
     private env: EnvService,
     private api: ApiService
-    ) { }
+    ) { 
+      this.getToken().then(
+        (resu) => {
+          this.isLoggedIn = (resu && resu != '');
+        }
+      )
+    }
 
   login(email: String, password: String){
     const post_data = { 
@@ -37,30 +38,21 @@ export class AuthenticationService {
         'Content-Type':  'application/json',
       })
     };
-    return this.http.post(this.env.API_URL + 'users/login/', post_data, httpOptions).pipe(
-      tap(resu => {
-        this.storage.set('token', resu['token'])
-        .then(
-          () => {
-            console.log('token stored');
-            this.authenticationState.next(true);
-            
-            this.storage.get('token').then(
-              resu => {
-                console.log(resu);
-              }
-            )
+    this.api.doPost('users/login/', httpOptions).subscribe(
+      (resu) => {
+        this.setToken(resu['token']).then(
+          (resu_set_token) => {
+            this.set_logged_in();
           },
-          error => console.error('error storing item.') 
-        );
-        this.token = resu['token'];
-        this.isLoggedIn = true;
+          (err_set_token) => {
 
-        return resu;
+          }
+        )
+      },
+      (err) => {
+
       }
-      
-      ),
-    )
+    );
   }
 
   register(username: String, fullname: String, password: String){
@@ -71,43 +63,36 @@ export class AuthenticationService {
     this.isLoggedIn = false;
     this.authenticationState.next(false);
     this.storage.remove("token");
-
-    delete this.token;
-
     console.log('sukses Logout >');
   }
   set_new_token(token){
-    return this.storage.set('token', token);
+    return this.setToken(token);
   }
-  set_logged_in(token){
-    console.log('token stored');
+  // must be executed after setToken()
+  set_logged_in(){
     this.authenticationState.next(true);
-
-    this.token = token;
     this.isLoggedIn = true;
   }
 
   logout(){
-    const post_data = {
-      token: this.token
-    }
     console.log('execute logout');
-    return this.api.doPost("users/logout/", post_data);
-  }
-  user(){
-    const headers = new HttpHeaders({
-      'Authorization': this.token["token_type"] + " " + this.token["access_token"]
-    })
+    this.getToken().then(
+      (resu) => {
+        const post_data = {
+          token: resu
+        }
+        return this.api.doPost("users/logout/", post_data);
+      },
+      (err) => {
 
-    return this.http.get<Users>(this.env.API_URL, {headers: headers})
-    .pipe(
-      tap(user => {
-        return user;
-      })
+      }
     )
   }
 
   getToken(){
-    return this.storage.get('token')
+    return this.storage.get('token');
+  }
+  setToken(token){
+    return this.storage.set('token', token);
   }
 }
