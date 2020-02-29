@@ -7,6 +7,7 @@ import { RegisterPage } from '../register/register.page';
 import { NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { CartBadgeService } from 'src/app/services/cart-badge.service';
+import { KagetService } from 'src/app/services/kaget.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginPage implements OnInit {
     private alertService: AlertService, 
     private router: Router,
     private api: ApiService,
-    private cart_badge: CartBadgeService
+    private cart_badge: CartBadgeService,
+    private kaget: KagetService
   ) { }
 
   dismissLogin(){
@@ -37,23 +39,7 @@ export class LoginPage implements OnInit {
   }
 
   login(form: NgForm){
-    this.authService.login(form.value.username, form.value.password).subscribe(
-      data => {
-        // this.alertService.presentToast("Selamat Datang");
-        this.api.doGet('cart_count/'+ data['token'] +'/').subscribe(
-          (data) => {
-            this.cart_badge.set_count(data['count']);
-          }
-        )
-      },
-      error => {
-        console.log(error);
-      },
-      () => {
-        // this.dismissLogin();
-        this.navCtrl.navigateRoot('pub');
-      }
-    )
+    this.authService.login(form.value.username, form.value.password);
   }
 
 }

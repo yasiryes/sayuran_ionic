@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EnvService } from './env.service';
 import {Storage} from '@ionic/Storage';
 import { ApiService } from './api.service';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { KagetService } from './kaget.service';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -19,11 +21,19 @@ export class AuthenticationService {
     private http: HttpClient,
     private storage: Storage, 
     private env: EnvService,
-    private api: ApiService
+    private api: ApiService,
+    private kaget: KagetService
     ) { 
       this.getToken().then(
         (resu) => {
-          this.isLoggedIn = (resu && resu != '');
+          console.log('token result, on create auth service >>');
+          console.log(resu);
+          if (resu) {
+            this.isLoggedIn = true;
+          }else {
+            this.isLoggedIn = false;
+          }
+          this.authenticationState.next(this.isLoggedIn);
         }
       )
     }
@@ -33,24 +43,15 @@ export class AuthenticationService {
       username: email,
       password: password
     } 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-      })
-    };
-    this.api.doPost('users/login/', httpOptions).subscribe(
+    this.api.doPost('users/login/', post_data).subscribe(
       (resu) => {
-        this.setToken(resu['token']).then(
-          (resu_set_token) => {
-            this.set_logged_in();
-          },
-          (err_set_token) => {
-
-          }
-        )
+        if (resu['status'] == 1){
+          this.set_logged_in(resu['token'], resu['no_hp']);
+        }else{
+          this.kaget.show_ok_dialog(resu['message']);
+        }
       },
       (err) => {
-
       }
     );
   }
@@ -60,37 +61,55 @@ export class AuthenticationService {
   }
 
   set_logged_out(){
-    this.isLoggedIn = false;
-    this.authenticationState.next(false);
-    this.storage.remove("token");
+    this.storage.remove("token").then(
+      () => {
+        this.storage.remove("no_hp").then(
+          () => {
+            this.isLoggedIn = false;
+            this.authenticationState.next(false);
+          }
+        );
+      }
+    );
+    
     console.log('sukses Logout >');
   }
-  set_new_token(token){
+  set_new_token(token: String){
     return this.setToken(token);
   }
   // must be executed after setToken()
-  set_logged_in(){
-    this.authenticationState.next(true);
-    this.isLoggedIn = true;
-  }
-
-  logout(){
-    console.log('execute logout');
-    this.getToken().then(
-      (resu) => {
-        const post_data = {
-          token: resu
-        }
-        return this.api.doPost("users/logout/", post_data);
-      },
-      (err) => {
-
+  set_logged_in(token: String, no_hp: String){
+    console.log('set_logged_in >>');
+    console.log(token);
+    console.log(no_hp);
+    this.setToken(token).then(
+      () => {
+        this.set_no_hp(no_hp).then(
+          () => {
+            this.authenticationState.next(true);
+            this.isLoggedIn = true;
+          }
+        )
       }
     )
   }
 
+  logout(token, no_hp){
+    const post_data = {
+      token: token,
+      no_hp: no_hp
+    }
+    return this.api.doPost("users/logout/", post_data);
+  }
+
   getToken(){
     return this.storage.get('token');
+  }
+  get_no_hp(){
+    return this.storage.get('no_hp');
+  }
+  set_no_hp(no_hp){
+    return this.storage.set('no_hp', no_hp);
   }
   setToken(token){
     return this.storage.set('token', token);

@@ -108,16 +108,7 @@ export class SmsVerifyPage implements OnInit {
     this.api.doPost('users/new_token/', get_new_token_data).subscribe(
       (res) => {
         console.log(res);
-        this.authService.set_new_token(res['token']).then(
-          (res) => {
-            this.authService.set_logged_in();
-
-            this.navCtrl.navigateRoot('pub/tabs/dashboard');
-          },
-          (err) => {
-
-          }
-        )
+        this.authService.set_logged_in(res['token'], res['no_hp']);
       }
     )
   }

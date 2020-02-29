@@ -10,6 +10,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { SidemAccountPage } from './sidem-account/sidem-account.page';
 import { PopoverController } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api.service';
+import { KagetService } from 'src/app/services/kaget.service';
 
 @Component({
   selector: 'app-account',
@@ -32,7 +34,9 @@ export class AccountPage implements OnInit {
     private env: EnvService,
     private authService: AuthenticationService,
     private alertService: AlertService, 
+    private api: ApiService,
     public popController: PopoverController,
+    private kaget: KagetService
   ) { 
     this.isRegisterClicked = false;
   }
@@ -51,38 +55,41 @@ export class AccountPage implements OnInit {
     
   }
   get_account(){
-    this.storage.get('token').then(
-      resu => {
-        
-        this.token = resu 
-
-        const post_data = { 
-          token: this.token
-        } 
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type':  'application/json',
-          })
-        };
-        this.http.post(this.env.API_URL + 'users/acc_token/', post_data, httpOptions).subscribe(
-          resu => {
-            this.accData = resu;
-            if (resu['id'] == null){
-              this.isLogged = false;
+    this.authService.getToken().then(
+      (resu_get_token) => {
+        this.authService.get_no_hp().then(
+          (resu_get_no_hp) => {
+            console.log('get_account >>')
+            console.log(resu_get_token);
+            console.log(resu_get_no_hp);
+            const acc_token_data = {
+              token: resu_get_token,
+              no_hp: resu_get_no_hp
             }
+            this.api.doPost('users/acc_token/', acc_token_data).subscribe(
+              (resu_acc_token) => {
+                if (resu_acc_token['status'] == 1){
+                  this.accData = resu_acc_token['data'];
+                }else{
+                  // session expired
+                  this.kaget.show_ok_dialog(resu_acc_token['message']);
+                  this.authService.set_logged_out();
+                }
+              },
+              (err_acc_token) => {
+    
+              }
+            )
           },
-          error => {
-            console.log('error hlo be e>>>>>>>>>>>>>>>>>>>>>>>>>>');
-          },
-          () =>{
-            console.log('rampung hlo be e>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          (err_get_no_hp) => {
+
           }
         )
+      },
+      (err_get_token) => {
+
       }
-    )
-
-
-
+    );
   }
 
 }

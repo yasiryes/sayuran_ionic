@@ -51,9 +51,8 @@ export class AppComponent {
       this.authService.authenticationState.subscribe(
         (data) => {
           console.log('changed auth isLoggedIn >');
-          // this.navCtrl.navigateRoot('sms-verify/' + '085226442131');
+          console.log(data);
           if (data == false){
-            // this.navCtrl.navigateRoot('pub/tabs');
             this.navCtrl.navigateRoot('login');
 
           }else{
