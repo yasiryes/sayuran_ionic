@@ -10,6 +10,7 @@ import { DrawerState } from 'ion-bottom-drawer';
 import { CartAddPage } from '../cart-add/cart-add.page';
 import { trigger, state, style, transition, animate, AnimationBuilder, AnimationPlayer } from '@angular/animations';
 import { slideInAnimation } from 'src/app/animations';
+import { KagetService } from 'src/app/services/kaget.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,18 +39,20 @@ export class DashboardPage implements OnInit {
     public event: Events,
     private api: ApiService,
     public popoverController: PopoverController,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private kaget: KagetService
   ) {
+    kaget.show_loading(2000);
 
     event.subscribe('produk:kat_select', (kat_s) => {
       this.kat_select = kat_s.toString();
     });
-  }
-
-  ngOnInit() {
     this.getKategoriProduk();
     this.loadProdukPerKat();
     this.loadPromos();
+  }
+
+  ngOnInit() {
   }
 
   async presentModal() {

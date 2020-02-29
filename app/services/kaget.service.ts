@@ -14,11 +14,11 @@ export class KagetService {
 
   ) { }
 
-  async show_loading() {
+  async show_loading(durasi: number) {
     this.is_loading = true;
     return await this.loading_controller.create({
-      duration: 3000,
-      message: 'Please Wait',
+      duration: durasi,
+      message: 'Harap tunggu..',
       backdropDismiss: true
     }).then(a => {
       a.present().then(() => {

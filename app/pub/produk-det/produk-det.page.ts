@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ApiService } from 'src/app/services/api.service';
 import { NavController } from '@ionic/angular';
 import { CartBadgeService } from 'src/app/services/cart-badge.service';
+import { KagetService } from 'src/app/services/kaget.service';
 
 @Component({
   selector: 'app-produk-det',
@@ -30,10 +31,13 @@ export class ProdukDetPage implements OnInit {
     private auth: AuthenticationService,
     private api: ApiService,
     private navCtrl: NavController,
-    private cart_badge: CartBadgeService
+    private cart_badge: CartBadgeService,
+    private kaget: KagetService,
   ) { }
 
   ngOnInit() {
+    this.kaget.show_loading(1500);
+
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.loadProduk(this.id)
