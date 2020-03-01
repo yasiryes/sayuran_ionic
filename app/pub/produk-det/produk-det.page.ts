@@ -33,15 +33,17 @@ export class ProdukDetPage implements OnInit {
     private navCtrl: NavController,
     private cart_badge: CartBadgeService,
     private kaget: KagetService,
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.kaget.show_loading(1500);
 
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.loadProduk(this.id)
     this.load_cart();
+
+   }
+
+  ngOnInit() {
   }
 
   plus_qty(){
