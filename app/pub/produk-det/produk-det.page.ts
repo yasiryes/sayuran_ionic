@@ -95,19 +95,58 @@ export class ProdukDetPage implements OnInit {
   load_cart(){
     this.auth.getToken().then(
       (data_token) => {
-        this.api.doGet('cart/'+ data_token +'/?id=' + this.id).subscribe(
-          (data) => {
-            console.log('sukses load cart >');
-            console.log(data);
-            this.cart_data = data;
-            this.qty = this.cart_data['jumlah'] || 0;
+        this.auth.get_no_hp().then(
+          (resu_get_no_hp) => {
+            this.api.doGet('cart/'+ data_token +'/'+ resu_get_no_hp +'/?id=' + this.id).subscribe(
+              (resu_cart) => {
+                if (resu_cart['status'] == 1){
+                  this.cart_data = resu_cart['data'];
+                  this.qty = this.cart_data['jumlah'] || 0;
+                }else{
+                  this.kaget.show_ok_dialog(resu_cart['message'])
+
+                  this.auth.set_logged_out();
+                }
+              }
+            )
           }
         )
-
       }
     )
   }
   loadProduk(id){
+
+    this.auth.getToken().then(
+      (data_token) => {
+        this.auth.get_no_hp().then(
+          (resu_get_no_hp) => {
+            this.api.doGet('produk/one/?id=' + id + '&token=' + data_token + '&no_hp=' + resu_get_no_hp).subscribe(
+              (resu_get_produk) => {
+                if (resu_get_produk['status'] == 1) {
+                  var produk = resu_get_produk['data'];
+                  if (produk['keterangan'] == null){
+                    produk['keterangan'] = '-';
+                  }
+                  this.produkData = produk;
+                }else if (resu_get_produk['status'] == 0){
+                  this.kaget.show_ok_dialog(resu_get_produk['message'])
+
+                  this.auth.set_logged_out();
+                }else if (resu_get_produk['status'] == 2){
+                  this.kaget.show_ok_dialog(resu_get_produk['message'])
+
+                  this.navCtrl.back();
+                }
+              },
+              (err_get_produk) => {
+
+              }
+            )
+          }
+        )
+      }
+    )
+
     const headers = new HttpHeaders({
       'Content-type': 'application/json'
     });

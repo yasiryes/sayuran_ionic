@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { DrawerState, IonBottomDrawerModule } from 'ion-bottom-drawer';
 import { IonContent, NavController } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-kategori-det',
@@ -30,6 +31,7 @@ export class KategoriDetPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private api: ApiService,
+    private auth: AuthenticationService,
     public navCtrl: NavController,
   ) { }
 
@@ -51,11 +53,21 @@ export class KategoriDetPage implements OnInit {
     )
   }
   load_selected_produk(id){
-    this.api.doGet('produk/one/?id=' + id).subscribe(
-      (data) => {
-        this.selected_produk = data;
+    this.auth.getToken().then(
+      (resu_get_token) => {
+        console.log('this.load_selected_produk token >>');
+        console.log(resu_get_token);
+        this.auth.get_no_hp().then(
+          (resu_get_no_hp) => {
+            this.api.doGet('produk/one/?id=' + id + '&no_hp=' + resu_get_no_hp + '&token='+resu_get_token).subscribe(
+              (data) => {
+                this.selected_produk = data;
+              }
+            )
+          }
+        )
       }
-    )
+    );
   }
   load_kategori(){
     this.api.doGet('kategori_one/?id=' + this.id).subscribe(
