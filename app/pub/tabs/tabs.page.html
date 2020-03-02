@@ -1,31 +1,38 @@
 
 <ion-tabs (ionTabsDidChange)="changedTab()" #tabs>
+  <div *ngIf="false == true" class = "div_12" style="border: #f2f2f2; border-style: solid; border-width: 1px 0px 0px 0px;">
+    <ion-grid>
+      <ion-row class="ion-no-padding">
+        <ion-col size="4">
+          <ion-button (click)="show_pop()"> 
+            <ion-icon slot="icon-only" name="cart"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-no-padding" size="4">
+          00000
+        </ion-col>
+        <ion-col class="ion-no-padding" size="4">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
   <ion-tab-bar slot="bottom">
-
-    <ion-tab-button tab="dashboard">
+    <ion-tab-button size="small" tab="dashboard">
         <ion-icon color="new" name="home"></ion-icon>
-        <ion-label color="dark-grey">Beranda</ion-label>
     </ion-tab-button>
-
     <ion-tab-button tab="cart">
-      
       <ion-icon color="new" name="cart"></ion-icon>
-      <ion-label color="dark-grey">Keranjang</ion-label>
       <ion-badge *ngIf="cart_badge_val > 0" color="inviting-gold">{{cart_badge_val}}</ion-badge>
     </ion-tab-button>
 
     <ion-tab-button tab="account">
       <ion-icon color="new" name="md-person"></ion-icon>
-      <ion-label color="dark-grey">Akun</ion-label>
     </ion-tab-button>
-    <ion-icon name="document-text-outline"></ion-icon>
-    <ion-tab-button tab="">
-        <ion-icon color="new" name="md-search"></ion-icon>
-        <ion-label color="dark-grey">Cari</ion-label>
-      </ion-tab-button>
+    <ion-tab-button tab="order">
+        <ion-icon color="new" name="document"></ion-icon>
+    </ion-tab-button>
     <ion-tab-button tab="cari_produk">
         <ion-icon color="new" name="md-search"></ion-icon>
-        <ion-label color="dark-grey">Cari</ion-label>
       </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

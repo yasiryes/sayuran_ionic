@@ -8,8 +8,16 @@ const routes: Routes = [
     component: TabsPage,
     children:[
         {
-            path: 'dashboard',
-            loadChildren: '../dashboard/dashboard.module#DashboardPageModule'
+          path: 'pop-cart',
+          loadChildren: './pop-cart/pop-cart.module#PopCartPageModule'
+        },
+        { 
+          path: 'order', 
+          loadChildren: '../order/order.module#OrderPageModule' 
+        },
+        {
+          path: 'dashboard',
+          loadChildren: '../dashboard/dashboard.module#DashboardPageModule'
         },
         {
           path: 'account',
@@ -35,6 +43,7 @@ const routes: Routes = [
     redirectTo: '/pub/tabs/dashboard',
     pathMatch: 'full'
   }
+
 ];
 
 @NgModule({

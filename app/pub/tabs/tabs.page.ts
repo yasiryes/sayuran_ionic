@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonTabs, Events } from '@ionic/angular';
+import { IonTabs, Events, PopoverController } from '@ionic/angular';
 import {Platform} from '@ionic/angular';
 import { CartBadgeService } from 'src/app/services/cart-badge.service';
+import { PopCartPage } from './pop-cart/pop-cart.page';
+
 
 @Component({
   selector: 'app-tabs',
@@ -19,7 +21,8 @@ export class TabsPage implements OnInit {
   constructor(
     public event: Events, 
     public platform: Platform,
-    private cart_badge: CartBadgeService
+    private cart_badge: CartBadgeService,
+    public pop_controller: PopoverController,
     ) { 
     this.isShowSearch = true;
     this.cart_badge.cart_count.subscribe(
@@ -44,6 +47,17 @@ export class TabsPage implements OnInit {
     }
   }
   
+  async show_pop() {
+    const popover = await this.pop_controller.create(
+        {
+          animated: false,
+          component: PopCartPage,
+          showBackdrop: true
+        }
+      );
+    
+    return await popover.present();
+  }
   selectCariProdukTab(){
     console.log('called the focus search function >>');
     console.log(this.cariVal);

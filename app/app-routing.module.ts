@@ -37,14 +37,6 @@ const routes: Routes = [
     loadChildren: () => import('./pub/sms-verify/sms-verify.module').then( m => m.SmsVerifyPageModule)
   },
 
-
-  // { path: 'sidem-account', loadChildren: './pub/account/sidem-account/sidem-account.module#SidemAccountPageModule' },
-
-  // {
-  //   path: 'cari-produk',
-  //   loadChildren: () => import('./pub/cari-produk/cari-produk.module').then( m => m.CariProdukPageModule)
-  // }
-
 ];
 
 @NgModule({

@@ -15,6 +15,7 @@ import { IonBottomDrawerModule } from 'ion-bottom-drawer';
 import { CartAddPageModule } from './pub/cart-add/cart-add.module';
 import { SidemAccountPageModule } from './pub/account/sidem-account/sidem-account.module';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { PopCartPageModule } from './pub/tabs/pop-cart/pop-cart.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
               HttpClientModule,
               IonBottomDrawerModule,
               CartAddPageModule,
-              SidemAccountPageModule
+              SidemAccountPageModule,
+              PopCartPageModule
             ],
   providers: [
     StatusBar,

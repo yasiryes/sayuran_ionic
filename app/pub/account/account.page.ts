@@ -52,7 +52,6 @@ export class AccountPage implements OnInit {
     });
     
     return await popover.present();
-    
   }
   get_account(){
     this.authService.getToken().then(
