@@ -5,24 +5,22 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { OrderPage } from './order.page';
-import { OrderRoutingModule } from './order-routing.module';
+import { KirimPage } from './kirim.page';
 
-// const routes: Routes = [
-//   {
-//     path: '',
-//     component: OrderPage
-//   }
-// ];
+const routes: Routes = [
+  {
+    path: '',
+    component: KirimPage
+  }
+];
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    // RouterModule.forChild(routes),
-    OrderRoutingModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [OrderPage]
+  declarations: [KirimPage]
 })
-export class OrderPageModule {}
+export class KirimPageModule {}

@@ -18,7 +18,6 @@
     border-style: solid; 
     border-radius: 50%; 
     border-width: 0.8px 0.8px 0.8px 0.8px;
-    padding: 0px;
   }
 </style>
 <ion-content id="content">
@@ -85,8 +84,8 @@
                     <label style="display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{cart_data.harga_jual_th_produk}} &nbsp;</label>
                   </ion-col>
                   <ion-col size="2" class="ion-no-padding">
-                    <ion-button class="circle-button " (click)="set_qty(cart_data['produk_id'], 0)" size="small" color="pale-grey">
-                      <ion-icon size="small" slot="icon-only" name="close" ></ion-icon>
+                    <ion-button class="circle-button ion-no-padding" (click)="set_qty(cart_data['produk_id'], 0)" size="small" color="pale-grey">
+                      <ion-icon color="dark-grey" size="small" slot="icon-only" name="close" ></ion-icon>
                     </ion-button>
                   </ion-col>
                 </ion-row>
@@ -95,15 +94,15 @@
                 <ion-row>
                   <ion-col size="4" class="ion-no-padding" style="text-align: right;">
                     <ion-button class="circle-button ion-no-padding" (click)="plus_qty(cart_data)" size="small" color="pale-grey">
-                      <ion-icon size="small" slot="icon-only" name="add"></ion-icon>
+                      <ion-icon color="dark-grey" size="small" slot="icon-only" name="add"></ion-icon>
                     </ion-button>
                   </ion-col>
                   <ion-col size="4" class="ion-no-padding" style="text-align: center;">
                     <ion-input (ionChange)="change_qty($event, cart_data['produk_id'])" size="small" minValue="0" class="ion-no-padding" value="{{cart_data['jumlah']}}" inputmode="numeric" style="width: 100%; height: 100%;  padding-left: 0px; margin: 0px;"></ion-input>
                   </ion-col>
                   <ion-col size="4" class="ion-no-padding" style="text-align: left;">
-                    <ion-button *ngIf="cart_data['jumlah'] > 1" class="ion-no-padding circle-button" (click)="minus_qty(cart_data)" size="small" color="pale-grey">
-                      <ion-icon slot="icon-only" name="remove"></ion-icon>
+                    <ion-button *ngIf="cart_data['jumlah'] > 1" class="circle-button ion-no-padding" (click)="minus_qty(cart_data)" size="small" color="pale-grey">
+                      <ion-icon color="dark-grey" slot="icon-only" name="remove"></ion-icon>
                     </ion-button>
                   </ion-col>
                 </ion-row>
@@ -120,7 +119,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
 </ion-content>
 
 <ion-footer *ngIf="total > 0" style="text-align: center;"  no-border>

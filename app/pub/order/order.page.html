@@ -1,9 +1,13 @@
-<ion-header *ngIf="true == false">
-  <ion-toolbar>
-    <ion-title>order</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<ion-tabs>
+  <ion-tab-bar slot="top">
+    <ion-tab-button tab="pending">
+      <ion-label> Mengunggu Konfirmasi</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="proses">
+      <ion-label> Proses</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="kirim">
+      <ion-label> Kirim</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

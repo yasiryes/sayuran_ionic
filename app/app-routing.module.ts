@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'register', loadChildren: './acc/register/register.module#RegisterPageModule' },
 
   { path: 'pub', loadChildren: './pub/tabs/tabs.module#TabsPageModule' },
+  // { path: 'order', loadChildren: './pub/order/order.module#OrderPageModule' },
   { path: 'cart', loadChildren: './pub/cart/cart.module#CartPageModule' },
   { 
     path: 'produk-det/:id', 
@@ -36,6 +37,7 @@ const routes: Routes = [
     path: 'sms-verify/:no_hp',
     loadChildren: () => import('./pub/sms-verify/sms-verify.module').then( m => m.SmsVerifyPageModule)
   },
+
 
 ];
 

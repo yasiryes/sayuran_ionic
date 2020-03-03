@@ -5,24 +5,22 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { OrderPage } from './order.page';
-import { OrderRoutingModule } from './order-routing.module';
+import { PendingPage } from './pending.page';
 
-// const routes: Routes = [
-//   {
-//     path: '',
-//     component: OrderPage
-//   }
-// ];
+const routes: Routes = [
+  {
+    path: '',
+    component: PendingPage
+  }
+];
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    // RouterModule.forChild(routes),
-    OrderRoutingModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [OrderPage]
+  declarations: [PendingPage]
 })
-export class OrderPageModule {}
+export class PendingPageModule {}
