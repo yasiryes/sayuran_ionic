@@ -6,22 +6,31 @@ import {OrderPage}  from './order.page';
 // { path: 'kirim', loadChildren: './kirim/kirim.module#KirimPageModule' },
 const routes: Routes = [
   {
-    path: 'orders',
+    path: '',
     component: OrderPage,
     children:[
-        { path: 'pending', loadChildren: './pending/pending.module#PendingPageModule' },
-        { path: 'proses', loadChildren: './proses/proses.module#ProsesPageModule' },
-        { path: 'kirim', loadChildren: './kirim/kirim.module#KirimPageModule' },
+        { 
+          path: 'pending', 
+          loadChildren: './pending/pending.module#PendingPageModule' 
+        },
+        { 
+          path: 'proses', 
+          loadChildren: './proses/proses.module#ProsesPageModule',
+        },
+        { 
+          path: 'kirim', 
+          loadChildren: './kirim/kirim.module#KirimPageModule' 
+        },
         {
           path: '',
-          redirectTo: '/pub/tabs/order/orders/pending',
+          redirectTo: '/pub/tabs/order/pending',
           pathMatch: 'full'
         }
       ]
   },
   {
     path: '',
-    redirectTo: '/pub/tabs/order/orders/pending',
+    redirectTo: '/pub/tabs/order/pending',
     pathMatch: 'full'
   }
 

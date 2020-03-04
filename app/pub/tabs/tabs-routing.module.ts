@@ -15,6 +15,23 @@ const routes: Routes = [
           path: 'order', 
           loadChildren: '../order/order.module#OrderPageModule' 
         },
+
+        { 
+          path: 'pending', 
+          redirectTo: '/pub/tabs/order/pending',
+          pathMatch: 'full'
+        },
+        { 
+          path: 'proses', 
+          redirectTo: '/pub/tabs/order/proses',
+          pathMatch: 'full'
+        },
+        { 
+          path: 'kirim', 
+          redirectTo: '/pub/tabs/order/kirim',
+          pathMatch: 'full'
+        },
+
         {
           path: 'dashboard',
           loadChildren: '../dashboard/dashboard.module#DashboardPageModule'
