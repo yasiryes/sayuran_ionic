@@ -22,7 +22,24 @@
 
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-input (ionChange)="inspect_alamat($event.target.value)">
+
+        </ion-input>
+        <button id="btn_load_map" onClick="loadMap()" type="button">Load Map</button>
+        <div id="map" style="width: 100%; height: auto; min-height: 300px;">
+
+        </div>
+      </ion-col>
+    </ion-row>
   </ion-grid>
+  <script>
+    
+    // loadMap();
+    // initMap();
+  </script>
 </ion-content>
+
 
 

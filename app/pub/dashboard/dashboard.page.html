@@ -62,7 +62,7 @@
                   <label>&nbsp;</label>
                 </ion-col>
                 <ion-col size="12">
-                  <label (click)="gotoKategori(katitem['id'])" style="color: olivedrab; font-size: 0.9em;">Selengkapnya ></label>
+                  <label (click)="gotoKategori(katitem['id'])" class="label_link_green">Selengkapnya ></label>
                 </ion-col>
               </ion-row>
             </ion-col>
@@ -75,7 +75,7 @@
               <label style="padding-left: 4px; margin-bottom: 6px; text-overflow: ellipsis; font-weight: bold; white-space: nowrap; color: darkslategray;">{{itemp.nama}}</label>
               <label style="padding-left: 4px; margin-bottom: 6px; font-size: 0.7em; display: block; font-weight: normal; color: rgb(129, 129, 129);">{{itemp.keterangan}}</label>
               <div style="padding-left: 4px; display: block;">
-                <label style="font-size: 0.8em; font-weight: bolder; color: indianred; display: inline-block;">Rp. {{itemp.harga_jual_th}} &nbsp;</label>
+                <label class="label_money_red" style="display: inline-block;">Rp. {{itemp.harga_jual_th}} &nbsp;</label>
                 <label *ngIf="itemp.satuan_nama" style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{itemp.satuan_nama}}</label>
               </div>
               <div style="margin-top: 6px; padding-left: 4px; padding-right: 4px; text-align: left;">

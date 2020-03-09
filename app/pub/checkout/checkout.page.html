@@ -1,0 +1,119 @@
+
+<style>
+  .div_caption{
+    margin-left: 4px;
+    margin-right: 4px;
+    padding: 4px;
+    border-bottom: 0.7px solid lightgrey;
+  }
+  .div_strip_produk{
+    min-height: auto;
+    border-bottom: 0.4px solid rgb(236, 236, 236);
+  }
+  .div_total{
+    border-top: 0.4px dashed lightgrey;
+    border-bottom: 0.4px dashed lightgrey;
+    height: 100%;
+  }
+  .label_nama_produk{
+    display: block;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: darkslategray;
+  }
+  .label_summary{
+    font-size: 0.6em;
+    color: rgb(182, 182, 182);
+  }
+</style>
+<ion-header no-border>
+  <ion-toolbar color="new">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Checkout Order</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="div_12 div_strip_produk" *ngFor="let cart_data of cart_datas">
+    <ion-grid>
+      <ion-row class="ion-no-padding">
+        <!-- 'id', 
+        'jumlah', 
+        'produk_id', 
+        'users_id', 
+        'nama_produk', 
+        'kategori_nama_produk', 
+        'harga_jual_produk', 
+        'gambar_produk', 
+        'gambar_url_produk', 
+        'harga_jual_th_produk', 
+        'keterangan_produk', 'stok_produk', 'satuan_nama_produk' -->
+
+        <ion-col class="ion-no-padding" size="2">
+          <div class="div_12">
+            <img style="height: auto; width: 100%;" src="{{cart_data.gambar_url_produk}}"/>
+          </div>
+        </ion-col>
+        <ion-col class="ion-no-padding" size="4" style="padding-left: 4px;">
+          <label class="label_nama_produk">{{cart_data.nama_produk}}</label>
+          <label class="label_money_red">@{{cart_data.harga_jual_produk | number:0}}</label>
+        </ion-col>
+        <ion-col class="ion-no-padding" style="text-align: right;" size="3">
+          <label style="font-size: 0.8em;">x{{cart_data.jumlah}} {{cart_data.satuan_nama_produk}}</label>
+        </ion-col>
+        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+          <label class="label_money_green">Rp. {{cart_data.harga_jual_produk * cart_data.jumlah | number:0}}</label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid>
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding" size="6" style="padding-left: 4px;">
+        </ion-col>
+        <ion-col class="ion-no-padding" style="text-align: right;" size="3">
+          <label class="label_summary">Sub Total :</label>
+        </ion-col>
+        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12 div_caption">
+    <label>Alamat Lengkap Pengiriman</label>
+  </div>
+  <div class="div_12 div_caption">
+    <label>Pembayaran</label>
+  </div>
+  <div class="div_12">
+    <ion-grid>
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding" size="6" style="padding-left: 4px;">
+        </ion-col>
+        <ion-col class="ion-no-padding" style="text-align: right;" size="3">
+          <label class="label_summary">Ongkir :</label>
+        </ion-col>
+        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid>
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding" size="6" style="padding-left: 4px;">
+        </ion-col>
+        <ion-col class="ion-no-padding" style="text-align: right;" size="3">
+          <label class="label_summary">Total :</label>
+        </ion-col>
+        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+          <div class="div_12 div_total">
+
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

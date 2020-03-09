@@ -39,6 +39,7 @@ export class AccountPage implements OnInit {
     private kaget: KagetService
   ) { 
     this.isRegisterClicked = false;
+    // loadMap();
   }
 
   ngOnInit() {
@@ -53,6 +54,23 @@ export class AccountPage implements OnInit {
     
     return await popover.present();
   }
+
+  inspect_alamat(alamat_str){
+    setTimeout(() => {
+      const url_api = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ alamat_str +'&key=' + this.env.GOOGLE_MAPS_KEY;
+      this.api.doGetRaw(url_api).subscribe(
+        (resu_koor) =>{
+          console.log('hasil api google address >>');
+          console.log(resu_koor);
+        },
+        (err_koor) => {
+          console.log('error getting api >>');
+          console.log(err_koor);
+        }
+      )
+    }, 1500);
+  }
+
   get_account(){
     this.authService.getToken().then(
       (resu_get_token) => {

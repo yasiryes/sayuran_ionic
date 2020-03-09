@@ -36,7 +36,8 @@ const routes: Routes = [
   {
     path: 'sms-verify/:no_hp',
     loadChildren: () => import('./pub/sms-verify/sms-verify.module').then( m => m.SmsVerifyPageModule)
-  },
+  },  { path: 'checkout', loadChildren: './pub/checkout/checkout.module#CheckoutPageModule' },
+
 
 
 ];

@@ -128,6 +128,10 @@ export class CartPage implements OnInit {
     )
   }
 
+  goto_checkout(){
+    this.navCtrl.navigateForward('checkout');
+  }
+
   load_cart(){
     this.auth.getToken().then(
       (resu_get_token) => {

@@ -25,5 +25,8 @@ export class ApiService {
   doPost(url: string, post_data: {}){
     return this.http.post(this.env.API_URL + url, post_data, this.httpOptions).pipe()
   }
+  doGetRaw(url: string): Observable<Object>{
+    return this.http.get(url).pipe()
+  }
 
 }
