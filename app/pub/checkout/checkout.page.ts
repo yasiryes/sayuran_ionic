@@ -60,7 +60,6 @@ export class CheckoutPage implements OnInit {
   }
   inspect_alamat(alamat_str){
     setTimeout(() => {
-      if (this.hit_inspect == 1){
         const url_api = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ alamat_str +'&key=' + this.env.GOOGLE_MAPS_KEY;
         this.api.doGetRaw(url_api).subscribe(
           (resu_koor) =>{
@@ -74,8 +73,6 @@ export class CheckoutPage implements OnInit {
             console.log(err_koor);
           }
         )
-
-      }
     }, 3000);
   }
   load_users(){

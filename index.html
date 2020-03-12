@@ -26,6 +26,8 @@
 <script>
   function loadMap() {
     let latLng = new google.maps.LatLng('-6.3105296', '106.8771704');
+    let lat = document.getElementById('lat_id');
+    let lng = document.getElementById('lng_id');
     let map_div = document.getElementById('map');
     if (map_div){
       this.map = new google.maps.Map(map_div, {
