@@ -34,7 +34,7 @@ export class ProdukDetPage implements OnInit {
     private cart_badge: CartBadgeService,
     private kaget: KagetService,
   ) {
-    this.kaget.show_loading(1500);
+    this.kaget.show_loading(200);
 
     this.id = this.route.snapshot.paramMap.get('id');
 

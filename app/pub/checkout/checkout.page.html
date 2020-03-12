@@ -10,6 +10,10 @@
     min-height: auto;
     border-bottom: 0.4px solid rgb(236, 236, 236);
   }
+  .div_background_summary{
+    background: rgb(155,213,165);
+    background: linear-gradient(90deg, rgba(155,213,165,0) 0%, rgba(155,213,165,0.16290266106442575) 35%, rgba(180,237,190,1) 100%);
+  }
   .div_total{
     border-top: 0.4px dashed lightgrey;
     border-bottom: 0.4px dashed lightgrey;
@@ -22,8 +26,26 @@
     color: darkslategray;
   }
   .label_summary{
-    font-size: 0.6em;
-    color: rgb(182, 182, 182);
+    font-size: 0.8em;
+    color: darkslategray;
+    display: block;
+  }
+  .text_alamat{
+    font-size: 0.8em;
+    padding: 10px;
+
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    border-radius: 4px;
+    background-color: #fff9f3;
+    width: auto;
+  }
+  .row_alamat{
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
 </style>
 <ion-header no-border>
@@ -57,24 +79,24 @@
         </ion-col>
         <ion-col class="ion-no-padding" size="4" style="padding-left: 4px;">
           <label class="label_nama_produk">{{cart_data.nama_produk}}</label>
-          <label class="label_money_red">@{{cart_data.harga_jual_produk | number:0}}</label>
+          <label class="label_money_red">@ Rp.{{cart_data.harga_jual_produk | number:0}}</label>
         </ion-col>
         <ion-col class="ion-no-padding" style="text-align: right;" size="3">
           <label style="font-size: 0.8em;">x{{cart_data.jumlah}} {{cart_data.satuan_nama_produk}}</label>
         </ion-col>
         <ion-col style="text-align: right;" class="ion-no-padding" size="3">
-          <label class="label_money_green">Rp. {{cart_data.harga_jual_produk * cart_data.jumlah | number:0}}</label>
+          <label style="font-size: 0.8em;">Rp. {{cart_data.harga_jual_produk * cart_data.jumlah | number:0}}</label>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
   <div class="div_12">
     <ion-grid>
-      <ion-row class="ion-no-padding">
+      <ion-row class="ion-no-padding div_background_summary" style="vertical-align: middle;">
         <ion-col class="ion-no-padding" size="6" style="padding-left: 4px;">
         </ion-col>
         <ion-col class="ion-no-padding" style="text-align: right;" size="3">
-          <label class="label_summary">Sub Total :</label>
+          <label class="label_summary ">Sub Total :</label>
         </ion-col>
         <ion-col style="text-align: right;" class="ion-no-padding" size="3">
         </ion-col>
@@ -82,38 +104,92 @@
     </ion-grid>
   </div>
   <div class="div_12 div_caption">
-    <label>Alamat Lengkap Pengiriman</label>
+    <label>Pengiriman</label>
+  </div>
+  <div class="div_12">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-no-padding row_alamat">
+        <ion-col class="ion-no-padding" size="6">
+          <label class="label_summary" style="margin-left: 6px;">Atas nama :</label>
+        </ion-col>
+        <ion-col class="ion-no-padding" size="6">
+          <ion-input style="text-align: center;" placeholder="nama penerima" class="text_alamat"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding row_alamat">
+        <ion-col class="ion-no-padding" size="6">
+          <label class="label_summary" style="margin-left: 6px;">No. Handphone :</label>
+        </ion-col>
+        <ion-col class="ion-no-padding" size="6">
+          <ion-input style="text-align: center;" class="text_alamat" placeholder="08xxxxxxxxxx"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding row_alamat">
+        <ion-col size="12">
+          <label class="label_summary">Alamat Lengkap :</label>
+        </ion-col>
+        <ion-col size="12" class="ion-no-padding">
+          <ion-textarea (ionChange)="inspect_alamat($event.target.value)" class="text_alamat ion-no-padding" placeholder="Jl. Cokrobaskoro 3, no.100, Tipes, Serengan, Surakarta"></ion-textarea>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding row_alamat">
+        <ion-col size="12">
+          <label class="label_summary">Deteksi lokasi kirim :</label>
+        </ion-col>
+        <ion-col size="12" class="ion-no-padding">
+          <ion-textarea readonly class="text_alamat ion-no-padding" style="background-color: #eed8c1;"></ion-textarea>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding row_alamat">
+        <ion-col size="12">
+          <label class="label_summary">Keterangan detail alamat :</label>
+        </ion-col>
+        <ion-col size="12" class="ion-no-padding">
+          <ion-textarea class="text_alamat ion-no-padding" placeholder="Warna pagar ungu, di depan Kantor Pos"></ion-textarea>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid>
+      <ion-row class="ion-no-padding div_background_summary" style="vertical-align: middle;">
+        <ion-col class="ion-no-padding" size="1" style="padding-left: 4px;">
+        </ion-col>
+        <ion-col class="ion-no-padding" style="text-align: right;" size="8">
+          <label class="label_summary ">Estimasi jarak pengiriman :</label>
+        </ion-col>
+        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid>
+      <ion-row class="ion-no-padding div_background_summary" style="vertical-align: middle;">
+        <ion-col class="ion-no-padding" size="4" style="padding-left: 4px;">
+        </ion-col>
+        <ion-col class="ion-no-padding" style="text-align: right;" size="5">
+          <label class="label_summary ">Ongkir :</label>
+        </ion-col>
+        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid>
+      <ion-row class="ion-no-padding div_background_summary" style="vertical-align: middle;">
+        <ion-col class="ion-no-padding" size="4" style="padding-left: 4px;">
+        </ion-col>
+        <ion-col class="ion-no-padding" style="text-align: right;" size="5">
+          <label class="label_summary ">Total :</label>
+        </ion-col>
+        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
   <div class="div_12 div_caption">
     <label>Pembayaran</label>
-  </div>
-  <div class="div_12">
-    <ion-grid>
-      <ion-row class="ion-no-padding">
-        <ion-col class="ion-no-padding" size="6" style="padding-left: 4px;">
-        </ion-col>
-        <ion-col class="ion-no-padding" style="text-align: right;" size="3">
-          <label class="label_summary">Ongkir :</label>
-        </ion-col>
-        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-  <div class="div_12">
-    <ion-grid>
-      <ion-row class="ion-no-padding">
-        <ion-col class="ion-no-padding" size="6" style="padding-left: 4px;">
-        </ion-col>
-        <ion-col class="ion-no-padding" style="text-align: right;" size="3">
-          <label class="label_summary">Total :</label>
-        </ion-col>
-        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
-          <div class="div_12 div_total">
-
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
   </div>
 </ion-content>

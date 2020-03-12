@@ -55,7 +55,7 @@
           Hapus dari keranjang
         </ion-button>
         <ion-button *ngIf="(cart_data['jumlah'] == null && qty > 0) || (cart_data['jumlah'] != null && qty > 0)" (click)="click_insert_cart()" color="new" style="text-transform:none">
-          Tambahkan ke keranjang - Rp.{{((qty * produkData['harga_jual']) || 0 | number: '2.':'':'id').replace(',', '.') }}
+          Tambahkan ke keranjang - Rp.{{(qty * produkData['harga_jual']) | number:0 }}
         </ion-button>
       </ion-col>
     </ion-row>

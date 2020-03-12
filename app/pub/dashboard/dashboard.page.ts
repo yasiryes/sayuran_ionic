@@ -42,7 +42,7 @@ export class DashboardPage implements OnInit {
     public modalController: ModalController,
     private kaget: KagetService
   ) {
-    kaget.show_loading(2000);
+    kaget.show_loading(200);
 
     event.subscribe('produk:kat_select', (kat_s) => {
       this.kat_select = kat_s.toString();

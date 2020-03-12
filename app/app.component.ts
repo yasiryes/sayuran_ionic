@@ -56,8 +56,9 @@ export class AppComponent {
             this.navCtrl.navigateRoot('login');
 
           }else{
+            this.navCtrl.navigateRoot('pub/tabs/dashboard');
             // this.navCtrl.navigateRoot('pub/tabs/cart');
-            this.navCtrl.navigateRoot('checkout');
+            // this.navCtrl.navigateRoot('checkout');
             // http://localhost:8100/pub/tabs/order/pending
           }
         }

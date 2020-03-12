@@ -68,7 +68,7 @@ export class AccountPage implements OnInit {
           console.log(err_koor);
         }
       )
-    }, 1500);
+    }, 3000);
   }
 
   get_account(){
@@ -76,9 +76,6 @@ export class AccountPage implements OnInit {
       (resu_get_token) => {
         this.authService.get_no_hp().then(
           (resu_get_no_hp) => {
-            console.log('get_account >>')
-            console.log(resu_get_token);
-            console.log(resu_get_no_hp);
             const acc_token_data = {
               token: resu_get_token,
               no_hp: resu_get_no_hp

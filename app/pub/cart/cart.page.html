@@ -12,8 +12,8 @@
 
 <style>
   .circle-button{
-    width: 30px; 
-    height:30px; 
+    width: 20px; 
+    height:20px; 
     border: #f2f2f2; 
     border-style: solid; 
     border-radius: 50%; 
@@ -81,7 +81,7 @@
                     <label style="font-size: 0.8em; height: 100%; font-weight: bolder; color: rgb(14, 23, 32);">{{cart_data.nama_produk}}</label>
                   </ion-col>
                   <ion-col size="5" style="text-align: right;" class="ion-no-padding">
-                    <label style="display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{cart_data.harga_jual_th_produk}} &nbsp;</label>
+                    <label style="display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{cart_data.harga_jual_th_produk}}</label>
                   </ion-col>
                   <ion-col size="2" class="ion-no-padding">
                     <ion-button class="circle-button ion-no-padding" (click)="set_qty(cart_data['produk_id'], 0)" size="small" color="pale-grey">
