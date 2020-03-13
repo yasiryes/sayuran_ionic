@@ -6,6 +6,15 @@ import { KagetService } from 'src/app/services/kaget.service';
 import { NavController } from '@ionic/angular';
 import { EnvService } from 'src/app/services/env.service';
 
+import 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+import { Subject } from 'rxjs/internal/Subject';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
+
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.page.html',
@@ -15,6 +24,7 @@ export class CheckoutPage implements OnInit {
   cart_datas: any;
   users_data: any;
   hit_inspect: number = 0;
+  term$ = new Subject<string>();
 
   constructor(
     private api: ApiService,
@@ -24,7 +34,11 @@ export class CheckoutPage implements OnInit {
     public navCtrl: NavController,
     private env: EnvService
   ) { 
-    this.load_cart();
+    this.term$.pipe(debounceTime(2000), distinctUntilChanged(), switchMap((term) => {
+      console.log('delayed execute here >>');
+      console.log(term);
+      return EMPTY
+    })).subscribe();
   }
 
   ngOnInit() {
