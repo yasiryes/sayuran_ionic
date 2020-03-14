@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartBadgeService } from 'src/app/services/cart-badge.service';
@@ -14,6 +14,11 @@ import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions} from '@ionic-native/native-geocoder/ngx';
+// NativeGeocoderReverseResult, 
+
+declare var google;
 
 @Component({
   selector: 'app-checkout',
@@ -26,7 +31,14 @@ export class CheckoutPage implements OnInit {
   hit_inspect: number = 0;
   term$ = new Subject<string>();
 
+  @ViewChild('map', {static: true}) map_element: ElementRef;
+  map: any;
+
+  address: string;
+
   constructor(
+    private geolocation: Geolocation,
+    private nativeGeocoder: NativeGeocoder,
     private api: ApiService,
     private auth: AuthenticationService,
     private cart_badge: CartBadgeService,
@@ -39,9 +51,65 @@ export class CheckoutPage implements OnInit {
       console.log(term);
       return EMPTY
     })).subscribe();
+
+    this.loadMap();
   }
 
   ngOnInit() {
+  }
+  getAddressFromCoords(lattitude, longitude) {
+    console.log("getAddressFromCoords "+lattitude+" "+longitude);
+    let options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+    };
+ 
+    this.nativeGeocoder.reverseGeocode(lattitude, longitude, options)
+      .then((result: NativeGeocoderResult[]) => {
+        this.address = "";
+        let responseAddress = [];
+        for (let [key, value] of Object.entries(result[0])) {
+          if(value.length>0)
+          responseAddress.push(value);
+ 
+        }
+        responseAddress.reverse();
+        for (let value of responseAddress) {
+          this.address += value+", ";
+        }
+        this.address = this.address.slice(0, -2);
+      })
+      .catch((error: any) =>{
+        this.address = "Address Not Available!";
+      });
+ 
+  }
+
+  load_map(lat, lng){
+
+  }
+
+  loadMap() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+      let mapOptions = {
+        center: latLng,
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+ 
+      this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
+ 
+      this.map = new google.maps.Map(this.map_element.nativeElement, mapOptions);
+ 
+      this.map.addListener('tilesloaded', () => {
+        console.log('accuracy',this.map);
+        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
+      });
+ 
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
   }
 
   load_cart(){
