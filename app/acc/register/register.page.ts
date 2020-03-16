@@ -1,11 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { from } from 'rxjs';
+import { from, Subject, EMPTY } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { EnvService } from 'src/app/services/env.service';
-import { NavController } from '@ionic/angular';
+import { NavController, IonTextarea, IonInput } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions} from '@ionic-native/native-geocoder/ngx';
+import { Platform } from '@ionic/angular';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+declare var google;
 
 @Component({
   selector: 'app-register',
@@ -27,17 +33,168 @@ export class RegisterPage implements OnInit {
 
   disable_register = false;
 
+
+  @ViewChild('map', {static: true}) map_element: ElementRef;
+  @ViewChild('alamat', {static: true}) alamat: IonTextarea;
+
+  map: any;
+  term$ = new Subject<string>();
+
+  address: string;
+
+  fwd_lat: any;
+  fwd_lng: any;
+
   constructor(
     private api: ApiService,
     private env: EnvService,
     private navCtrl: NavController,
     private alertService: AlertService, 
-    private androidPermissions: AndroidPermissions
+    private androidPermissions: AndroidPermissions,
+    private geolocation: Geolocation,
+    private nativeGeocoder: NativeGeocoder,
+    private platform: Platform,
+    public zone: NgZone,
   ) {
+    this.init_map();
 
+    this.term$.pipe(debounceTime(2000), distinctUntilChanged(), switchMap((term) => {
+      console.log('delayed execute here >>');
+      console.log(term);
+      
+      this.locate_raw_address(term);
+      // this.load_map(true);
+      return EMPTY
+    })).subscribe();
    }
 
   ngOnInit() {
+  }
+  load_address(lattitude, longitude) {
+    console.log("getAddressFromCoords "+lattitude+" "+longitude);
+    let options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+    };
+ 
+    this.nativeGeocoder.reverseGeocode(lattitude, longitude, options)
+      .then((result: NativeGeocoderResult[]) => {
+        this.address = "";
+        let responseAddress = [];
+        for (let [key, value] of Object.entries(result[0])) {
+          if(value.length>0)
+          responseAddress.push(value);
+ 
+        }
+        responseAddress.reverse();
+        for (let value of responseAddress) {
+          this.address += value+", ";
+        }
+        this.address = this.address.slice(0, -2);
+        if (this.alamat.value == '') {
+          this.alamat.value = this.address;
+        }
+      })
+      .catch((error: any) =>{
+        this.address = "Address Not Available!";
+      });
+ 
+  }
+
+  load_map(lat, lng){
+    this.fwd_lat = lat;
+    this.fwd_lng = lng;
+
+    this.load_address(lat, lng);
+
+    let latLng = new google.maps.LatLng(lat, lng);
+    let mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    this.map = new google.maps.Map(this.map_element.nativeElement, mapOptions);    
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: this.map,
+      title: 'Hello World!'
+    });
+
+    this.map.addListener('click', (res) => {
+      console.log('click >>');
+      this.fwd_lat = res.latLng.lat();
+      this.fwd_lng = res.latLng.lng();
+
+      marker.setPosition(res.latLng);
+
+      this.load_address(res.latLng.lat(), res.latLng.lng());
+    });
+
+    this.map.addListener('tilesloaded', () => {
+      console.log('accuracy',this.map);
+      // this.load_address(this.map.center.lat(), this.map.center.lng());
+    });
+  }
+  
+  init_map() {
+    console.log('masuk loadMap >>');
+    this.geolocation.getCurrentPosition().then(
+      (resp) => {
+        console.log(resp);
+        console.log('latitude >>');
+        console.log(resp.coords.latitude);
+        console.log('longitude >>');
+        console.log(resp.coords.longitude);
+
+        this.load_map(resp.coords.latitude, resp.coords.longitude);
+      },
+      (err) =>{
+      console.log('get current location error >>');
+      console.log(err);
+      }
+    ).catch((error) => {
+      console.log('Error getting location', error);
+    });
+  }
+  locate_raw_address(address) {
+    if (address.length < 5){
+      return
+    }
+    console.log('forwarding geocode >>');
+    console.log(address);
+    if (this.platform.is('cordova')) {
+      let options: NativeGeocoderOptions = {
+        useLocale: true,
+        maxResults: 5
+      };
+      this.nativeGeocoder.forwardGeocode(address, options)
+        .then((result: NativeGeocoderResult[]) => {
+          if (result == []){
+            return;
+          }
+          console.log(result);
+          this.zone.run(() => {
+            this.load_map(result[0].latitude, result[0].longitude);
+          })
+        })
+        .catch((error: any) => console.log(error));
+    } else {
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ 'address': address }, (results, status) => {
+        if (results.length == 0){
+          return;
+        }
+        console.log('bawah');
+        console.log(results.length);
+        if (status == google.maps.GeocoderStatus.OK) {
+          this.zone.run(() => {
+            this.load_map(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+          })
+        } else {
+          alert('Error - ' + results + ' & Status - ' + status)
+        }
+      });
+    }
   }
 
   validateForm(form: NgForm){
@@ -96,7 +253,11 @@ export class RegisterPage implements OnInit {
       const register_data = {
         username: form.value.username,
         fullname: form.value.fullname,
-        password: form.value.pin
+        password: form.value.pin,
+        alamat: form.value.alamat,
+        alamat_info: form.value.alamat_info,
+        lat: this.fwd_lat,
+        lng: this.fwd_lng,
       }
       this.api.doPost('users/register/', register_data).subscribe(
         (res) => {

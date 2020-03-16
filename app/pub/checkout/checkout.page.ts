@@ -1,9 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartBadgeService } from 'src/app/services/cart-badge.service';
 import { KagetService } from 'src/app/services/kaget.service';
-import { NavController } from '@ionic/angular';
+import { NavController, IonTextarea } from '@ionic/angular';
 import { EnvService } from 'src/app/services/env.service';
 
 import 'rxjs/Subject';
@@ -16,6 +16,8 @@ import { EMPTY } from 'rxjs';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions} from '@ionic-native/native-geocoder/ngx';
+import { Platform } from '@ionic/angular';
+import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 // NativeGeocoderReverseResult, 
 
 declare var google;
@@ -27,14 +29,22 @@ declare var google;
 })
 export class CheckoutPage implements OnInit {
   cart_datas: any;
-  users_data: any;
+  users_data = {};
+
   hit_inspect: number = 0;
   term$ = new Subject<string>();
 
   @ViewChild('map', {static: true}) map_element: ElementRef;
+  @ViewChild('alamat', {static: true}) alamat: IonTextarea;
+
   map: any;
 
   address: string;
+
+  fwd_lat: any;
+  fwd_lng: any;
+
+  subtotal_sum: number;
 
   constructor(
     private geolocation: Geolocation,
@@ -44,20 +54,32 @@ export class CheckoutPage implements OnInit {
     private cart_badge: CartBadgeService,
     private kaget: KagetService,
     public navCtrl: NavController,
-    private env: EnvService
+    private env: EnvService,
+    private platform: Platform,
+    public zone: NgZone,
+    
   ) { 
     this.term$.pipe(debounceTime(2000), distinctUntilChanged(), switchMap((term) => {
       console.log('delayed execute here >>');
       console.log(term);
+
+      this.locate_raw_address(term);
+      // this.load_map(true);
       return EMPTY
     })).subscribe();
 
-    this.loadMap();
+
+    this.subtotal_sum = 0;
+
+    this.load_cart();
+    this.load_users();
+
+    // this.init_map();
   }
 
   ngOnInit() {
   }
-  getAddressFromCoords(lattitude, longitude) {
+  load_address(lattitude, longitude) {
     console.log("getAddressFromCoords "+lattitude+" "+longitude);
     let options: NativeGeocoderOptions = {
       useLocale: true,
@@ -78,38 +100,111 @@ export class CheckoutPage implements OnInit {
           this.address += value+", ";
         }
         this.address = this.address.slice(0, -2);
+        if (this.alamat.value == '') {
+          this.alamat.value = this.address;
+        }
       })
       .catch((error: any) =>{
         this.address = "Address Not Available!";
+        console.log(error);
       });
  
   }
 
   load_map(lat, lng){
+    this.load_address(lat, lng);
 
-  }
-
-  loadMap() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-      let mapOptions = {
-        center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
- 
-      this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
- 
-      this.map = new google.maps.Map(this.map_element.nativeElement, mapOptions);
- 
-      this.map.addListener('tilesloaded', () => {
-        console.log('accuracy',this.map);
-        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
-      });
- 
-    }).catch((error) => {
-      console.log('Error getting location', error);
+    let latLng = new google.maps.LatLng(lat, lng);
+    let mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    this.map = new google.maps.Map(this.map_element.nativeElement, mapOptions);    
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: this.map,
+      title: 'Hello World!'
     });
+
+    this.map.addListener('click', (res) => {
+      console.log('click >>');
+
+      marker.setPosition(res.latLng);
+
+      this.load_address(res.latLng.lat(), res.latLng.lng());
+    });
+
+    this.map.addListener('tilesloaded', () => {
+      console.log('accuracy',this.map);
+      // this.load_address(this.map.center.lat(), this.map.center.lng());
+    });
+  }
+  
+  init_map() {
+    console.log('masuk loadMap >>');
+    if (this.users_data['lat'] !== undefined){
+      console.log('geometry exist >>');
+      this.load_map(this.users_data['lat'], this.users_data['lng']);
+    }else{
+      this.geolocation.getCurrentPosition().then(
+        (resp) => {
+          console.log(resp);
+          console.log('latitude >>');
+          console.log(resp.coords.latitude);
+          console.log('longitude >>');
+          console.log(resp.coords.longitude);
+  
+          this.load_map(resp.coords.latitude, resp.coords.longitude);
+        },
+        (err) =>{
+        console.log('get current location error >>');
+        console.log(err);
+        }
+      ).catch((error) => {
+        console.log('Error getting location', error);
+      });
+    }
+  }
+  locate_raw_address(address) {
+    if (address.length < 5){
+      return
+    }
+    console.log('forwarding geocode >>');
+    console.log(address);
+    if (this.platform.is('cordova')) {
+      let options: NativeGeocoderOptions = {
+        useLocale: true,
+        maxResults: 5
+      };
+      this.nativeGeocoder.forwardGeocode(address, options)
+        .then((result: NativeGeocoderResult[]) => {
+          if (result == []){
+            return;
+          }
+          console.log(result);
+          this.zone.run(() => {
+            this.load_map(result[0].latitude, result[0].longitude);
+          })
+        })
+        .catch((error: any) => console.log(error));
+    } else {
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ 'address': address }, (results, status) => {
+        if (results.length == 0){
+          return;
+        }
+        console.log('bawah');
+        console.log(results.length);
+        if (status == google.maps.GeocoderStatus.OK) {
+          this.zone.run(() => {
+            this.load_map(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+          })
+        } else {
+          alert('Error - ' + results + ' & Status - ' + status)
+        }
+      });
+    }
   }
 
   load_cart(){
@@ -121,9 +216,12 @@ export class CheckoutPage implements OnInit {
               (resu_cart) => {
                 if (resu_cart['status'] == 1){
                   this.cart_datas = resu_cart['data'];
+                  console.log('isi cart_data >>');
+                  console.log(this.cart_datas);
                   this.cart_datas.forEach(element => {
                     console.log(element);
                     element['subtotal'] =  (element['harga_jual_produk'] * element['jumlah']);
+                    this.subtotal_sum = this.subtotal_sum + element['subtotal'];
                   });
                 }else {
                   this.kaget.show_ok_dialog(resu_cart['message']);
@@ -158,6 +256,7 @@ export class CheckoutPage implements OnInit {
     }, 3000);
   }
   load_users(){
+    console.log('masuk load_users >>');
     this.auth.getToken().then(
       (resu_get_token) => {
         this.auth.get_no_hp().then(
@@ -168,8 +267,11 @@ export class CheckoutPage implements OnInit {
             }
             this.api.doPost('users/acc_token/', acc_token_data).subscribe(
               (resu_acc_token) => {
+                console.log('isi acc_token >>');
+                console.log(resu_acc_token);
                 if (resu_acc_token['status'] == 1){
                   this.users_data = resu_acc_token['data'];
+                  this.init_map();
                 }else{
                   // session expired
                   this.kaget.show_ok_dialog(resu_acc_token['message']);

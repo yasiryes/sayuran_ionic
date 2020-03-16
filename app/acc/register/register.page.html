@@ -1,3 +1,25 @@
+<style>
+  .div_caption{
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 4px;
+    border-bottom: 0.7px solid #ffd447;
+  }
+  .text_alamat{
+    font-size: 0.8em;
+    padding: 10px;
+
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 2px;
+
+    border-radius: 4px;
+    background-color: #fff9f3;
+    width: auto;
+  }
+</style>
+
 <ion-header no-border>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -15,7 +37,12 @@
           <ion-grid>
             <ion-row>
               <ion-col size="12">
-                <ion-label color="medium" style="font-size: 0.9rem;">No. Handphone</ion-label>
+                <div class="div_12 div_caption" style="text-align: right;">
+                  <label>Data diri</label>
+                </div>
+              </ion-col>
+              <ion-col size="12">
+                <ion-label color="medium" style="font-size: 0.8rem;">No. Handphone</ion-label>
                 <ion-item>
                     <ion-input name="username" id="username"  ngModel required></ion-input>
                 </ion-item>
@@ -25,7 +52,7 @@
               </ion-col>
 
               <ion-col size="12">
-                <ion-label color="medium" style="font-size: 0.9rem;">Nama Lengkap :</ion-label>
+                <ion-label color="medium" style="font-size: 0.8rem;">Nama Lengkap :</ion-label>
                 <ion-item class="radius">
                     <ion-input name="fullname" id="fullname"  ngModel required></ion-input>
                 </ion-item>
@@ -35,7 +62,7 @@
               </ion-col>
 
               <ion-col size="12">
-                <ion-label color="medium" style="font-size: 0.9rem;">6 digit pin :</ion-label>
+                <ion-label color="medium" style="font-size: 0.8rem;">6 digit pin :</ion-label>
                 <ion-item class="radius">
                     <ion-input name="pin" id="pin" type="password" ngModel required></ion-input>
                 </ion-item>
@@ -45,13 +72,45 @@
               </ion-col>
 
               <ion-col size="12">
-                <ion-label color="medium" style="font-size: 0.9rem; ">Ulang 6 digit pin :</ion-label>
+                <ion-label color="medium" style="font-size: 0.8rem; ">Ulang 6 digit pin :</ion-label>
                 <ion-item>
                     <ion-input name="ulangPin" id="ulangPin" type="password" ngModel required></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col *ngIf="isErrorPinUlang" size="12" style="padding-top: 0px">
                 <ion-label style="text-align: left; color: red; width: 100%; font-size:0.8rem;">{{pinUlangErrorMsg}}</ion-label>
+              </ion-col>
+
+              <ion-col size="12">
+                <div class="div_12 div_caption" style="text-align: right;">
+                  <label>Pengiriman</label>
+                </div>
+              </ion-col>
+              <ion-col size="12">
+                <ion-label color="medium" style="font-size: 0.8rem; ">Alamat lengkap :</ion-label>
+                <ion-item >
+                  <!-- (ionChange)="locate_raw_address($event.target.value)" -->
+                  
+                    <ion-textarea #alamat (ionChange)="term$.next($event.target.value)" name="alamat" id="alamat" ngModel required  class="text_alamat ion-no-padding" placeholder="Jl. Cokrobaskoro 3, no.100, Tipes, Serengan, Surakarta"></ion-textarea>
+                </ion-item>
+              </ion-col>
+              <ion-col *ngIf="true == false"  size="12" style="padding-top: 0px">
+                <ion-label style="text-align: left; color: red; width: 100%; font-size:0.8rem;"></ion-label>
+              </ion-col>
+              <ion-col size="12">
+                <div #map style="width: 100%; height: 150px;">
+      
+                </div>
+              </ion-col>
+              <ion-col size="12" class="ion-no-padding">
+                <ion-label color="medium" style="font-size: 0.8rem; ">Deteksi lokasi kirim :</ion-label>
+                <ion-textarea readonly class="text_alamat ion-no-padding" style="background-color: #eed8c1;" value="{{address}}"></ion-textarea>
+              </ion-col>
+              <ion-col size="12">
+                <ion-label color="medium" style="font-size: 0.8rem; ">Keterangan detail alamat :</ion-label>
+                <ion-item>
+                    <ion-input name="alamat_info" id="alamat_info" ngModel></ion-input>
+                </ion-item>
               </ion-col>
 
               <ion-col size="12" style="text-align: right;">

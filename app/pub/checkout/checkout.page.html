@@ -99,6 +99,21 @@
           <label class="label_summary ">Sub Total :</label>
         </ion-col>
         <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+          <label class="label_summary ">Rp.{{subtotal_sum | number:0}}</label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid>
+      <ion-row class="ion-no-padding div_background_summary" style="vertical-align: middle;">
+        <ion-col class="ion-no-padding" size="2" style="padding-left: 4px;">
+        </ion-col>
+        <ion-col class="ion-no-padding" style="text-align: right;" size="7">
+          <label class="label_summary ">Berat Pengiriman :</label>
+        </ion-col>
+        <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+          <label class="label_summary ">Rp.{{subtotal_sum | number:0}}</label>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -113,7 +128,7 @@
           <label class="label_summary" style="margin-left: 6px;">Atas nama :</label>
         </ion-col>
         <ion-col class="ion-no-padding" size="6">
-          <ion-input style="text-align: center;" placeholder="nama penerima" class="text_alamat"></ion-input>
+          <ion-input style="text-align: center;" placeholder="nama penerima" class="text_alamat" value="{{users_data['fullname']}}"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row class="ion-no-padding row_alamat">
@@ -121,23 +136,24 @@
           <label class="label_summary" style="margin-left: 6px;">No. Handphone :</label>
         </ion-col>
         <ion-col class="ion-no-padding" size="6">
-          <ion-input style="text-align: center;" class="text_alamat" placeholder="08xxxxxxxxxx"></ion-input>
+          <ion-input style="text-align: center;" class="text_alamat" placeholder="08xxxxxxxxxx" value="{{users_data['username']}}"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row class="ion-no-padding row_alamat">
         <ion-col size="12">
           <label class="label_summary">Alamat Lengkap :</label>
         </ion-col>
-        
+        <!-- locate_raw_address($event.target.value) -->
+        <!-- term$.next($event.target.value) -->
       </ion-row>
       <ion-row class="ion-no-padding row_alamat">
         <ion-col size="12" class="ion-no-padding">
-          <ion-textarea (keyup)="term$.next($event.target.value)" style="display: block; width: auto;" class="text_alamat ion-no-padding" placeholder="Jl. Cokrobaskoro 3, no.100, Tipes, Serengan, Surakarta"></ion-textarea>
+          <ion-textarea #alamat (ionChange)="term$.next($event.target.value)" style="display: block; width: auto;" class="text_alamat ion-no-padding" placeholder="Jl. Cokrobaskoro 3, no.100, Tipes, Serengan, Surakarta" value="{{users_data.alamat}}"></ion-textarea>
         </ion-col>
       </ion-row>
       <ion-row class="ion-no-padding row_alamat">
         <ion-col size="12">
-          <div id="map" style="width: 100%; height: 150px;">
+          <div #map style="width: 100%; height: 150px;">
 
           </div>
         </ion-col>
@@ -145,7 +161,7 @@
           <label class="label_summary">Deteksi lokasi kirim :</label>
         </ion-col>
         <ion-col size="12" class="ion-no-padding">
-          <ion-textarea readonly class="text_alamat ion-no-padding" style="background-color: #eed8c1;"></ion-textarea>
+          <ion-textarea readonly class="text_alamat ion-no-padding" style="background-color: #eed8c1;" value="{{address}}"></ion-textarea>
         </ion-col>
       </ion-row>
       <ion-row class="ion-no-padding row_alamat">
@@ -153,7 +169,7 @@
           <label class="label_summary">Keterangan detail alamat :</label>
         </ion-col>
         <ion-col size="12" class="ion-no-padding">
-          <ion-textarea class="text_alamat ion-no-padding" placeholder="Warna pagar ungu, di depan Kantor Pos"></ion-textarea>
+          <ion-textarea class="text_alamat ion-no-padding" placeholder="Warna pagar ungu, di depan Kantor Pos" value="{{users_data['alamat_info']}}"></ion-textarea>
         </ion-col>
       </ion-row>
     </ion-grid>
