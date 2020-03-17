@@ -47,6 +47,49 @@
     margin-top: 2px;
     margin-bottom: 2px;
   }
+  .div_tunai{
+    margin-left: 6px;
+    margin-right: 6px;
+
+    padding: 6px;
+
+    text-align: center;
+    border: 0.5px lightgray solid;
+    border-radius: 4px;
+  }
+  .select_bank{
+    background-color: #fff9f3;
+    
+    margin-bottom: 6px;
+    margin-left: 6px;
+    margin-right: 6px;
+
+    padding: 6px;
+    border-left: 3px #69bb7b solid;
+    font-size: 0.8em;
+    text-align: center;
+  }
+  .label_detail_rekening{
+    display: block;
+    margin: 6px;
+  }
+  .div_detail_rekening{
+    margin-bottom: 6px;
+
+    margin-left: 6px;
+    margin-right: 6px;
+
+    border: 1px solid #eed8c1;
+    border-radius: 4px;
+  }
+  .btn_lanjut_order{
+    display: block;
+    width: auto;
+    text-transform:none;
+
+    margin-left: 6px;
+    margin-right: 6px;
+  }
 </style>
 <ion-header no-border>
   <ion-toolbar color="new">
@@ -113,7 +156,7 @@
           <label class="label_summary ">Berat Pengiriman :</label>
         </ion-col>
         <ion-col style="text-align: right;" class="ion-no-padding" size="3">
-          <label class="label_summary ">Rp.{{subtotal_sum | number:0}}</label>
+          <label class="label_summary ">{{berat_kirim_sum | number:0}}kg</label>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -161,7 +204,7 @@
           <label class="label_summary">Deteksi lokasi kirim :</label>
         </ion-col>
         <ion-col size="12" class="ion-no-padding">
-          <ion-textarea readonly class="text_alamat ion-no-padding" style="background-color: #eed8c1;" value="{{address}}"></ion-textarea>
+          <ion-textarea readonly class="text_alamat ion-no-padding" style="background-color: unset; border: 1px solid #eed8c1;" value="{{address}}"></ion-textarea>
         </ion-col>
       </ion-row>
       <ion-row class="ion-no-padding row_alamat">
@@ -183,6 +226,7 @@
           <label class="label_summary ">Estimasi jarak pengiriman :</label>
         </ion-col>
         <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+          <label class="label_summary ">{{jarak | number:0}}km</label>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -196,6 +240,7 @@
           <label class="label_summary ">Ongkir :</label>
         </ion-col>
         <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+          <label class="label_summary ">Rp. {{ongkir | number:0}}</label>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -209,6 +254,7 @@
           <label class="label_summary ">Total :</label>
         </ion-col>
         <ion-col style="text-align: right;" class="ion-no-padding" size="3">
+          <label class="label_summary ">Rp. {{total_sum | number:0}}</label>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -216,5 +262,62 @@
   <div class="div_12 div_caption">
     <label>Pembayaran</label>
   </div>
+  <div class="div_12" style="margin-bottom: 12px;">
+    <ion-segment color="new" (ionChange)="onchange_opsi_bayar($event)" style="text-transform:none;" value="tunai">
+      <ion-segment-button color="new" value="tunai" style="text-transform:none;">
+        <ion-label>Bayar di tempat</ion-label>
+      </ion-segment-button>
+      <ion-segment-button color="new" value="transfer" style="text-transform:none;">
+        <ion-label>Transfer Bank</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div class="div_12" style="height: 150px;">
+    <div class="div_12 div_tunai" *ngIf="is_tunai">
+      <label style="font-size: 0.8em;">
+        Pembayaran dilakukan tunai di tempat, ketika barang telah sampai di tujuan.
+      </label>
+    </div>
+    <div class="div_12" *ngIf="!is_tunai">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-no-padding">
+          <ion-col size="12" class="ion-no-padding">
+            <ion-select (ionChange)="onchange_bank($event)" #bank class="select_bank" value="{{bank_datas[0]['id']}}" interface="popover">
+              <ion-select-option *ngFor="let bank_data of bank_datas" value="{{bank_data.id}}">{{bank_data.nama}}</ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-no-padding div_detail_rekening">
+          <ion-col size="6" class="ion-no-padding">
+            <label class="label_detail_rekening" style="font-size: 0.8em;">
+              Atas Nama : 
+            </label>
+          </ion-col>
+          <ion-col size="6" class="ion-no-padding">
+            <label class="label_detail_rekening" style="font-size: 0.8em; text-align: right;">
+              {{atas_nama}}
+            </label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-no-padding div_detail_rekening">
+          <ion-col size="6" class="ion-no-padding">
+            <label class="label_detail_rekening" style="font-size: 0.8em;">
+              Nomor Rekening :
+            </label>
+          </ion-col>
+          <ion-col size="6" class="ion-no-padding">
+            <label class="label_detail_rekening" style="font-size: 0.8em; text-align: right;">
+               {{nomor_rek}}
+            </label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
 
+  <div class="div_12">
+    <ion-button class="btn_lanjut_order" color="new">
+      Lanjut order
+    </ion-button>
+  </div>
 </ion-content>

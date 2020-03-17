@@ -3,7 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartBadgeService } from 'src/app/services/cart-badge.service';
 import { KagetService } from 'src/app/services/kaget.service';
-import { NavController, IonTextarea } from '@ionic/angular';
+import { NavController, IonTextarea, IonSelect } from '@ionic/angular';
 import { EnvService } from 'src/app/services/env.service';
 
 import 'rxjs/Subject';
@@ -31,11 +31,16 @@ export class CheckoutPage implements OnInit {
   cart_datas: any;
   users_data = {};
 
+  bank_datas: any;
+  atas_nama: string;
+  nomor_rek: string;
+
   hit_inspect: number = 0;
   term$ = new Subject<string>();
 
   @ViewChild('map', {static: true}) map_element: ElementRef;
   @ViewChild('alamat', {static: true}) alamat: IonTextarea;
+  @ViewChild('bank', {static: true}) bank: IonSelect;
 
   map: any;
 
@@ -45,6 +50,13 @@ export class CheckoutPage implements OnInit {
   fwd_lng: any;
 
   subtotal_sum: number;
+  berat_kirim_sum: number;
+  total_sum: number;
+
+  jarak: number;
+  ongkir: number;
+
+  is_tunai: boolean;
 
   constructor(
     private geolocation: Geolocation,
@@ -68,17 +80,42 @@ export class CheckoutPage implements OnInit {
       return EMPTY
     })).subscribe();
 
+    this.is_tunai = true;
+    this.atas_nama = '';
+    this.nomor_rek = '';
 
+    this.jarak = 0;
+    this.ongkir = 0;
     this.subtotal_sum = 0;
+    this.berat_kirim_sum = 0;
+    this.total_sum = 0;
 
     this.load_cart();
     this.load_users();
+    this.load_bank();
 
     // this.init_map();
   }
 
   ngOnInit() {
   }
+  onchange_opsi_bayar(ev){
+    console.log('change opsi bayar >>');
+    console.log(ev);
+    this.is_tunai = ev.detail.value == 'tunai';
+  }
+  onchange_bank(ev){
+    console.log('onchange bank >>');
+    console.log(ev);
+
+    for (var i = 0; i < this.bank_datas.length; i++) {
+      if (this.bank_datas[i]['id'] == ev.target.value){
+        this.atas_nama = this.bank_datas[i]['atas_nama'];
+        this.nomor_rek = this.bank_datas[i]['nomor'];
+      }
+    }
+  }
+
   load_address(lattitude, longitude) {
     console.log("getAddressFromCoords "+lattitude+" "+longitude);
     let options: NativeGeocoderOptions = {
@@ -111,8 +148,31 @@ export class CheckoutPage implements OnInit {
  
   }
 
+  get_ongkir(lat, lng){
+    const get_ongkir_data = {
+      lat: lat,
+      lon: lng,
+      berat_kirim: this.berat_kirim_sum
+    }
+    this.api.doPost('sell/ongkir_get/', get_ongkir_data).subscribe(
+      (resu_get_ongkir) => {
+        console.log('resu_get_ongkir >> ');
+        console.log(resu_get_ongkir);
+
+        this.jarak = resu_get_ongkir['jarak'];
+        this.ongkir = resu_get_ongkir['ongkir'];
+
+        this.total_sum = this.ongkir + this.subtotal_sum;
+      },
+      (err_get_ongkir) => {
+
+      }
+    )
+  }
+
   load_map(lat, lng){
     this.load_address(lat, lng);
+    this.get_ongkir(lat, lng);
 
     let latLng = new google.maps.LatLng(lat, lng);
     let mapOptions = {
@@ -207,6 +267,21 @@ export class CheckoutPage implements OnInit {
     }
   }
 
+  load_bank(){
+    this.api.doGet('profil/bank_get/').subscribe(
+      (resu_bank_get) => {
+        this.bank_datas = resu_bank_get;
+
+        this.atas_nama = this.bank_datas[0]['atas_nama'];
+        this.nomor_rek = this.bank_datas[0]['nomor'];
+      },
+      (err_bank_get) => {
+        console.log('err_bank_get >>');
+        console.log(err_bank_get);
+      }
+    )
+  }
+
   load_cart(){
     this.auth.getToken().then(
       (resu_get_token) => {
@@ -222,7 +297,11 @@ export class CheckoutPage implements OnInit {
                     console.log(element);
                     element['subtotal'] =  (element['harga_jual_produk'] * element['jumlah']);
                     this.subtotal_sum = this.subtotal_sum + element['subtotal'];
+                    console.log('berat kirim >>');
+                    console.log(element['berat_kirim']);
+                    this.berat_kirim_sum = this.berat_kirim_sum + element['berat_kirim'];
                   });
+                  this.berat_kirim_sum = Math.round(this.berat_kirim_sum);
                 }else {
                   this.kaget.show_ok_dialog(resu_cart['message']);
 
