@@ -18,6 +18,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { PopCartPageModule } from './pub/tabs/pop-cart/pop-cart.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import { SummaryCheckoutPageModule } from './pub/checkout/summary-checkout/summary-checkout.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +32,8 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
               IonBottomDrawerModule,
               CartAddPageModule,
               SidemAccountPageModule,
-              PopCartPageModule
+              PopCartPageModule,
+              SummaryCheckoutPageModule
             ],
   providers: [
     StatusBar,

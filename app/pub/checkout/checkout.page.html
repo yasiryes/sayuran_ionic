@@ -171,7 +171,7 @@
           <label class="label_summary" style="margin-left: 6px;">Atas nama :</label>
         </ion-col>
         <ion-col class="ion-no-padding" size="6">
-          <ion-input style="text-align: center;" placeholder="nama penerima" class="text_alamat" value="{{users_data['fullname']}}"></ion-input>
+          <ion-input #nama_kirim style="text-align: center;" placeholder="nama penerima" class="text_alamat" value="{{users_data['fullname']}}"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row class="ion-no-padding row_alamat">
@@ -179,7 +179,7 @@
           <label class="label_summary" style="margin-left: 6px;">No. Handphone :</label>
         </ion-col>
         <ion-col class="ion-no-padding" size="6">
-          <ion-input style="text-align: center;" class="text_alamat" placeholder="08xxxxxxxxxx" value="{{users_data['username']}}"></ion-input>
+          <ion-input #hp_kirim style="text-align: center;" class="text_alamat" placeholder="08xxxxxxxxxx" value="{{users_data['username']}}"></ion-input>
         </ion-col>
       </ion-row>
       <ion-row class="ion-no-padding row_alamat">
@@ -212,7 +212,7 @@
           <label class="label_summary">Keterangan detail alamat :</label>
         </ion-col>
         <ion-col size="12" class="ion-no-padding">
-          <ion-textarea class="text_alamat ion-no-padding" placeholder="Warna pagar ungu, di depan Kantor Pos" value="{{users_data['alamat_info']}}"></ion-textarea>
+          <ion-textarea #alamat_info class="text_alamat ion-no-padding" placeholder="Warna pagar ungu, di depan Kantor Pos" value="{{users_data['alamat_info']}}"></ion-textarea>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -316,7 +316,7 @@
   </div>
 
   <div class="div_12">
-    <ion-button class="btn_lanjut_order" color="new">
+    <ion-button class="btn_lanjut_order" color="new" (click)="show_summary()">
       Lanjut order
     </ion-button>
   </div>

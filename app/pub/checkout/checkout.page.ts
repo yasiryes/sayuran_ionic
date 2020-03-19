@@ -3,7 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CartBadgeService } from 'src/app/services/cart-badge.service';
 import { KagetService } from 'src/app/services/kaget.service';
-import { NavController, IonTextarea, IonSelect } from '@ionic/angular';
+import { NavController, IonTextarea, IonSelect, PopoverController, IonInput } from '@ionic/angular';
 import { EnvService } from 'src/app/services/env.service';
 
 import 'rxjs/Subject';
@@ -18,6 +18,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions} from '@ionic-native/native-geocoder/ngx';
 import { Platform } from '@ionic/angular';
 import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
+import { SummaryCheckoutPage } from './summary-checkout/summary-checkout.page';
 // NativeGeocoderReverseResult, 
 
 declare var google;
@@ -39,7 +40,11 @@ export class CheckoutPage implements OnInit {
   term$ = new Subject<string>();
 
   @ViewChild('map', {static: true}) map_element: ElementRef;
+
+  @ViewChild('nama_kirim', {static: true}) nama_kirim: IonInput;
+  @ViewChild('hp_kirim', {static: true}) hp_kirim: IonInput;
   @ViewChild('alamat', {static: true}) alamat: IonTextarea;
+  @ViewChild('alamat_info', {static: true}) alamat_info: IonTextarea;
   @ViewChild('bank', {static: true}) bank: IonSelect;
 
   map: any;
@@ -69,8 +74,11 @@ export class CheckoutPage implements OnInit {
     private env: EnvService,
     private platform: Platform,
     public zone: NgZone,
+    public pop_controller: PopoverController,
     
   ) { 
+    console.log('nama_kirim >>');
+    console.log(this.nama_kirim);
     this.term$.pipe(debounceTime(2000), distinctUntilChanged(), switchMap((term) => {
       console.log('delayed execute here >>');
       console.log(term);
@@ -115,7 +123,24 @@ export class CheckoutPage implements OnInit {
       }
     }
   }
-
+  async show_summary(){
+    const popover = await this.pop_controller.create({
+      component: SummaryCheckoutPage,
+      // event: ev,
+      translucent: true,
+      componentProps: {
+        'items': this.cart_datas,
+        'sub_total': this.subtotal_sum,
+        'berat_kirim': this.berat_kirim_sum,
+        'nama_kirim': this.nama_kirim.value,
+        'hp_kirim': this.hp_kirim.value,
+        'alamat': this.alamat.value,
+        'alamat_info': this.alamat_info.value
+      }
+    });
+    
+    return await popover.present();
+  }
   load_address(lattitude, longitude) {
     console.log("getAddressFromCoords "+lattitude+" "+longitude);
     let options: NativeGeocoderOptions = {
@@ -174,6 +199,9 @@ export class CheckoutPage implements OnInit {
     this.load_address(lat, lng);
     this.get_ongkir(lat, lng);
 
+    this.fwd_lat = lat;
+    this.fwd_lng = lng;
+
     let latLng = new google.maps.LatLng(lat, lng);
     let mapOptions = {
       center: latLng,
@@ -193,6 +221,9 @@ export class CheckoutPage implements OnInit {
       marker.setPosition(res.latLng);
 
       this.load_address(res.latLng.lat(), res.latLng.lng());
+
+      this.fwd_lat = res.latLng.lat();
+      this.fwd_lng = res.latLng.lng();
     });
 
     this.map.addListener('tilesloaded', () => {
@@ -334,6 +365,8 @@ export class CheckoutPage implements OnInit {
         )
     }, 3000);
   }
+
+
   load_users(){
     console.log('masuk load_users >>');
     this.auth.getToken().then(
