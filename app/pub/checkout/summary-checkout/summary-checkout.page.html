@@ -1,23 +1,78 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Ringkasan Transaksi</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <div class="div_12" let item of items>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6">
+<style>
+  label{
+    font-size: 0.8em;
+  }
+  .div_garis_bawah{
+    border-bottom: 0.8px solid dimgrey;
+  }
+  .div_garis_atas{
+    border-top: 0.8px solid dimgrey;
+  }
+</style>
+<ion-content >
+  <div class="div_12" *ngFor="let item of items">
+    <ion-grid >
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding" size="4" >
           <label>
-            {{item.nama_produk}}
+            {{item['nama_produk']}}
           </label>
         </ion-col>
-        <ion-col size="6">
-
+        <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+          <label>
+            x{{item['jumlah'] | number:0}}{{item['satuan_nama_produk']}}
+          </label>
         </ion-col>
-        <ion-col size="6">
-
+        <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+          <label>
+            Rp.{{(item['jumlah'] * item['harga_jual_produk']) | number:0}}
+          </label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid >
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding" size="4" >
+        </ion-col>
+        <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+          <label>
+            Sub total :
+          </label>
+        </ion-col>
+        <ion-col class="ion-no-padding div_garis_atas" size="4" style="text-align: right;">
+          Rp.{{(item['jumlah'] * item['harga_jual_produk']) | number:0}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid >
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding" size="4" >
+        </ion-col>
+        <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+          <label>
+            Ongkir :
+          </label>
+        </ion-col>
+        <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="div_12">
+    <ion-grid >
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding" size="4" >
+        </ion-col>
+        <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+          <label>
+            Total :
+          </label>
+        </ion-col>
+        <ion-col class="ion-no-padding" size="4" style="text-align: right;">
         </ion-col>
       </ion-row>
     </ion-grid>

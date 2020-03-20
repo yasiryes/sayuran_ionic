@@ -272,13 +272,13 @@
       </ion-segment-button>
     </ion-segment>
   </div>
-  <div class="div_12" style="height: 150px;">
-    <div class="div_12 div_tunai" *ngIf="is_tunai">
+  <div #div_tunai class="div_12" style="height: 150px;">
+    <div class="div_12 div_tunai">
       <label style="font-size: 0.8em;">
         Pembayaran dilakukan tunai di tempat, ketika barang telah sampai di tujuan.
       </label>
     </div>
-    <div class="div_12" *ngIf="!is_tunai">
+    <div #div_transfer class="div_12">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-no-padding">
           <ion-col size="12" class="ion-no-padding">

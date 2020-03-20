@@ -39,7 +39,12 @@ export class CheckoutPage implements OnInit {
   hit_inspect: number = 0;
   term$ = new Subject<string>();
 
+  is_tunai: boolean = true;
+
   @ViewChild('map', {static: true}) map_element: ElementRef;
+
+  @ViewChild('div_tunai', {static: true}) div_tunai: ElementRef;
+  @ViewChild('div_transfer', {static: true}) div_transfer: ElementRef;
 
   @ViewChild('nama_kirim', {static: true}) nama_kirim: IonInput;
   @ViewChild('hp_kirim', {static: true}) hp_kirim: IonInput;
@@ -61,7 +66,6 @@ export class CheckoutPage implements OnInit {
   jarak: number;
   ongkir: number;
 
-  is_tunai: boolean;
 
   constructor(
     private geolocation: Geolocation,
@@ -77,6 +81,7 @@ export class CheckoutPage implements OnInit {
     public pop_controller: PopoverController,
     
   ) { 
+    this.load_bank();
     console.log('nama_kirim >>');
     console.log(this.nama_kirim);
     this.term$.pipe(debounceTime(2000), distinctUntilChanged(), switchMap((term) => {
@@ -100,7 +105,6 @@ export class CheckoutPage implements OnInit {
 
     this.load_cart();
     this.load_users();
-    this.load_bank();
 
     // this.init_map();
   }
@@ -111,6 +115,11 @@ export class CheckoutPage implements OnInit {
     console.log('change opsi bayar >>');
     console.log(ev);
     this.is_tunai = ev.detail.value == 'tunai';
+    if(this.is_tunai){
+      this.div_transfer.nativeElement.style.setProperty('display', 'none');
+    }else{
+      this.div_tunai.nativeElement.style.setProperty('display', 'none');
+    }
   }
   onchange_bank(ev){
     console.log('onchange bank >>');
@@ -135,7 +144,12 @@ export class CheckoutPage implements OnInit {
         'nama_kirim': this.nama_kirim.value,
         'hp_kirim': this.hp_kirim.value,
         'alamat': this.alamat.value,
-        'alamat_info': this.alamat_info.value
+        'alamat_info': this.alamat_info.value,
+        'is_tunai': this.is_tunai,
+        'no_rek': this.nomor_rek,
+        'atas_nama_rek': this.atas_nama,
+        'bank_id': this.bank.value,
+        'nama_bank': this.bank.selectedText
       }
     });
     
@@ -299,8 +313,11 @@ export class CheckoutPage implements OnInit {
   }
 
   load_bank(){
+    console.log('masuk load_bank >>');
     this.api.doGet('profil/bank_get/').subscribe(
       (resu_bank_get) => {
+        console.log('resu_bank_get >>');
+        console.log(resu_bank_get);
         this.bank_datas = resu_bank_get;
 
         this.atas_nama = this.bank_datas[0]['atas_nama'];
