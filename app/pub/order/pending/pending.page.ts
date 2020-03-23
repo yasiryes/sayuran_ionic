@@ -3,6 +3,10 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ApiService } from 'src/app/services/api.service';
 import { KagetService } from 'src/app/services/kaget.service';
 import { ToolsService } from 'src/app/services/tools.service';
+import { PopoverController, ModalController, Events } from '@ionic/angular';
+import { PendingDetailPage } from './pending-detail/pending-detail.page';
+import { BuktiTfPage } from './bukti-tf/bukti-tf.page';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'app-pending',
@@ -12,6 +16,8 @@ import { ToolsService } from 'src/app/services/tools.service';
 export class PendingPage implements OnInit {
   penjualan_datas: any;
   penjualand_datas: any;
+  
+  promos: any;
 
   is_show_detail: boolean;
 
@@ -24,10 +30,25 @@ export class PendingPage implements OnInit {
     private auth: AuthenticationService,
     private api: ApiService,
     private kaget: KagetService,
-    public tool: ToolsService
+    public tool: ToolsService,
+    public pop_controller: PopoverController,
+    public modal_controller: ModalController,
+    public events: Events
   ) {
+
+    events.subscribe('pending:updated', 
+      () => {
+        this.is_show_detail = false;
+        this.load_penjualan();
+        // this.load_promos();
+        // this.load_penjualand()
+        this.tes_str = this.tes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+    );
+
     this.is_show_detail = false;
     this.load_penjualan();
+    // this.load_promos();
     // this.load_penjualand()
     this.tes_str = this.tes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -35,10 +56,42 @@ export class PendingPage implements OnInit {
   ngOnInit() {
   }
 
-  togle_detail(){
-    this.is_show_detail = !this.is_show_detail;
+  toggle_detail(id){
+    const ele_id = 'detail_' + id.toString();
+    document.getElementById(ele_id).style.setProperty('display', 'block');
   }
-
+  load_promos(){
+    this.api.doGet('promo/all/').subscribe(
+      (data) => {
+        this.promos = data;
+      }
+    ) 
+  }
+  async show_bukti_tf(id) {
+    console.log('show_bukti_tf, id >>');
+    console.log(id);
+    const modal = await this.modal_controller.create({
+      component: BuktiTfPage,
+      cssClass: 'my-custom-modal-css',
+      componentProps: {
+        penjualan_id: id
+      }
+    });
+    return await modal.present();
+  }
+  async show_detail_pending(id_penjualan){
+    
+    const popover = await this.pop_controller.create({
+      component: PendingDetailPage,
+      // event: ev,
+      translucent: true,
+      componentProps: {
+        'id_penjualan': id_penjualan
+      }
+    });
+    
+    return await popover.present();
+  }
   load_penjualan(){
     this.auth.getToken().then(
       (resu_get_token) => {
@@ -47,6 +100,9 @@ export class PendingPage implements OnInit {
             this.api.doGet('sell/order_pending_get/' + resu_get_token + '/' + resu_get_no_hp + '/').subscribe(
               (resu_get_penjualan) => {
                 if (resu_get_penjualan['status'] == 1){
+                  console.log('get_penjualan >>');
+                  console.log(resu_get_penjualan);
+
                   this.penjualan_datas = resu_get_penjualan['data']
                 }else{
                   this.auth.set_logged_out();

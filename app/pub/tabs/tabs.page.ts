@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonTabs, Events, PopoverController } from '@ionic/angular';
 import {Platform} from '@ionic/angular';
-import { CartBadgeService } from 'src/app/services/cart-badge.service';
 import { PopCartPage } from './pop-cart/pop-cart.page';
 
 
@@ -21,15 +20,20 @@ export class TabsPage implements OnInit {
   constructor(
     public event: Events, 
     public platform: Platform,
-    private cart_badge: CartBadgeService,
     public pop_controller: PopoverController,
+    public events: Events
     ) { 
     this.isShowSearch = true;
-    this.cart_badge.cart_count.subscribe(
-      (data) => {
-        this.cart_badge_val = data;
+    events.subscribe('cart_badge:updated', 
+      (jumlah) => {
+        this.cart_badge_val = jumlah;
       }
-    )
+    );
+    // this.cart_badge.cart_count.subscribe(
+    //   (data) => {
+    //     this.cart_badge_val = data;
+    //   }
+    // )
   }
 
   ngOnInit() {

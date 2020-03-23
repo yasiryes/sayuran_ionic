@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CartBadgeService } from './cart-badge.service';
+import { BadgerService } from './badger.service';
 
-describe('CartBadgeService', () => {
+describe('BadgerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: CartBadgeService = TestBed.get(CartBadgeService);
+    const service: BadgerService = TestBed.get(BadgerService);
     expect(service).toBeTruthy();
   });
 });

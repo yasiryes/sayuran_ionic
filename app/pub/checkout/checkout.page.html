@@ -272,17 +272,17 @@
       </ion-segment-button>
     </ion-segment>
   </div>
-  <div #div_tunai class="div_12" style="height: 150px;">
-    <div class="div_12 div_tunai">
+  <div  class="div_12" style="height: 150px;">
+    <div #div_tunai class="div_12 div_tunai">
       <label style="font-size: 0.8em;">
         Pembayaran dilakukan tunai di tempat, ketika barang telah sampai di tujuan.
       </label>
     </div>
-    <div #div_transfer class="div_12">
+    <div #div_transfer class="div_12" style="display: none;">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-no-padding">
           <ion-col size="12" class="ion-no-padding">
-            <ion-select (ionChange)="onchange_bank($event)" #bank class="select_bank" value="{{bank_datas[0]['id']}}" interface="popover">
+            <ion-select (ionChange)="onchange_bank($event)" #bank class="select_bank" value="{{bank_id}}" interface="popover">
               <ion-select-option *ngFor="let bank_data of bank_datas" value="{{bank_data.id}}">{{bank_data.nama}}</ion-select-option>
             </ion-select>
           </ion-col>

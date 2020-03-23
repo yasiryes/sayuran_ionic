@@ -1,0 +1,49 @@
+<style>
+  .btn_add_bukti{
+    width: auto;
+    display: block;
+  }
+  .div_preview{
+    /* min-height: 100%; */
+    /* margin-left: 8px; */
+    /* margin-top: 8px; */
+    /* margin-right: 8px; */
+    border-radius: 6px;
+    border: 1px solid whitesmoke;
+    /* min-height: 220px; */
+    height: auto;
+    display: block;
+    text-align: center;
+    /* align-items: center; */
+    /* display: flex; */
+  }
+</style>
+
+<ion-header no-border>
+  <ion-toolbar color="new" style="text-align: center;">
+    <ion-title>Bukti Transfer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="height: 100%; padding: 8px;">
+    <div class="div_12 div_preview" style="text-align: center;">
+      <label *ngIf="bukti_tf == ''" class="label_big_grey" style="margin-top: 20px;">Belum ada Bukti Transfer.</label>
+      <img style="height: 225px" *ngIf="bukti_tf != ''" src="{{bukti_tf}}" >
+    </div>
+  </div>
+</ion-content>
+<ion-footer no-border class="ion-no-padding">
+  <div class="div_12">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-no-padding">
+        <ion-col size="6" class="ion-no-padding">
+          <ion-button class="btn_add_bukti" color="pale-grey" (click)="click_kamera()">Kamera</ion-button>
+        </ion-col>
+        <ion-col size="6" class="ion-no-padding">
+          <ion-button class="btn_add_bukti" color="pale-grey" (click)="click_galeri()">Galeri</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-footer>

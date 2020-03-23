@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { CartBadgeService } from 'src/app/services/cart-badge.service';
 import { KagetService } from 'src/app/services/kaget.service';
 import { NavController, IonTextarea, IonSelect, PopoverController, IonInput } from '@ionic/angular';
 import { EnvService } from 'src/app/services/env.service';
@@ -11,7 +10,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import { Subject } from 'rxjs/internal/Subject';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, last } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -33,6 +32,7 @@ export class CheckoutPage implements OnInit {
   users_data = {};
 
   bank_datas: any;
+  bank_id: number;
   atas_nama: string;
   nomor_rek: string;
 
@@ -72,7 +72,6 @@ export class CheckoutPage implements OnInit {
     private nativeGeocoder: NativeGeocoder,
     private api: ApiService,
     private auth: AuthenticationService,
-    private cart_badge: CartBadgeService,
     private kaget: KagetService,
     public navCtrl: NavController,
     private env: EnvService,
@@ -81,6 +80,9 @@ export class CheckoutPage implements OnInit {
     public pop_controller: PopoverController,
     
   ) { 
+    this.bank_datas = []
+    this.bank_id = 0;
+
     this.load_bank();
     console.log('nama_kirim >>');
     console.log(this.nama_kirim);
@@ -114,17 +116,25 @@ export class CheckoutPage implements OnInit {
   onchange_opsi_bayar(ev){
     console.log('change opsi bayar >>');
     console.log(ev);
-    this.is_tunai = ev.detail.value == 'tunai';
+    this.is_tunai = (ev.detail.value == 'tunai');
+    
     if(this.is_tunai){
       this.div_transfer.nativeElement.style.setProperty('display', 'none');
+      this.div_tunai.nativeElement.style.setProperty('display', 'block');
     }else{
       this.div_tunai.nativeElement.style.setProperty('display', 'none');
+      this.div_transfer.nativeElement.style.setProperty('display', 'block');
     }
   }
   onchange_bank(ev){
     console.log('onchange bank >>');
     console.log(ev);
-
+    if (this.bank_datas == undefined){
+      return;
+    }
+    this.bank_id = ev.target.value;
+    console.log('selected bank_id >>');
+    console.log(this.bank_id);
     for (var i = 0; i < this.bank_datas.length; i++) {
       if (this.bank_datas[i]['id'] == ev.target.value){
         this.atas_nama = this.bank_datas[i]['atas_nama'];
@@ -133,6 +143,8 @@ export class CheckoutPage implements OnInit {
     }
   }
   async show_summary(){
+    console.log('is_tunai >>');
+    console.log(this.is_tunai);
     const popover = await this.pop_controller.create({
       component: SummaryCheckoutPage,
       // event: ev,
@@ -149,7 +161,12 @@ export class CheckoutPage implements OnInit {
         'no_rek': this.nomor_rek,
         'atas_nama_rek': this.atas_nama,
         'bank_id': this.bank.value,
-        'nama_bank': this.bank.selectedText
+        'nama_bank': this.bank.selectedText,
+        'ongkir': this.ongkir,
+        'total': this.total_sum,
+        'lat': this.fwd_lat,
+        'lng': this.fwd_lng,
+        'jarak_kirim': this.jarak
       }
     });
     
@@ -320,6 +337,7 @@ export class CheckoutPage implements OnInit {
         console.log(resu_bank_get);
         this.bank_datas = resu_bank_get;
 
+        this.bank_id = this.bank_datas[0]['id'];
         this.atas_nama = this.bank_datas[0]['atas_nama'];
         this.nomor_rek = this.bank_datas[0]['nomor'];
       },

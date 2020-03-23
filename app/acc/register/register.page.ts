@@ -11,6 +11,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions} from '@ionic-native/native-geocoder/ngx';
 import { Platform } from '@ionic/angular';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 declare var google;
 
 @Component({
@@ -55,6 +56,7 @@ export class RegisterPage implements OnInit {
     private nativeGeocoder: NativeGeocoder,
     private platform: Platform,
     public zone: NgZone,
+    private auth: AuthenticationService,
   ) {
     this.init_map();
 
@@ -276,6 +278,17 @@ export class RegisterPage implements OnInit {
               }
             )
           }
+
+
+          // const get_new_token_data = {
+          //   no_hp: form.value.username
+          // }
+          // this.api.doPost('users/new_token/', get_new_token_data).subscribe(
+          //   (res) => {
+          //     console.log(res);
+          //     this.auth.set_logged_in(res['token'], res['no_hp']);
+          //   }
+          // )
         }
       )
     }

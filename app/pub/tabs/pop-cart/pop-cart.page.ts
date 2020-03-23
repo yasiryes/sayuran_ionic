@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { CartBadgeService } from 'src/app/services/cart-badge.service';
 import { KagetService } from 'src/app/services/kaget.service';
 import { NavController } from '@ionic/angular';
 
@@ -16,7 +15,6 @@ export class PopCartPage implements OnInit {
   constructor(
     private api: ApiService,
     private auth: AuthenticationService,
-    private cart_badge: CartBadgeService,
     private kaget: KagetService,
     public navCtrl: NavController
   ) { 

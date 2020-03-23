@@ -20,21 +20,21 @@
 </style>
 <ion-header no-border>
   <ion-toolbar color="pale-grey">
-    <ion-title style="text-align: center;">Konfirmasi Order</ion-title>
+    <ion-title style="text-align: center;">Detail Order</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="div_12" *ngFor="let item of items">
+  <div class="div_12" *ngFor="let item of penjualan_data.detail">
     <ion-grid >
       <ion-row class="ion-no-padding">
         <ion-col class="ion-no-padding" size="4" >
           <label>
-            {{item['nama_produk']}}
+            {{item['produk_nama']}}
           </label>
         </ion-col>
         <ion-col class="ion-no-padding" size="4" style="text-align: center;">
           <label>
-            x{{item['jumlah'] | number:0}}{{item['satuan_nama_produk']}}
+            x{{item['jumlah'] | number:0}} {{item['satuan_nama']}}
           </label>
         </ion-col>
         <ion-col class="ion-no-padding" size="1" style="text-align: right;">
@@ -44,7 +44,7 @@
         </ion-col>
         <ion-col class="ion-no-padding" size="3" style="text-align: right;">
           <label>
-            {{(item['jumlah'] * item['harga_jual_produk']) | number:0}}
+            {{(item['jumlah'] * item['harga_jual']) | number:0}}
           </label>
         </ion-col>
       </ion-row>
@@ -67,7 +67,7 @@
         </ion-col>
         <ion-col class="ion-no-padding div_garis_atas" size="3" style="text-align: right;">
           <label>
-            {{sub_total | number:0}}
+            {{penjualan_data['total_bayar'] - penjualan_data['ongkir'] | number:0}}
           </label>
         </ion-col>
       </ion-row>
@@ -90,7 +90,7 @@
         </ion-col>
         <ion-col class="ion-no-padding" size="3" style="text-align: right;">
           <label>
-            {{ongkir | number:0}}
+            {{penjualan_data['ongkir'] | number:0}}
           </label>
         </ion-col>
       </ion-row>
@@ -113,16 +113,16 @@
         </ion-col>
         <ion-col class="ion-no-padding div_garis_atas" size="3" style="text-align: right;">
           <label style="font-weight: bold;">
-            {{total | number:0}}
+            {{penjualan_data['total_bayar'] | number:0}}
           </label>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
   <div class="div_12">
-    <ion-button (click)="save_order()" class="btn_setuju" color="new">
-      SETUJU
-      <ion-icon slot="end" name="checkmark"></ion-icon>
+    <ion-button (click)="click_ok_detail()" class="btn_setuju" color="new">
+      Tutup
+      <!-- <ion-icon slot="end" name="checkmark"></ion-icon> -->
     </ion-button>
   </div>
 </ion-content>

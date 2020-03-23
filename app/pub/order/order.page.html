@@ -1,13 +1,29 @@
-<ion-tabs #order_tabs>
-  <ion-tab-bar slot="top">
-    <ion-tab-button tab="pending">
-      <ion-label> Mengunggu Konfirmasi</ion-label>
-    </ion-tab-button>
-    <ion-tab-button tab="proses">
-      <ion-label> Proses</ion-label>
-    </ion-tab-button>
-    <ion-tab-button tab="kirim">
-      <ion-label> Kirim</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
+<style>
+  ion-tab-button{
+    font-size: 0.9em;
+  }
+  /* ion-tab-bar{
+    background: rgb(155,213,165);
+    background: linear-gradient(0deg, rgba(155,213,165,0) 0%, rgba(155,213,165,0.16290266106442575) 35%, rgba(180,237,190,1) 100%);
+  } */
+</style>
+<ion-header no-border>
+  <ion-toolbar color="new">
+    <ion-title style="text-align: center;">Order</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-tabs #order_tabs >
+    <ion-tab-bar slot="top" color="pale-grey">
+      <ion-tab-button tab="pending">
+        <ion-label> Mengunggu Konfirmasi</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="proses">
+        <ion-label> Dalam Pengiriman</ion-label>
+      </ion-tab-button> 
+      <ion-tab-button tab="kirim">
+        <ion-label> Order Selesai</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

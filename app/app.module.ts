@@ -19,6 +19,10 @@ import { PopCartPageModule } from './pub/tabs/pop-cart/pop-cart.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { SummaryCheckoutPageModule } from './pub/checkout/summary-checkout/summary-checkout.module';
+import { PendingDetailPageModule } from './pub/order/pending/pending-detail/pending-detail.module';
+import { BuktiTfPageModule } from './pub/order/pending/bukti-tf/bukti-tf.module';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,7 +37,9 @@ import { SummaryCheckoutPageModule } from './pub/checkout/summary-checkout/summa
               CartAddPageModule,
               SidemAccountPageModule,
               PopCartPageModule,
-              SummaryCheckoutPageModule
+              SummaryCheckoutPageModule,
+              PendingDetailPageModule,
+              BuktiTfPageModule,
             ],
   providers: [
     StatusBar,
@@ -42,7 +48,8 @@ import { SummaryCheckoutPageModule } from './pub/checkout/summary-checkout/summa
     AndroidPermissions,
     Geolocation,
     NativeGeocoder,
-
+    Camera,
+    ImagePicker,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

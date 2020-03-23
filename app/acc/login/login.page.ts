@@ -6,7 +6,6 @@ import { AlertService } from 'src/app/services/alert.service';
 import { RegisterPage } from '../register/register.page';
 import { NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
-import { CartBadgeService } from 'src/app/services/cart-badge.service';
 import { KagetService } from 'src/app/services/kaget.service';
 
 @Component({
@@ -26,7 +25,6 @@ export class LoginPage implements OnInit {
     private alertService: AlertService, 
     private router: Router,
     private api: ApiService,
-    private cart_badge: CartBadgeService,
     private kaget: KagetService
   ) { }
 

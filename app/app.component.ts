@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController } from '@ionic/angular';
+import { Platform, NavController, ModalController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AlertService } from './services/alert.service';
 import { Location } from '@angular/common';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,9 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  ionViewDidLoad() {
+    console.log("I'm alive!");
+  }
 
   constructor(
     private platform: Platform,
@@ -26,20 +30,38 @@ export class AppComponent {
     private alertService: AlertService,
     private router: Router,
     private location: Location,
+    public modal_controller: ModalController,
   ) {
     this.initializeApp();
 
     this.platform.backButton.subscribeWithPriority(6666666, () => {
       console.log('path >');
       console.log(this.location.path());
-      if (this.location.path() == '/pub/tabs/dashboard' || this.location.path() == '/login'){
-        if(window.confirm("Keluar Aplikasi ?")){
-          navigator["app"].exitApp();
-        }else{
-          return;
+      const modal_element = this.modal_controller.getTop();
+      console.log('modal_element[<resolved>]');
+      console.log(modal_element);
+      modal_element.then(
+        (resu_modal)=>{
+          console.log('modal promise >>');
+          console.log(resu_modal);
+          if (resu_modal != undefined){
+            modal_controller.dismiss();
+          }else {
+            if (this.location.path() == '/pub/tabs/dashboard' || this.location.path() == '/login'){
+              if(window.confirm("Keluar Aplikasi ?")){
+                navigator["app"].exitApp();
+              }else{
+                return;
+              }
+            }
+            this.location.back();
+          }
+        },
+        (err_resu_modal) => {
+          console.log('modal promise error >>');
+          console.log(err_resu_modal);
         }
-      }
-      this.location.back();
+      )
     })
   
   }

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { CartBadgeService } from 'src/app/services/cart-badge.service';
 import { KagetService } from 'src/app/services/kaget.service';
-import { NavController } from '@ionic/angular';
+import { NavController, Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-cart',
@@ -19,19 +18,26 @@ export class CartPage implements OnInit {
   constructor(
     private api: ApiService,
     private auth: AuthenticationService,
-    private cart_badge: CartBadgeService,
     private kaget: KagetService,
+    public events: Events,
     public navCtrl: NavController
-  ) { }
-
-  ngOnInit() {
+  ) { 
     this.load_cart();
     this.load_seen();
-    this.cart_badge.cart_count.subscribe(
-      (data) => {
+
+    events.subscribe('cart_badge:updated', 
+      (jumlah) => {
         this.load_cart();
       }
-    )
+    );
+    // this.cart_badge.cart_count.subscribe(
+    //   (data) => {
+    //     this.load_cart();
+    //   }
+    // )
+  }
+
+  ngOnInit() {
   }
 
   reload(event){
@@ -71,6 +77,7 @@ export class CartPage implements OnInit {
   }
 
   set_qty(produk_id, qty){
+    
     this.auth.getToken().then(
       (data) => {
         const post_data = {
@@ -81,14 +88,15 @@ export class CartPage implements OnInit {
         this.api.doPost('cart_new/', post_data).subscribe(
           (data) => {
             console.log('sukses insert_cart >');
-            this.cart_badge.do_update();
+            // this.cart_badge.do_update();
             this.load_cart();
             
             this.auth.getToken().then(
               (token) => {
                 this.api.doGet('cart_count/'+ token +'/').subscribe(
                   (data) => {
-                    this.cart_badge.set_count(data['count']);
+                    this.events.publish('cart_badge:updated', data['count']);
+                    // this.cart_badge.set_count(data['count']);
                   }
                 )
               }

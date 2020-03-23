@@ -126,11 +126,11 @@ div.scroll {
   font-size: 0.9em;
 }
 .div_strip_medium{
-  background-color: #f7f7f7;
   min-height: 84px;
   height: auto; 
-  border-bottom: 3px solid #9BD5A5;
+  border-bottom: 3px solid rgb(145, 184, 248);
   // border-radius: 4px;
+  border-radius: 0px 0px 6px 6px;
 
   margin-bottom: 10px;
   // padding-bottom: 4px;
@@ -165,4 +165,12 @@ label{
   border-radius: 4px 4px 4px 4px; 
   border-width: 0.8px 0.8px 0.8px 0.8px;
   text-transform:none;
+}
+
+.my-custom-modal-css .modal-wrapper {
+  height: 55%;
+  width: 90%;
+  top: 25%;
+  position: absolute; 
+  display: block;  
 }

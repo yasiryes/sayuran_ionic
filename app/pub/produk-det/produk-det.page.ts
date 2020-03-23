@@ -5,8 +5,7 @@ import { EnvService } from 'src/app/services/env.service';
 import { DataService } from 'src/app/services/data.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ApiService } from 'src/app/services/api.service';
-import { NavController } from '@ionic/angular';
-import { CartBadgeService } from 'src/app/services/cart-badge.service';
+import { NavController, Events } from '@ionic/angular';
 import { KagetService } from 'src/app/services/kaget.service';
 
 @Component({
@@ -31,8 +30,8 @@ export class ProdukDetPage implements OnInit {
     private auth: AuthenticationService,
     private api: ApiService,
     private navCtrl: NavController,
-    private cart_badge: CartBadgeService,
     private kaget: KagetService,
+    public events: Events,
   ) {
     this.kaget.show_loading(200);
 
@@ -76,7 +75,8 @@ export class ProdukDetPage implements OnInit {
               (token) => {
                 this.api.doGet('cart_count/'+ token +'/').subscribe(
                   (data) => {
-                    this.cart_badge.set_count(data['count']);
+                    // this.cart_badge.set_count(data['count']);
+                    this.events.publish('cart_badge:updated', data['count']);
                   }
                 )
               }

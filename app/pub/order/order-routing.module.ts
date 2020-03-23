@@ -32,7 +32,19 @@ const routes: Routes = [
     path: '',
     redirectTo: '/pub/tabs/order/pending',
     pathMatch: 'full'
+  },  {
+    path: 'pending-detail',
+    loadChildren: () => import('./pending/pending-detail/pending-detail.module').then( m => m.PendingDetailPageModule)
+  },
+  {
+    path: 'rekening-detail',
+    loadChildren: () => import('./pending/rekening-detail/rekening-detail.module').then( m => m.RekeningDetailPageModule)
+  },
+  {
+    path: 'bukti-tf',
+    loadChildren: () => import('./pending/bukti-tf/bukti-tf.module').then( m => m.BuktiTfPageModule)
   }
+
 
 ];
 

@@ -1,4 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { KagetService } from 'src/app/services/kaget.service';
+import { NavController, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-summary-checkout',
@@ -21,11 +25,73 @@ export class SummaryCheckoutPage implements OnInit {
   @Input() hp_kirim: number;
   @Input() alamat: string;
   @Input() alamat_info: string;
-
-  constructor() { 
+  @Input() ongkir: number;
+  @Input() jarak_kirim: number;
+  @Input() total: number;
+  @Input() is_tunai: boolean;
+  @Input() bank_id: number;
+  @Input() lat: number;
+  @Input() lng: number;
+  constructor(
+    private api: ApiService,
+    private auth: AuthenticationService,
+    private kaget: KagetService,
+    public navCtrl: NavController,
+    public pop_controller: PopoverController,
+  ) { 
   }
 
   ngOnInit() {
   }
 
+  save_order(){
+    this.auth.getToken().then(
+      (resu_get_token) => {
+        this.auth.get_no_hp().then(
+          (resu_get_no_hp) => {
+            const new_order_data = {
+              is_tunai: this.is_tunai,
+              bank_id: this.bank_id,
+
+              alamat: this.alamat,
+              alamat_info: this.alamat_info,
+              lat: this.lat,
+
+              lng: this.lng,
+              ongkir: this.ongkir,
+              jarak_kirim: this.jarak_kirim,
+
+              berat_kirim: this.berat_kirim,
+              total_bayar: this.total,
+
+              token: resu_get_token,
+              no_hp: resu_get_no_hp
+            };
+            this.api.doPost('sell/order_new/', new_order_data).subscribe(
+              (resu_new_order)=>{
+                if(resu_new_order['status'] == 1){
+                  this.kaget.show_ok_dialog('Sukses menambahkan order, lihat status order kamu di menu "Order"');
+                  this.pop_controller.dismiss();
+                  this.navCtrl.navigateRoot('pub/tabs/dashboard');
+                }else{
+                  this.kaget.show_ok_dialog(resu_new_order['message']);
+
+                  this.auth.set_logged_out();
+                }
+              },
+              (err_new_order) => {
+
+              }
+            )
+          },
+          (err_get_no_hp) =>{
+
+          }
+        )
+      },
+      (err_get_token) => {
+
+      }
+    )
+  }
 }

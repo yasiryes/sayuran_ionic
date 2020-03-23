@@ -31,8 +31,9 @@ export class KagetService {
   }
 
   async show_ok_dialog(msg) {
+    const msg_html = '<div class="div_12" style="text-align: center;"><label>'+ msg +'</><div>';
     const alert = await this.alert_controller.create({
-      message: msg,
+      message: msg_html,
       buttons: ['OK']
     });
     await alert.present();
