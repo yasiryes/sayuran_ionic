@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { KagetService } from 'src/app/services/kaget.service';
 import { NavController, PopoverController } from '@ionic/angular';
+import { BadgerService } from 'src/app/services/badger.service';
 
 @Component({
   selector: 'app-summary-checkout',
@@ -38,6 +39,7 @@ export class SummaryCheckoutPage implements OnInit {
     private kaget: KagetService,
     public navCtrl: NavController,
     public pop_controller: PopoverController,
+    public badger: BadgerService
   ) { 
   }
 
@@ -72,6 +74,7 @@ export class SummaryCheckoutPage implements OnInit {
                 if(resu_new_order['status'] == 1){
                   this.kaget.show_ok_dialog('Sukses menambahkan order, lihat status order kamu di menu "Order"');
                   this.pop_controller.dismiss();
+                  this.badger.broadcast_cart_badge();
                   this.navCtrl.navigateRoot('pub/tabs/dashboard');
                 }else{
                   this.kaget.show_ok_dialog(resu_new_order['message']);

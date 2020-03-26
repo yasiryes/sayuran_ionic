@@ -41,6 +41,18 @@ const routes: Routes = [
     path: 'summary-checkout',
     loadChildren: () => import('./pub/checkout/summary-checkout/summary-checkout.module').then( m => m.SummaryCheckoutPageModule)
   },
+  {
+    path: 'summary-checkout-two',
+    loadChildren: () => import('./pub/checkout/summary-checkout-two/summary-checkout-two.module').then( m => m.SummaryCheckoutTwoPageModule)
+  },
+  {
+    path: 'ubah-detail',
+    loadChildren: () => import('./pub/account/ubah-detail/ubah-detail.module').then( m => m.UbahDetailPageModule)
+  },
+  {
+    path: 'edit-profil',
+    loadChildren: () => import('./pub/edit-profil/edit-profil.module').then( m => m.EditProfilPageModule)
+  },
 
 
 

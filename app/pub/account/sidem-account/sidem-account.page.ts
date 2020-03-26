@@ -23,27 +23,5 @@ export class SidemAccountPage implements OnInit {
 
   clickLogout(){
     console.log('click logout >');
-    this.auth.getToken().then(
-      (get_token_resu) => {
-        this.auth.get_no_hp().then(
-          (get_no_hp_resu) => {
-            this.auth.logout(get_token_resu, get_no_hp_resu).subscribe( 
-              (data) => {
-                if (this.popController.getTop()) {
-                  this.popController.dismiss()
-                };
-                this.auth.set_logged_out();
-              },
-              (err_logout) => {
-    
-              }
-            );
-          },
-          (get_no_hp_err) => {
-
-          }
-        )
-      }
-    )
   }
 }

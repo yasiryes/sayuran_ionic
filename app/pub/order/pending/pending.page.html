@@ -24,6 +24,17 @@
   .div_strip_pending{
     background-color: rgb(251, 251, 251);
   }
+  .div_strip_pending_title{
+    padding-top: 2px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid lightgrey;
+  }
+  .label_pending_title_0{
+    color:indianred;
+  }
+  .label_pending_title_1{
+    color: yellowgreen;
+  }
   .btn_transfer{
     text-transform: none;
     padding: 2px;
@@ -112,6 +123,10 @@
   <!-- (click)="show_detail_pending(penjualan_data.id)" -->
   <div class="div_12" *ngIf="penjualan_datas" style="margin-top: 20px;">
     <div  class="div_12 div_strip_medium div_strip_pending " *ngFor="let penjualan_data of penjualan_datas" >
+      <div class="div_12 div_strip_pending_title" style="text-align: center;">
+        <label *ngIf="penjualan_data['status'] == 1 || penjualan_data['status'] == 2" class="label_pending_title_0">{{PENDING_STATUS[penjualan_data['status'] -1]}} </label> 
+        <label *ngIf="penjualan_data['status'] == 3 || penjualan_data['status'] == 4" class="label_pending_title_1">{{PENDING_STATUS[penjualan_data['status'] -1]}} </label> 
+      </div>
       <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col size="6">
@@ -151,8 +166,9 @@
             <ion-button *ngIf="!penjualan_data['bukti_tf']" (click)="show_bukti_tf(penjualan_data['id'])" size="small" color="pale-grey" class="btn_butki">Bukti transfer: Belum Ada</ion-button> -->
           </ion-col>
         </ion-row>
-        <div class="div_12 div_detail_btn">
+        <div class="div_12 div_detail_btn">  
           <ion-button (click)="toggle_detail(penjualan_data.id)" class="btn_detail" size="small" color="new">lihat detail</ion-button>
+          <ion-button *ngIf="penjualan_data.status == 4" (click)="show_selesai_opt(penjualan_data.id)" class="btn_detail" size="small" color="primary">selesai</ion-button> 
         </div>
         <div id="detail_{{penjualan_data['id']}}" class="div_12 div_detail" style="display: none;">
           <div class="div_12 div_detail_bank" *ngIf="!penjualan_data['is_tunai']">

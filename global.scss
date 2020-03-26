@@ -174,3 +174,51 @@ label{
   position: absolute; 
   display: block;  
 }
+.action_red{
+  .action-sheet-button-inner{
+    color: indianred;
+  }
+}
+.custom_sheet{
+  .action-sheet-wrapper {
+    height: auto;
+    width: 65%;
+    top: 30%;
+    position: absolute; 
+    display: block;  
+
+  }
+  .action-sheet-container{
+    height: auto;
+  }
+  .action-sheet-title {
+    text-align: center;
+    color: #00ab14;
+  }
+  .action-sheet-button-inner{
+    ion-icon{
+      margin-right: 4px;
+    }
+  }
+
+  .action-sheet-group{
+    border-radius: 20px;
+    button{
+      color: slategray;
+    }
+    button span{
+      font-weight: bold;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .action-sheet-group-cancel{
+    margin-top: 15px;
+    button{
+      color: indianred;
+    }
+  }
+} 

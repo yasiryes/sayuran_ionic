@@ -1,0 +1,34 @@
+<style>
+  .btn_add_bukti{
+    width: auto;
+    display: block;
+  }
+  .div_preview{
+    /* min-height: 100%; */
+    /* margin-left: 8px; */
+    /* margin-top: 8px; */
+    /* margin-right: 8px; */
+    border-radius: 6px;
+    border: 1px solid whitesmoke;
+    /* min-height: 220px; */
+    height: 100%;
+    display: block;
+    text-align: center;
+    /* align-items: center; */
+    /* display: flex; */
+  }
+</style>
+
+<ion-header no-border>
+  <ion-toolbar color="new" style="text-align: center;">
+    <ion-title>Bukti Transfer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="height: 100%; padding: 8px;">
+    <div class="div_12 div_preview" style="text-align: center;">
+      <img style="height: 100%" *ngIf="bukti_tf != ''" src="{{bukti_tf}}" >
+    </div>
+  </div>
+</ion-content>

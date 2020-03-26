@@ -6,6 +6,7 @@ import {Storage} from '@ionic/Storage';
 import { ApiService } from './api.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { KagetService } from './kaget.service';
+import { BadgerService } from './badger.service';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -22,7 +23,8 @@ export class AuthenticationService {
     private storage: Storage, 
     private env: EnvService,
     private api: ApiService,
-    private kaget: KagetService
+    private kaget: KagetService,
+    // public badger: BadgerService
     ) { 
       this.getToken().then(
         (resu) => {
@@ -88,6 +90,8 @@ export class AuthenticationService {
           () => {
             this.authenticationState.next(true);
             this.isLoggedIn = true;
+
+            // this.badger.broadcast_cart_badge();
           }
         )
       }

@@ -23,6 +23,7 @@ import { PendingDetailPageModule } from './pub/order/pending/pending-detail/pend
 import { BuktiTfPageModule } from './pub/order/pending/bukti-tf/bukti-tf.module';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { BuktiTfKirimPageModule } from './pub/order/kirim/bukti-tf-kirim/bukti-tf-kirim.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,6 +41,7 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
               SummaryCheckoutPageModule,
               PendingDetailPageModule,
               BuktiTfPageModule,
+              BuktiTfKirimPageModule
             ],
   providers: [
     StatusBar,

@@ -1,12 +1,6 @@
 <ion-header no-border>
-  <ion-toolbar color="new">
-    <ion-buttons *ngIf="true == false" slot="start">
-      <ion-back-button defaultHref="pub"></ion-back-button>
-    </ion-buttons>
-    <ion-title style="text-align: left;">Keranjang Belanja</ion-title>
-    <ion-buttons slot="end">
-      <ion-button style="text-transform:none">&nbsp;</ion-button>
-    </ion-buttons>
+  <ion-toolbar color="white">
+    <ion-title style="text-align: center;">Keranjang Belanja</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -31,36 +25,12 @@
   </ion-refresher>
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-no-padding">
-      <ion-col *ngIf="total == 0" size="12" style="margin-top: 24px; text-align: center;" class="ion-no-padding">
+      <ion-col *ngIf="total == 0" size="12" style="margin-top: 50px; text-align: center;" class="ion-no-padding">
         <div class="div_12">
-          <img src="/assets/img/cute_cart.png" style="border-radius: 0px 0px 20px 20px; border-bottom: 4px solid #69bb7b; width: 250px; height: 250px;">
+          <img src="/assets/img/cute_cart.png" style="filter: grayscale(1); border-radius: 0px 0px 20px 20px; border-bottom: 4px solid #69bb7b; width: 250px; height: 250px;">
         </div>
         <div class="div_12">
-          <ion-label style="text-align: left; color: #a7a7a7; width: 100%; font-size:0.8rem;">Keranjang kamu masih kosong</ion-label>
-        </div>
-        <div class="div_12" style="text-align: left; padding-left: 8px; padding-top: 8px; margin-top: 36px; margin-bottom: 8px; border-top: 0.5px solid #e4e4e4">
-          <label style="color: darkslategray;">Produk yang pernah kamu lihat :</label>
-        </div>
-        <div class="div_12 div_strip ion-activatable" *ngFor="let seenn of seen_datas">
-          <ion-row (click)="goto_produk_det(seenn.produk_id)" style="height: 100px;">
-            <ion-col size="4">
-              <div style="height: 90px;">
-                <img style="height: 100%; width: auto;" src="{{seenn.gambar_url}}"/>
-              </div>
-            </ion-col>
-            <ion-col size="4">
-              <label style="margin-bottom: 2px; display: block; font-size: 0.8em; font-weight: bolder; color: rgb(14, 23, 32);">{{seenn.nama}}</label>
-              <label style="margin-bottom: 6px; display: block; font-size: 0.7em; font-weight: normal; color: rgb(129, 129, 129);">{{seenn.keterangan}}</label>
-  
-              <label *ngIf="seenn.stok < 1" style="display: block; font-size: 0.8em; font-weight: normal; color: indianred">Stok Tersedia : {{seenn.stok}}</label>
-              <label *ngIf="seenn.stok > 0" style="display: block; font-size: 0.8em; font-weight: normal; color: mediumseagreen">Stok Tersedia : {{seenn.stok}}</label>
-            </ion-col>
-            <ion-col size="4" style="text-align: right;">
-              <label style="margin-bottom: 2px; display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{seenn.harga_jual_th}} &nbsp;</label>
-              <label *ngIf="seenn.satuan_nama" style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{seenn.satuan_nama}}</label>
-            </ion-col>
-          </ion-row>
-          <ion-ripple-effect ></ion-ripple-effect>
+          <ion-label style="text-align: left; color: #a7a7a7; width: 100%; font-size:1em;">Keranjang kamu masih kosong</ion-label>
         </div>
 
       </ion-col>
@@ -115,7 +85,7 @@
 
         </ion-row>
         
-        <ion-ripple-effect ></ion-ripple-effect>
+        <ion-ripple-effect></ion-ripple-effect>
       </ion-col>
     </ion-row>
   </ion-grid>

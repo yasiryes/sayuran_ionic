@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { KagetService } from 'src/app/services/kaget.service';
 import { NavController, Events } from '@ionic/angular';
+import { BadgerService } from 'src/app/services/badger.service';
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +21,8 @@ export class CartPage implements OnInit {
     private auth: AuthenticationService,
     private kaget: KagetService,
     public events: Events,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public badger: BadgerService
   ) { 
     this.load_cart();
     this.load_seen();
@@ -91,16 +93,7 @@ export class CartPage implements OnInit {
             // this.cart_badge.do_update();
             this.load_cart();
             
-            this.auth.getToken().then(
-              (token) => {
-                this.api.doGet('cart_count/'+ token +'/').subscribe(
-                  (data) => {
-                    this.events.publish('cart_badge:updated', data['count']);
-                    // this.cart_badge.set_count(data['count']);
-                  }
-                )
-              }
-            )
+            this.badger.broadcast_cart_badge();
           },
           (err) => {
             console.log('error insert_cart >');

@@ -5,6 +5,8 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { EnvService } from 'src/app/services/env.service';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { KagetService } from 'src/app/services/kaget.service';
 
 @Component({
   selector: 'app-cari-produk',
@@ -14,6 +16,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class CariProdukPage implements OnInit {
   cariDatas: any;
   allImages: any;
+  seen_datas: any;
 
   constructor(
                 public event: Events,
@@ -22,8 +25,11 @@ export class CariProdukPage implements OnInit {
                 private env: EnvService,
                 private router: Router,
                 private api: ApiService,
+                private auth: AuthenticationService,
+                public kaget: KagetService
               ) { 
     this.loadAllImages();
+    this.load_seen();
     // event.subscribe('produk:cari', (cari) => {
     //   if (cari != ''){
     //     this.loadHasilCari(cari);
@@ -37,6 +43,31 @@ export class CariProdukPage implements OnInit {
 
 
   ngOnInit() {
+  }
+
+  load_seen(){
+    this.auth.getToken().then(
+      (resu_get_token) => {
+        this.auth.get_no_hp().then(
+          (resu_get_no_hp) => {
+            this.api.doGet('hist_produk_lihat/'+ resu_get_token + '/' + resu_get_no_hp + '/').subscribe(
+              (resu_cart) => {
+                if (resu_cart['status'] == 1){
+                  this.seen_datas = resu_cart['data'];
+                }else {
+                  this.kaget.show_ok_dialog(resu_cart['message']);
+
+                  this.auth.set_logged_out();
+                }
+              }
+            )
+          },
+          (err_get_no_hp) => {
+
+          }
+        )
+      }
+    )
   }
 
   gotoCari(id, tipe){
@@ -104,6 +135,10 @@ export class CariProdukPage implements OnInit {
         }
       )
     }
+
+
+
+
     // this.http.get(this.env.API_URL + 'produk_cari/' + cari_value + '/', { headers: headers }).subscribe(
     //   res => {
     //     this.cariDatas = res;

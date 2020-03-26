@@ -3,7 +3,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ApiService } from 'src/app/services/api.service';
 import { KagetService } from 'src/app/services/kaget.service';
 import { ToolsService } from 'src/app/services/tools.service';
-import { PopoverController, ModalController, Events } from '@ionic/angular';
+import { PopoverController, ModalController, Events, ActionSheetController } from '@ionic/angular';
 import { PendingDetailPage } from './pending-detail/pending-detail.page';
 import { BuktiTfPage } from './bukti-tf/bukti-tf.page';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
@@ -26,6 +26,14 @@ export class PendingPage implements OnInit {
 
   too_l: ToolsService;
 
+  PENDING_STATUS = [
+    'Menunggu Bukti Transfer', 
+    'Menunggu Konfirmasi Pembayaran', 
+
+    'Proses Packing', 
+    'Dalam Pengiriman', 
+  ]
+
   constructor(
     private auth: AuthenticationService,
     private api: ApiService,
@@ -33,7 +41,8 @@ export class PendingPage implements OnInit {
     public tool: ToolsService,
     public pop_controller: PopoverController,
     public modal_controller: ModalController,
-    public events: Events
+    public events: Events,
+    public action_controller: ActionSheetController
   ) {
 
     events.subscribe('pending:updated', 
@@ -67,6 +76,32 @@ export class PendingPage implements OnInit {
       }
     ) 
   }
+
+  async show_selesai_opt(id) {
+    const actionSheet = await this.action_controller.create({
+      header: 'Barang telah sampai ?',
+      cssClass: 'custom_sheet',
+      buttons: [
+        {
+          text: 'Ya',
+          handler: () => {
+            this.set_selesai(id);
+          }
+        },
+        {
+          text: 'Tutup',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+  
+
   async show_bukti_tf(id) {
     console.log('show_bukti_tf, id >>');
     console.log(id);
@@ -92,6 +127,23 @@ export class PendingPage implements OnInit {
     
     return await popover.present();
   }
+
+  set_selesai(id){
+    const set_selesai_data = {
+      penjualan_id: id
+    }
+    this.api.doPost('sell/selesai_set/', set_selesai_data).subscribe(
+      (resu_set_selesai) => {
+        this.load_penjualan();
+        this.events.publish('selesai:updated');
+      },
+      (err_set_selesai) => {
+        console.log('err_set_selesai >>');
+        console.log(err_set_selesai);
+      }
+    )
+  }
+
   load_penjualan(){
     this.auth.getToken().then(
       (resu_get_token) => {

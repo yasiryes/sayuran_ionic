@@ -1,8 +1,309 @@
+<style>
+  .detail_container{
+    background-color: white;
+    min-height: 100px;
+    height: auto;
+    /* display: none; */
 
+    margin-left: 4px;
+    margin-right: 4px;
 
-<ion-content>
+    border-left: 1px solid silver;
+  }
+  .detail_item{
+    min-height: 25px;
+    height: auto;
+    border-bottom: 0.1px solid silver;
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  .label_judul_item{
+    font-size: 1em;
+    color: darkslategray;
+  }
+  .div_strip_pending{
+    background-color: rgb(251, 251, 251);
+  }
+  .div_strip_pending_title{
+    padding-top: 2px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid lightgrey;
+  }
+  .label_pending_title_0{
+    color:indianred;
+  }
+  .label_pending_title_1{
+    color: yellowgreen;
+  }
+  .btn_transfer{
+    text-transform: none;
+    padding: 2px;
+    font-weight: normal;
+  }
+  .div_sub_title{
+    text-align: center;
+    /* margin-left: 6px; */
+    margin-top: 15px;
+    margin-bottom: 4px;
+    /* margin-right: 6px; */
+    padding: 4px;
+    /* border-radius: 4px; */
+    border-top: 1px solid rgb(197, 197, 197);
+    border-bottom: 1px solid rgb(197, 197, 197);
+    background-color: #fafafa;
+    height: 85px;
 
+  }
+  .div_vertical_center{
+    align-items: center;
+    display: flex;
+  }
+  .label_info_title{
+    /* display: inline; */
+    color: #6d6d6d;
+    /* vertical-align: middle; */
+    margin: 0 auto;
+  }
+  .label_transfer{
+    /* font-weight: bold; */
+    /* text-decoration: underline; */
+    color: deepskyblue;
+  }
+  .label_tunai{
+    /* font-weight: bold; */
+    color: goldenrod;
+  }
+  .btn_butki{
+    /* padding-left: 6px;
+    padding-right: 6px; */
+    /* margin-left: 4px; */
+    border-radius: 6px;
+    /* padding: 4px; */
+    /* margin-left: auto; */
+    text-transform: none;
+  }
+  .label_bukti_ada{
+    color: yellowgreen;
+    margin-left: auto;
+  }
+  .label_bukti_kosong{
+    color: indianred;
+    margin-left: auto;
+  }
+
+  .div_detail_btn{
+    border-top: 1px solid lightgrey;
+    /* border-bottom: 1px solid lightgrey; */
+    text-align: center;
+    /* border-radius: 0px 0px 6px 6px; */
+  }
+  .btn_detail{
+    text-transform: none;
+  }
+  .div_detail{
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  .div_detail_bank{
+    /* border-bottom: 1px solid lightgrey; */
+    margin-bottom: 6px;
+    background-color: rgb(206, 230, 245);
+    padding: 4px;
+  }
+  .div_items{
+    border-bottom: 1px dashed lightgrey;
+    margin-bottom: 2px;
+  }
+</style>
+
+<ion-content class="ion-no-padding">
   <div class="div_12 " *ngIf="!penjualan_datas" style="margin-top: 40px; text-align: center;">
     <label class="label_big_grey">Belum ada Pembelian.</label>
+  </div>
+  <!-- (click)="show_detail_pending(penjualan_data.id)" -->
+  <div class="div_12" *ngIf="penjualan_datas" style="margin-top: 20px;">
+    <div  class="div_12 div_strip_medium div_strip_pending " *ngFor="let penjualan_data of penjualan_datas" >
+      <div class="div_12 div_strip_pending_title" style="text-align: center;">
+        <label class="label_pending_title_1">Order Selesai </label> 
+      </div>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="6">
+            <label style="display: block;">
+              Invoice : {{penjualan_data['nomor_trans']}}
+            </label>
+            <label style="display: block;">
+              {{penjualan_data['tanggal_indo']}} {{penjualan_data['jam_oke']}}
+            </label>
+          </ion-col>
+          <ion-col size="6" style="text-align: right;">
+            <label style="display: inline-block; font-weight: bold;" class="pull-right">
+              Rp. {{penjualan_data['total_bayar'] | number:0}}
+            </label>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="penjualan_data['is_tunai']">
+          <ion-col size="12">
+            <label class="label_tunai">Cash on Delivery</label>
+            <!-- <ion-button color="pale-grey" class="btn_transfer" *ngIf="!penjualan_data['is_tunai']">Transfer Bank</ion-button> -->
+
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!penjualan_data['is_tunai']" style="margin-bottom: 4px;">
+          <ion-col size="4">
+            <!-- <ion-button color="pale-grey" class="btn_transfer" *ngIf="!penjualan_data['is_tunai']">Transfer Bank</ion-button> -->
+            <label class="label_transfer" >Transfer Bank</label>
+
+          </ion-col>
+          <ion-col class="ion-no-padding" *ngIf="!penjualan_data['is_tunai']" size="8" style="text-align: right;">
+            <ion-button (click)="show_bukti_tf(penjualan_data['id'])" color="light" class="btn_butki  ion-no-margin" size="small">
+              Lihat bukti transfer
+            </ion-button>
+            <!-- <ion-button *ngIf="penjualan_data['bukti_tf']" (click)="show_bukti_tf(penjualan_data['id'])" size="small" color="pale-grey" class="btn_butki">Bukti transfer: Ada</ion-button>
+            <ion-button *ngIf="!penjualan_data['bukti_tf']" (click)="show_bukti_tf(penjualan_data['id'])" size="small" color="pale-grey" class="btn_butki">Bukti transfer: Belum Ada</ion-button> -->
+          </ion-col>
+        </ion-row>
+        <div class="div_12 div_detail_btn">
+          <ion-button (click)="toggle_detail(penjualan_data.id)" class="btn_detail" size="small" color="new">lihat detail</ion-button>
+        </div>
+        <div id="detail_{{penjualan_data['id']}}" class="div_12 div_detail" style="display: none;">
+          <div class="div_12 div_detail_bank" *ngIf="!penjualan_data['is_tunai']">
+            <div class="div_12">
+              <ion-grid class="ion-no-padding">
+                <ion-row class="ion-no-padding">
+                  <ion-col size="6" class="ion-no-padding">
+                    <label>Transfer ke : </label>
+                  </ion-col>
+                  <ion-col size="6" class="ion-no-padding" style="text-align: right;">
+                    <label>{{penjualan_data.bank_nama}}</label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            <div class="div_12">
+              <ion-grid class="ion-no-padding">
+                <ion-row class="ion-no-padding">
+                  <ion-col size="6" class="ion-no-padding">
+                    <label>Nomor Rekening : </label>
+                  </ion-col>
+                  <ion-col size="6" class="ion-no-padding" style="text-align: right;">
+                    <label>{{penjualan_data.bank_nomor}}</label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            <div class="div_12">
+              <ion-grid class="ion-no-padding">
+                <ion-row class="ion-no-padding">
+                  <ion-col size="6" class="ion-no-padding">
+                    <label>Atas Nama : </label>
+                  </ion-col>
+                  <ion-col size="6" class="ion-no-padding" style="text-align: right;">
+                    <label>{{penjualan_data.bank_atas_nama}}</label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </div>
+          <div class="div_12">
+            <div class="div_12 div_items" *ngFor="let item of penjualan_data['detail']">
+              <ion-grid class="ion-no-padding">
+                <ion-row class="ion-no-padding">
+                  <ion-col class="ion-no-padding" size="4" >
+                    <label>
+                      {{item['produk_nama']}}
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="4" style="text-align: center;">
+                    <label>
+                      x{{item['jumlah'] | number:0}} {{item['satuan_nama']}}
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="1" style="text-align: right;">
+                    <label>
+                      Rp.
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="3" style="text-align: right;">
+                    <label>
+                      {{(item['jumlah'] * item['harga_jual']) | number:0}}
+                    </label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            <div class="div_12">
+              <ion-grid class="ion-no-padding">
+                <ion-row class="ion-no-padding">
+                  <ion-col class="ion-no-padding" size="4" >
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+                    <label class="label_caption_summary">
+                      Sub total :
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="1" style="text-align: right;">
+                    <label >
+                      Rp.
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding div_garis_atas" size="3" style="text-align: right;">
+                    <label>
+                      {{penjualan_data.total_bayar - penjualan_data.ongkir | number:0}}
+                    </label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            <div class="div_12">
+              <ion-grid >
+                <ion-row class="ion-no-padding">
+                  <ion-col class="ion-no-padding" size="4" >
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+                    <label class="label_caption_summary">
+                      Ongkir :
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="1" style="text-align: right;">
+                    <label >
+                      Rp.
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="3" style="text-align: right;">
+                    <label>
+                      {{penjualan_data.ongkir | number:0}}
+                    </label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            <div class="div_12">
+              <ion-grid >
+                <ion-row class="ion-no-padding">
+                  <ion-col class="ion-no-padding" size="4" >
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="4" style="text-align: right;">
+                    <label class="label_caption_summary">
+                      Total :
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding" size="1" style="text-align: right;">
+                    <label >
+                      Rp.
+                    </label>
+                  </ion-col>
+                  <ion-col class="ion-no-padding div_garis_atas" size="3" style="text-align: right;">
+                    <label style="font-weight: bold;">
+                      {{penjualan_data.total_bayar | number:0}}
+                    </label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </div>
+        </div>
+      </ion-grid>
+    </div>
   </div>
 </ion-content>

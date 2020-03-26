@@ -1,5 +1,5 @@
 <ion-header color="ion-color-new" no-border>
-  <ion-toolbar color="new">
+  <ion-toolbar color="white">
     <ion-grid>
         <ion-row>
             <ion-col size="12">
@@ -11,10 +11,34 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="!cariDatas" class="collection_four ion-padding">
-    <div class="collection-item" text-center *ngFor="let produk of allImages">
-      <img (click)="gotoCari(produk.id, 2)" [src]="produk.gambar_url"/>
+  <div *ngIf="!cariDatas" >
+    <div class="div_12" style="text-align: center; padding-left: 8px; padding-top: 8px; margin-top: 15px; margin-bottom: 15px;">
+      <label style="font-weight: bold; color: darkslategray; font-size: 1em;">Produk yang pernah kamu lihat</label>
     </div>
+    <div class="div_12 div_strip ion-activatable" *ngFor="let seenn of seen_datas">
+      <ion-row (click)="goto_produk_det(seenn.produk_id)" style="height: 100px;">
+        <ion-col size="4">
+          <div style="height: 90px;">
+            <img style="height: 100%; width: auto;" src="{{seenn.gambar_url}}"/>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <label style="margin-bottom: 2px; display: block; font-size: 0.8em; font-weight: bolder; color: rgb(14, 23, 32);">{{seenn.nama}}</label>
+          <label style="margin-bottom: 6px; display: block; font-size: 0.7em; font-weight: normal; color: rgb(129, 129, 129);">{{seenn.keterangan}}</label>
+
+          <label *ngIf="seenn.stok < 1" style="display: block; font-size: 0.8em; font-weight: normal; color: indianred">Stok Tersedia : {{seenn.stok}}</label>
+          <label *ngIf="seenn.stok > 0" style="display: block; font-size: 0.8em; font-weight: normal; color: mediumseagreen">Stok Tersedia : {{seenn.stok}}</label>
+        </ion-col>
+        <ion-col size="4" style="text-align: right;">
+          <label style="margin-bottom: 2px; display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{seenn.harga_jual_th}} &nbsp;</label>
+          <label *ngIf="seenn.satuan_nama" style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{seenn.satuan_nama}}</label>
+        </ion-col>
+      </ion-row>
+      <ion-ripple-effect ></ion-ripple-effect>
+    </div>
+    <!-- <div class="collection-item" text-center *ngFor="let produk of allImages">
+      <img (click)="gotoCari(produk.id, 2)" [src]="produk.gambar_url"/>
+    </div> -->
   </div>
   <ion-list *ngIf="cariDatas">
     <ion-item *ngFor="let item of cariDatas">

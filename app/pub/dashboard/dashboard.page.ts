@@ -11,6 +11,7 @@ import { CartAddPage } from '../cart-add/cart-add.page';
 import { trigger, state, style, transition, animate, AnimationBuilder, AnimationPlayer } from '@angular/animations';
 import { slideInAnimation } from 'src/app/animations';
 import { KagetService } from 'src/app/services/kaget.service';
+import { BadgerService } from 'src/app/services/badger.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,6 +41,7 @@ export class DashboardPage implements OnInit {
     private api: ApiService,
     public popoverController: PopoverController,
     public modalController: ModalController,
+    private badger: BadgerService,
     private kaget: KagetService
   ) {
     kaget.show_loading(200);
@@ -50,6 +52,8 @@ export class DashboardPage implements OnInit {
     this.getKategoriProduk();
     this.loadProdukPerKat();
     this.loadPromos();
+
+    badger.broadcast_cart_badge();
   }
 
   ngOnInit() {

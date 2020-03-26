@@ -1,10 +1,37 @@
+<style>
+  .div_adah_foto{
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .div_text{
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .foto{
+    border-radius: 50%;
+    /* border: 1px solid lightslategray; */
+
+    box-shadow: 0px 0px 10px -1px rgba(0, 0, 0, 0.322);
+  }
+  .label_fullname{
+    font-size: 1.2em;
+    /* font-weight: bold; */
+
+    color: lightslategrey;
+  }
+  .label_alamat{
+    font-size: 0.9em;
+    color: lightslategrey;
+  }
+</style>
+
 
 <ion-header no-border>
-  <ion-toolbar color="new">
+  <ion-toolbar color="white">
 
-    <ion-title >Akun Saya</ion-title>
+    <ion-title style="text-align: center;">Akun Saya</ion-title>
     <ion-buttons slot="primary" >
-        <ion-button (click)="presentPopover()">
+        <ion-button (click)="show_akun_opt()">
           <ion-icon slot="icon-only" name="settings"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -12,22 +39,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-router-outlet id="content" main></ion-router-outlet>
-  <ion-grid>
-    <ion-row>
-      <ion-col style="text-align: center;" color="primary" size="5">
-        <ion-img [src]="accData['pp_url']"></ion-img>
-      </ion-col>
-      <ion-col color="success" size="7">
-        <label>{{accData['fullname']}}</label>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <script>
-    
-    // loadMap();
-    // initMap();
-  </script>
+  <div class="div_12 div_adah_foto" style="text-align: center;">
+    <img src="{{accData['pp_url']}}" width="250" height="auto" class="foto">
+  </div>
+  <div class="div_12 div_text">
+    <label class="label_fullname">
+      {{accData['fullname']}}
+    </label>
+  </div>
+  <div class="div_12 div_text">
+    <label class="label_alamat">
+      {{accData['alamat']}}
+    </label>
+  </div>
 </ion-content>
 
 

@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ApiService } from 'src/app/services/api.service';
 import { NavController, Events } from '@ionic/angular';
 import { KagetService } from 'src/app/services/kaget.service';
+import { BadgerService } from 'src/app/services/badger.service';
 
 @Component({
   selector: 'app-produk-det',
@@ -32,6 +33,7 @@ export class ProdukDetPage implements OnInit {
     private navCtrl: NavController,
     private kaget: KagetService,
     public events: Events,
+    public badger: BadgerService
   ) {
     this.kaget.show_loading(200);
 
@@ -70,17 +72,8 @@ export class ProdukDetPage implements OnInit {
         }
         this.api.doPost('cart_new/', post_data).subscribe(
           (data) => {
-            console.log('sukses insert_cart >');      
-            this.auth.getToken().then(
-              (token) => {
-                this.api.doGet('cart_count/'+ token +'/').subscribe(
-                  (data) => {
-                    // this.cart_badge.set_count(data['count']);
-                    this.events.publish('cart_badge:updated', data['count']);
-                  }
-                )
-              }
-            )
+            console.log('sukses insert_cart >'); 
+            this.badger.broadcast_cart_badge();
             
             this.navCtrl.navigateRoot('pub')
           },

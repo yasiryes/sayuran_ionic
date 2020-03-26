@@ -70,7 +70,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
 
-      this.authService.authenticationState.subscribe(
+      this.authService.authenticationState.subscribe( 
         (data) => {
           console.log('changed auth isLoggedIn >');
           console.log(data);
@@ -79,6 +79,7 @@ export class AppComponent {
 
           }else{
             this.navCtrl.navigateRoot('pub/tabs/dashboard');
+            // this.navCtrl.navigateRoot('ubah-detail');
             // this.navCtrl.navigateRoot('pub/tabs/cart');
             // this.navCtrl.navigateRoot('checkout');
             // http://localhost:8100/pub/tabs/order/pending

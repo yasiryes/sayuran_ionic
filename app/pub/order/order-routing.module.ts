@@ -43,6 +43,10 @@ const routes: Routes = [
   {
     path: 'bukti-tf',
     loadChildren: () => import('./pending/bukti-tf/bukti-tf.module').then( m => m.BuktiTfPageModule)
+  },
+  {
+    path: 'bukti-tf-kirim',
+    loadChildren: () => import('./kirim/bukti-tf-kirim/bukti-tf-kirim.module').then( m => m.BuktiTfKirimPageModule)
   }
 
 
