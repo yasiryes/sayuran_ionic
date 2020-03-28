@@ -1,8 +1,12 @@
 <ion-header no-border >
   <ion-toolbar class="myButton" style="height: 100%;">
-    <ion-grid>
-        <ion-row>
-            <ion-col size="12">
+    <div class="div_12" style="height: 40px; text-align: center; padding-top: 5px; margin-top: 6px;">
+      <img src="/assets/img/search-above.png" style="height: 100%; width: auto;">
+    </div>
+    <!-- <br> -->
+    <ion-grid class="ion-no-padding">
+        <ion-row  class="ion-no-padding">
+            <ion-col size="12"  class="ion-no-padding">
                 <ion-searchbar [(ngModel)]="cariVal" (ionFocus) = "gotoSearch()" color="light" placeholder="Pencarian" no-shadow></ion-searchbar>
             </ion-col>
           </ion-row>

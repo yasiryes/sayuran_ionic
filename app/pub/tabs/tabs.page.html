@@ -24,15 +24,16 @@
       <ion-icon color="new" name="cart"></ion-icon>
       <ion-badge *ngIf="cart_badge_val > 0" color="inviting-gold">{{cart_badge_val}}</ion-badge>
     </ion-tab-button>
+    <ion-tab-button tab="cari_produk">
+        <ion-icon color="new" name="md-search"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="order">
+        <ion-icon color="new" name="time"></ion-icon>
+        <ion-badge *ngIf="order_badge_val > 0" color="inviting-gold">{{order_badge_val}}</ion-badge>
+    </ion-tab-button>
 
     <ion-tab-button tab="account">
       <ion-icon color="new" name="md-person"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button tab="order">
-        <ion-icon color="new" name="document"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="cari_produk">
-        <ion-icon color="new" name="md-search"></ion-icon>
-      </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

@@ -61,8 +61,24 @@
                 <ion-label color="medium" style="font-size: 0.8rem;">Nama Lengkap :</ion-label>
                   <ion-input class="text_input" name="fullname" id="fullname"  ngModel required></ion-input>
               </ion-col>
-              <ion-col *ngIf="isErrorPin" size="12" style="padding-top: 0px">
+              <ion-col *ngIf="isErrorFullname" size="12" style="padding-top: 0px">
                 <ion-label style="text-align: left; color: red; width: 100%; font-size:0.8rem;">{{fullnameErrorMsg}}</ion-label>
+              </ion-col>
+
+              <ion-col size="12">
+                <ion-label color="medium" style="font-size: 0.8rem;">6 Digit PIN</ion-label>
+                  <ion-input class="text_input" name="pin" id="pin"  ngModel required></ion-input>
+              </ion-col>
+              <ion-col *ngIf="isErrorPin" size="12" style="padding-top: 0px">
+                <ion-label style="text-align: left; color: red; width: 100%; font-size:0.8rem;">{{pinErrorMsg}}</ion-label>
+              </ion-col>
+
+              <ion-col size="12">
+                <ion-label color="medium" style="font-size: 0.8rem;">Ulangi 6 Digit PIN</ion-label>
+                  <ion-input class="text_input" name="ulangPin" id="ulangPin"  ngModel required></ion-input>
+              </ion-col>
+              <ion-col *ngIf="isErrorPinUlang" size="12" style="padding-top: 0px">
+                <ion-label style="text-align: left; color: red; width: 100%; font-size:0.8rem;">{{pinUlangErrorMsg}}</ion-label>
               </ion-col>
 
               <ion-col size="12">

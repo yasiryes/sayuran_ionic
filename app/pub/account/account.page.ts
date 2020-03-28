@@ -182,7 +182,10 @@ export class AccountPage implements OnInit {
         (resu_get_token) => {
           this.authService.get_no_hp().then(
             (resu_get_no_hp) => {
+
               const update_data = {
+                token: resu_get_token,
+                no_hp: resu_get_no_hp,
                 gambar: base64Image,
               }
               this.api.doPost('users/users_photo_update/', update_data).subscribe(
@@ -227,6 +230,8 @@ export class AccountPage implements OnInit {
           this.authService.get_no_hp().then(
             (resu_get_no_hp) => {
               const update_data = {
+                token: resu_get_token,
+                no_hp: resu_get_no_hp,
                 gambar: base64Image,
               }
               this.api.doPost('users/users_photo_update/', update_data).subscribe(
