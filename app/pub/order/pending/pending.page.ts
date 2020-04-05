@@ -7,6 +7,7 @@ import { PopoverController, ModalController, Events, ActionSheetController } fro
 import { PendingDetailPage } from './pending-detail/pending-detail.page';
 import { BuktiTfPage } from './bukti-tf/bukti-tf.page';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { BadgerService } from 'src/app/services/badger.service';
 
 @Component({
   selector: 'app-pending',
@@ -42,11 +43,13 @@ export class PendingPage implements OnInit {
     public pop_controller: PopoverController,
     public modal_controller: ModalController,
     public events: Events,
-    public action_controller: ActionSheetController
+    public action_controller: ActionSheetController,
+    public badger: BadgerService
   ) {
-
     events.subscribe('pending:updated', 
       () => {
+        this.badger.broadcast_order_badge();
+
         this.is_show_detail = false;
         this.load_penjualan();
         // this.load_promos();
@@ -54,7 +57,7 @@ export class PendingPage implements OnInit {
         this.tes_str = this.tes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
     );
-
+    this.badger.broadcast_order_badge();
     this.is_show_detail = false;
     this.load_penjualan();
     // this.load_promos();
@@ -64,7 +67,14 @@ export class PendingPage implements OnInit {
 
   ngOnInit() {
   }
-
+  reload_refresh(event){
+    this.is_show_detail = false;
+    this.load_penjualan();
+    setTimeout(() => {
+      event.target.complete();
+    }, 1500);
+  }
+  
   toggle_detail(id){
     const ele_id = 'detail_' + id.toString();
     document.getElementById(ele_id).style.setProperty('display', 'block');

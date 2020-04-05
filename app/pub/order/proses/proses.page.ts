@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BadgerService } from 'src/app/services/badger.service';
 
 @Component({
   selector: 'app-proses',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProsesPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public badger: BadgerService
+  ) { 
+    this.badger.broadcast_order_badge();
+  }
 
   ngOnInit() {
   }

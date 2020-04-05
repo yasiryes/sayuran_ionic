@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonTabs, Events, PopoverController } from '@ionic/angular';
 import {Platform} from '@ionic/angular';
 import { PopCartPage } from './pop-cart/pop-cart.page';
+import { BadgerService } from 'src/app/services/badger.service';
 
 
 @Component({
@@ -16,17 +17,24 @@ export class TabsPage implements OnInit {
   isShowSearch: boolean;
 
   cart_badge_val: number = 0;
+  order_badge_val: number = 0;
 
   constructor(
     public event: Events, 
     public platform: Platform,
     public pop_controller: PopoverController,
-    public events: Events
+    public events: Events,
+    private badger: BadgerService
     ) { 
     this.isShowSearch = true;
     events.subscribe('cart_badge:updated', 
       (jumlah) => {
         this.cart_badge_val = jumlah;
+      }
+    );
+    events.subscribe('order_badge:updated', 
+      (jumlah) => {
+        this.order_badge_val = jumlah;
       }
     );
     // this.cart_badge.cart_count.subscribe(
@@ -49,6 +57,7 @@ export class TabsPage implements OnInit {
     }else{
       this.isShowSearch = false;
     }
+    this.badger.broadcast_order_badge();
   }
   
   async show_pop() {

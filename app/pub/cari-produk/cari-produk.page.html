@@ -23,14 +23,14 @@
           </div>
         </ion-col>
         <ion-col size="4">
-          <label style="margin-bottom: 2px; display: block; font-size: 0.8em; font-weight: bolder; color: rgb(14, 23, 32);">{{seenn.nama}}</label>
-          <label style="margin-bottom: 6px; display: block; font-size: 0.7em; font-weight: normal; color: rgb(129, 129, 129);">{{seenn.keterangan}}</label>
+          <label style="margin-bottom: 2px; display: block; font-size: 0.8em; font-weight: bolder; color: rgb(14, 23, 32);">{{seenn.produk_nama}}</label>
+          <label style="margin-bottom: 6px; display: block; font-size: 0.7em; font-weight: normal; color: rgb(129, 129, 129);">{{seenn.produk_ket}}</label>
 
-          <label *ngIf="seenn.stok < 1" style="display: block; font-size: 0.8em; font-weight: normal; color: indianred">Stok Tersedia : {{seenn.stok}}</label>
-          <label *ngIf="seenn.stok > 0" style="display: block; font-size: 0.8em; font-weight: normal; color: mediumseagreen">Stok Tersedia : {{seenn.stok}}</label>
+          <label *ngIf="seenn.produk_stok < 1" style="display: block; font-size: 0.8em; font-weight: normal; color: indianred">Stok Tersedia : {{seenn.produk_stok  | number:0}}</label>
+          <label *ngIf="seenn.produk_stok > 0" style="display: block; font-size: 0.8em; font-weight: normal; color: mediumseagreen">Stok Tersedia : {{seenn.produk_stok  | number:0}}</label>
         </ion-col>
         <ion-col size="4" style="text-align: right;">
-          <label style="margin-bottom: 2px; display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{seenn.harga_jual_th}} &nbsp;</label>
+          <label style="margin-bottom: 2px; display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{seenn.harga_jual  | number:0}} &nbsp;</label>
           <label *ngIf="seenn.satuan_nama" style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{seenn.satuan_nama}}</label>
         </ion-col>
       </ion-row>

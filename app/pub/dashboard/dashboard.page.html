@@ -1,12 +1,12 @@
 <ion-header no-border >
   <ion-toolbar class="myButton" style="height: 100%;">
-    <div class="div_12" style="height: 40px; text-align: center; padding-top: 5px; margin-top: 6px;">
+    <div class="div_12" style="height: 70px; text-align: center; padding-top: 5px; margin-top: 6px;">
       <img src="/assets/img/search-above.png" style="height: 100%; width: auto;">
     </div>
     <!-- <br> -->
     <ion-grid class="ion-no-padding">
         <ion-row  class="ion-no-padding">
-            <ion-col size="12"  class="ion-no-padding">
+            <ion-col size="12"  class="ion-no-padding" style="margin-bottom: 4px;">
                 <ion-searchbar [(ngModel)]="cariVal" (ionFocus) = "gotoSearch()" color="light" placeholder="Pencarian" no-shadow></ion-searchbar>
             </ion-col>
           </ion-row>
@@ -18,8 +18,8 @@
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
       pullingText="Pull to refresh"
-      refreshingSpinner="dots"
-      refreshingText="Perbarui data..">
+      refreshingSpinner="circles"
+      refreshingText="Memuat..">
     </ion-refresher-content>
   </ion-refresher>
 
@@ -36,7 +36,7 @@
       </ion-col>
 
       <ion-col size="12" class="ion-no-padding" style="margin-bottom: 8px;">
-        <div class="scroll" style="background-color: white; height: 220px; padding: 8px;text-align: center;">
+        <div class="scroll" style="background-color: white; height: auto; padding: 8px;text-align: center;">
           <div (click)="gotoKategori(kategori['id'])" *ngFor="let kategori of kategoriDatas" style="text-align: center;display: inline-block; background-color: white; border-radius: 4px 4px 4px 4px; border: 0px solid #e6e6e6; margin: 5px; height: 70px; width: 70px;">
             <div style="text-align: center; margin: 2px; border-radius: 10px 10px 10px 10px; height: 70px;">
               <img style="border-radius: 10px 10px 10px 10px; height: 100%; width: auto;" src="{{kategori.gambar_url}}"/>
@@ -72,14 +72,14 @@
             </ion-col>
           </ion-row>
           <div class="slider" style=" width: 100%;" >
-            <div (click)="openDetailProduk(itemp.id)" *ngFor="let itemp of katitem['data']" class="ion-activatable slide" style="background-color: white; border-radius: 4px 4px 4px 4px; border: 1px solid #e6e6e6; margin: 1px; height: 220px; width: 140px;">
+            <div (click)="openDetailProduk(itemp.id)" *ngFor="let itemp of katitem['data']" class="ion-activatable slide" style="background-color: white; border-radius: 4px 4px 4px 4px; border: 1px solid #e6e6e6; margin: 4px; height: 220px; width: 140px;">
               <div style="text-align: center; margin: 2px; border-radius: 10px 10px 10px 10px; height: 50%;">
                 <img style="border-radius: 10px 10px 10px 10px; height: 100%; width: auto;" src="{{itemp.gambar_url}}"/>
               </div>
               <label style="padding-left: 4px; margin-bottom: 6px; text-overflow: ellipsis; font-weight: bold; white-space: nowrap; color: darkslategray;">{{itemp.nama}}</label>
               <label style="padding-left: 4px; margin-bottom: 6px; font-size: 0.7em; display: block; font-weight: normal; color: rgb(129, 129, 129);">{{itemp.keterangan}}</label>
               <div style="padding-left: 4px; display: block;">
-                <label class="label_money_red" style="display: inline-block;">Rp. {{itemp.harga_jual_th}} &nbsp;</label>
+                <label class="label_money_red" style="display: inline-block;">Rp. {{itemp.harga_jual | number:0}} &nbsp;</label>
                 <label *ngIf="itemp.satuan_nama" style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{itemp.satuan_nama}}</label>
               </div>
               <div style="margin-top: 6px; padding-left: 4px; padding-right: 4px; text-align: left;">

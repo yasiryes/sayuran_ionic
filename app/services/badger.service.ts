@@ -44,5 +44,31 @@ export class BadgerService {
 
       }
     )
+  }  
+  broadcast_order_badge(){
+    this.auth.getToken().then(
+      (resu_get_token) => {
+        this.auth.get_no_hp().then(
+          (resu_get_no_hp) => {
+            this.api.doGet('order_count/' + resu_get_token + '/' + resu_get_no_hp + '/').subscribe(
+              (resu_get_order_count) => {
+                if (resu_get_order_count['status'] == 1){
+                  this.events.publish('order_badge:updated', resu_get_order_count['count']);
+                }else{
+                  this.kaget.show_ok_dialog(resu_get_order_count['message']);
+                  this.auth.set_logged_out();
+                }
+              }
+            )
+          },
+          (err_get_no_hp) => {
+
+          }
+        )
+      },
+      (err_get_token) => {
+
+      }
+    )
   }
 }

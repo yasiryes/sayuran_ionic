@@ -117,7 +117,16 @@
 </style>
 
 <ion-content class="ion-no-padding">
-  <div class="div_12 " *ngIf="!penjualan_datas" style="margin-top: 40px; text-align: center;">
+  <ion-refresher slot="fixed" (ionRefresh)="reload_refresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Memuat..">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="div_12 " *ngIf="penjualan_datas.length == 0" style="margin-top: 40px; text-align: center;">
     <label class="label_big_grey">Belum ada Pembelian.</label>
   </div>
   <!-- (click)="show_detail_pending(penjualan_data.id)" -->

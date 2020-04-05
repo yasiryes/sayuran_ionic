@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Events } from '@ionic/angular';
+import { Events, NavController } from '@ionic/angular';
 // import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http/ngx';
 import { EnvService } from 'src/app/services/env.service';
@@ -26,7 +26,8 @@ export class CariProdukPage implements OnInit {
                 private router: Router,
                 private api: ApiService,
                 private auth: AuthenticationService,
-                public kaget: KagetService
+                public kaget: KagetService,
+                public navCtrl: NavController,
               ) { 
     this.loadAllImages();
     this.load_seen();
@@ -70,6 +71,9 @@ export class CariProdukPage implements OnInit {
     )
   }
 
+  goto_produk_det(id){
+    this.navCtrl.navigateForward('produk-det/' + id);
+  }
   gotoCari(id, tipe){
     if(tipe == 1){
       this.router.navigateByUrl('pub/tabs/dashboard');

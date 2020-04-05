@@ -12,7 +12,7 @@ import { BuktiTfKirimPage } from './bukti-tf-kirim/bukti-tf-kirim.page';
   styleUrls: ['./kirim.page.scss'],
 })
 export class KirimPage implements OnInit {
-  penjualan_datas: any;
+  penjualan_datas = [];
 
   constructor(
     private auth: AuthenticationService,
@@ -36,6 +36,13 @@ export class KirimPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+  reload_refresh(event){
+    // this.is_show_detail = false;
+    this.load_penjualan();
+    setTimeout(() => {
+      event.target.complete();
+    }, 1500);
   }
   async show_bukti_tf(id) {
     console.log('show_bukti_tf, id >>');
@@ -66,9 +73,10 @@ export class KirimPage implements OnInit {
               (resu_get_penjualan) => {
                 if (resu_get_penjualan['status'] == 1){
                   console.log('get_penjualan >>');
-                  console.log(resu_get_penjualan);
+                  // console.log(resu_get_penjualan);
 
-                  this.penjualan_datas = resu_get_penjualan['data']
+                  this.penjualan_datas = resu_get_penjualan['data'];
+                  console.log(this.penjualan_datas);
                 }else{
                   this.auth.set_logged_out();
                   this.kaget.show_ok_dialog(resu_get_penjualan['message']);

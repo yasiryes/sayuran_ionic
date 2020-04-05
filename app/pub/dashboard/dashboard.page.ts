@@ -54,6 +54,7 @@ export class DashboardPage implements OnInit {
     this.loadPromos();
 
     badger.broadcast_cart_badge();
+    badger.broadcast_order_badge();
   }
 
   ngOnInit() {

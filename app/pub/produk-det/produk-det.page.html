@@ -1,4 +1,4 @@
-<ion-header no-border>
+<ion-header no-border style="text-align: center; height: 50%;">
   
   <ion-toolbar style="height: 56px;">
     <ion-buttons slot="start">
@@ -7,9 +7,13 @@
 
     <!-- <ion-title>Detail Produk</ion-title> -->
   </ion-toolbar>
-  <ion-img style="margin-top: -56px;" [src]="produkData['gambar_url']">
 
-  </ion-img>
+  <div  style="height: 100%; margin-top: -56px;">
+    <img src="{{produkData['gambar_url']}}" height="100%" width="auto">
+  </div>
+  <!-- <ion-img style="margin-top: -56px; max-height: 40%;" [src]="produkData['gambar_url']">
+
+  </ion-img> -->
 </ion-header>
 
 <ion-content>
@@ -22,7 +26,7 @@
         <label style="width: 100%; color: rgb(129, 129, 129);">{{produkData['keterangan']}}</label>
       </ion-col>
       <ion-col size="12" class="ion-no-padding" style="text-align: left;  margin-top: 10px; margin-left: 8px;" class="ion-no-padding">
-        <label style="font-size: 1.0em; font-weight: bold; width: 100%; color: indianred;">Rp. {{produkData['harga_jual_th']}}</label>
+        <label style="font-size: 1.0em; font-weight: bold; width: 100%; color: indianred;">Rp. {{produkData['harga_jual'] | number:0}}</label>
       </ion-col>
       <ion-col size="12" class="ion-no-padding" >
         <hr style="background-color: lightgray; width: 100%; height: 1px; margin-top: 4px;" >
