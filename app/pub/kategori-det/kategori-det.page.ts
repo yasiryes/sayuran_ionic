@@ -41,6 +41,13 @@ export class KategoriDetPage implements OnInit {
     this.load_produks();
   }
 
+  reloadRefresh(event){
+    this.load_kategori();
+    this.load_produks();
+    setTimeout(() => {
+      event.target.complete();
+    }, 1500);
+  }
   get_content_element(){
     return document.querySelector('#content');
   }
@@ -48,6 +55,8 @@ export class KategoriDetPage implements OnInit {
   load_produks(){
     this.api.doGet('produk/kat/?id=' + this.id).subscribe(
       (data) => {
+        console.log('isi produk kategori >>');
+        console.log(data);
         this.produks = data;
       }
     )

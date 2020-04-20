@@ -31,13 +31,10 @@ export class CariProdukPage implements OnInit {
               ) { 
     this.loadAllImages();
     this.load_seen();
-    // event.subscribe('produk:cari', (cari) => {
-    //   if (cari != ''){
-    //     this.loadHasilCari(cari);
-    //   }else{
-    //     this.cariDatas = [];
-    //   }
-    // });
+    event.subscribe('updated:seen', () => {
+      this.loadAllImages();
+      this.load_seen();
+    });
 
     
   }
@@ -45,7 +42,13 @@ export class CariProdukPage implements OnInit {
 
   ngOnInit() {
   }
-
+  reloadRefresh(event){
+    this.loadAllImages();
+    this.load_seen();
+    setTimeout(() => {
+      event.target.complete();
+    }, 1500);
+  }
   load_seen(){
     this.auth.getToken().then(
       (resu_get_token) => {
@@ -55,6 +58,8 @@ export class CariProdukPage implements OnInit {
               (resu_cart) => {
                 if (resu_cart['status'] == 1){
                   this.seen_datas = resu_cart['data'];
+                  console.log('isi seen >>');
+                  console.log(this.seen_datas);
                 }else {
                   this.kaget.show_ok_dialog(resu_cart['message']);
 

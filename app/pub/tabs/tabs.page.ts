@@ -58,6 +58,14 @@ export class TabsPage implements OnInit {
       this.isShowSearch = false;
     }
     this.badger.broadcast_order_badge();
+    
+    if (selectedTab == 'cari_produk') {
+      this.events.publish('updated:seen');
+    }
+    if (selectedTab == 'order') {
+      // this.events.publish('pending:updated');
+      // this.events.publish('selesai:updated');
+    }
   }
   
   async show_pop() {

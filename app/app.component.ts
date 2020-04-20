@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController, ModalController } from '@ionic/angular';
+import { Platform, NavController, ModalController, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -10,6 +10,8 @@ import { AlertService } from './services/alert.service';
 import { Location } from '@angular/common';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { error } from 'protractor';
+import { FCM } from '@ionic-native/fcm/ngx';
+// import { FCM } from '@ionic-native/fcm';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +33,8 @@ export class AppComponent {
     private router: Router,
     private location: Location,
     public modal_controller: ModalController,
+    private fecem: FCM,
+    public events: Events,
   ) {
     this.initializeApp();
 
@@ -67,6 +71,7 @@ export class AppComponent {
   }
 
   initializeApp() {
+
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
 
@@ -87,7 +92,40 @@ export class AppComponent {
         }
       )
       this.splashScreen.hide();
+
+      this.fecem.getToken().then(
+        (token) => {
+          console.log('token this.fecem >>');
+          console.log(token);
+        }
+      );
+      this.fecem.onTokenRefresh().subscribe(
+        (token) => {
+          console.log('token Refresh this.fecem >>');
+          console.log(token);
+        }
+      )
+      this.fecem.onNotification().subscribe(
+        (data) => {
+          console.log('isi data onNotification >>');
+          console.log(data);
+          if (data.wasTapped){
+            console.log('data background >>');
+            this.navCtrl.navigateRoot('pub/tabs/order');
+          } else {
+            console.log('data foreground >>');
+            // this.navCtrl.navigateRoot('pub/tabs/order');
+            this.events.publish('pending:updated');
+            this.events.publish('selesai:updated');
+          }
+        }
+      )
+      this.fecem.subscribeToTopic('people');
+      this.fecem.unsubscribeFromTopic('marketing');
     });
+
+
+
   }
 
 }

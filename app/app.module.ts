@@ -24,13 +24,7 @@ import { BuktiTfPageModule } from './pub/order/pending/bukti-tf/bukti-tf.module'
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { BuktiTfKirimPageModule } from './pub/order/kirim/bukti-tf-kirim/bukti-tf-kirim.module';
-
-const fire_cret = {
-  apiKey: "AIzaSyBXGqvhtO5jPhmwyiG1T7Jxr2e2nC7fWtc",
-  databaseURL: "https://originalindonesiaim.firebaseio.com",
-  storageBucket: "originalindonesiaim.appspot.com",
-  messagingSenderId: "999967822741"
-}
+import { FCM } from '@ionic-native/fcm/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -53,6 +47,7 @@ const fire_cret = {
   providers: [
     StatusBar,
     SplashScreen,
+    FCM,
     HTTP,
     AndroidPermissions,
     Geolocation,

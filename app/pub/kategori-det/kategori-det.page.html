@@ -11,6 +11,14 @@
 </ion-header>
 
 <ion-content id="content">
+  <ion-refresher slot="fixed" (ionRefresh)="reloadRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Memuat..">
+    </ion-refresher-content>
+  </ion-refresher>
   <div (click)="goto_produk_det(produk.id)" class="div_12 div_strip ion-activatable" *ngFor="let produk of produks">
     <ion-grid class="ion-no-padding">
       <ion-row >
@@ -19,17 +27,14 @@
             <img style="height: 100%; width: auto;" src="{{produk.gambar_url}}"/>
           </div>
         </ion-col>
-        <ion-col size="4">
+        <ion-col size="8">
           <label style="margin-bottom: 2px; display: block; font-size: 0.8em; font-weight: bolder; color: rgb(14, 23, 32);">{{produk.nama}}</label>
           <label style="margin-bottom: 6px; display: block; font-size: 0.7em; font-weight: normal; color: rgb(129, 129, 129);">{{produk.keterangan}}</label>
   
-          <label *ngIf="produk.stok < 1" style="display: block; font-size: 0.8em; font-weight: normal; color: indianred">Stok Tersedia : {{produk.stok}}</label>
-          <label *ngIf="produk.stok > 0" style="display: block; font-size: 0.8em; font-weight: normal; color: mediumseagreen">Stok Tersedia : {{produk.stok}}</label>
-        </ion-col>
-        <ion-col size="4" style="text-align: right;">
+          <label *ngIf="produk.stok < 1 && produk.is_hide == false" style="display: block; font-size: 0.8em; font-weight: normal; color: indianred">Stok Tersedia : {{produk.stok}}</label>
+          <label *ngIf="produk.stok > 0 && produk.is_hide == false" style="display: block; font-size: 0.8em; font-weight: normal; color: mediumseagreen">Stok Tersedia : {{produk.stok}}</label>
           <label style="margin-bottom: 2px; display: inline-block; font-size: 0.8em; font-weight: bolder; color: indianred">Rp. {{produk.harga_jual_th}} &nbsp;</label>
           <label *ngIf="produk.satuan_nama" style="font-size: 0.8em; font-weight: bolder; color: darkslategrey; display: inline-block;"> / {{produk.satuan_nama}}</label>
-  
         </ion-col>
       </ion-row>
     </ion-grid>

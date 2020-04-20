@@ -117,6 +117,8 @@ export class ProdukDetPage implements OnInit {
               (resu_get_produk) => {
                 if (resu_get_produk['status'] == 1) {
                   var produk = resu_get_produk['data'];
+                  console.log('isi produk >>');
+                  console.log(produk);
                   if (produk['keterangan'] == null){
                     produk['keterangan'] = '-';
                   }

@@ -13,7 +13,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-tabs #order_tabs >
+  <ion-tabs (ionTabsDidChange)="changedTab()" #tabs_order>
     <ion-tab-bar slot="top" color="new">
       <ion-tab-button tab="pending">
         <ion-label> PROSES</ion-label>

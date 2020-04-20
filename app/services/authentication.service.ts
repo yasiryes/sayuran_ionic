@@ -7,6 +7,8 @@ import { ApiService } from './api.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { KagetService } from './kaget.service';
 import { BadgerService } from './badger.service';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { error } from 'protractor';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -24,6 +26,7 @@ export class AuthenticationService {
     private env: EnvService,
     private api: ApiService,
     private kaget: KagetService,
+    private fecem: FCM,
     // public badger: BadgerService
     ) { 
       this.getToken().then(
@@ -90,6 +93,29 @@ export class AuthenticationService {
           () => {
             this.authenticationState.next(true);
             this.isLoggedIn = true;
+
+            this.fecem.getToken().then(
+              (token_fcm) => {
+                console.log('di auth token this.fecem >>');
+                console.log(token_fcm);
+                const set_fcm_data = {
+                  token: token,
+                  no_hp: no_hp,
+                  fcm_key: token_fcm
+                }
+                this.api.doPost('users/fcm_set/', set_fcm_data).subscribe(
+                  (resu_set_fcm) =>{
+                    console.log('set FCM key pengguna sukses >>');
+                    console.log(resu_set_fcm);
+                    console.log(token_fcm);
+                  },
+                  (err_set_fcm) => {
+                    console.log('set FCM key pengguna gagal >>');
+                    console.log(err_set_fcm);
+                  }
+                )
+              }
+            );
 
             // this.badger.broadcast_cart_badge();
           }
