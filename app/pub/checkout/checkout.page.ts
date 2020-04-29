@@ -36,6 +36,9 @@ export class CheckoutPage implements OnInit {
   atas_nama: string;
   nomor_rek: string;
 
+  lod_datas: any;
+  selected_lod: string;
+
   hit_inspect: number = 0;
   term$ = new Subject<string>();
 
@@ -51,6 +54,7 @@ export class CheckoutPage implements OnInit {
   @ViewChild('alamat', {static: true}) alamat: IonTextarea;
   @ViewChild('alamat_info', {static: true}) alamat_info: IonTextarea;
   @ViewChild('bank', {static: true}) bank: IonSelect;
+  @ViewChild('lodnya', {static: true}) lodnya: IonSelect;
 
   map: any;
 
@@ -80,10 +84,12 @@ export class CheckoutPage implements OnInit {
     public pop_controller: PopoverController,
     
   ) { 
-    this.bank_datas = []
+    this.bank_datas = [];
+    this.lod_datas = [];
     this.bank_id = 0;
 
     this.load_bank();
+    this.load_lod();
     console.log('nama_kirim >>');
     console.log(this.nama_kirim);
     this.term$.pipe(debounceTime(2000), distinctUntilChanged(), switchMap((term) => {
@@ -142,6 +148,14 @@ export class CheckoutPage implements OnInit {
       }
     }
   }
+  onchange_lod(ev){
+    console.log('onchange lod >>');
+    console.log(ev);
+    if (this.lod_datas == undefined){
+      return;
+    }
+    this.selected_lod = ev.target.value;
+  }
   async show_summary(){
     console.log('is_tunai >>');
     console.log(this.is_tunai);
@@ -166,11 +180,22 @@ export class CheckoutPage implements OnInit {
         'total': this.total_sum,
         'lat': this.fwd_lat,
         'lng': this.fwd_lng,
-        'jarak_kirim': this.jarak
+        'jarak_kirim': this.jarak,
+        'tgl_kirim': this.selected_lod
       }
     });
     
     return await popover.present();
+  }
+  load_lod(){
+    this.api.doGet('users/lod_send_get/').subscribe(
+      (resu_lod) => {
+        this.lod_datas = resu_lod;
+        this.selected_lod = this.lod_datas[0]['tanggal'];
+        console.log('isi lod >>');
+        console.log(this.lod_datas);
+      }
+    )
   }
   load_address(lattitude, longitude) {
     console.log("getAddressFromCoords "+lattitude+" "+longitude);

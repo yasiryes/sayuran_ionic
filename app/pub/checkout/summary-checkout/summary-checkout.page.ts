@@ -33,6 +33,7 @@ export class SummaryCheckoutPage implements OnInit {
   @Input() bank_id: number;
   @Input() lat: number;
   @Input() lng: number;
+  @Input() tgl_kirim: string;
   constructor(
     private api: ApiService,
     private auth: AuthenticationService,
@@ -68,7 +69,9 @@ export class SummaryCheckoutPage implements OnInit {
               total_bayar: this.total,
 
               token: resu_get_token,
-              no_hp: resu_get_no_hp
+              no_hp: resu_get_no_hp,
+
+              tgl_kirim: this.tgl_kirim
             };
             this.api.doPost('sell/order_new/', new_order_data).subscribe(
               (resu_new_order)=>{
